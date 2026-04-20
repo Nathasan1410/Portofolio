@@ -51,7 +51,13 @@ export function Hero() {
   };
 
   const handleDownloadCV = () => {
-    console.log("Download CV clicked");
+    const cvPath = "/cv/resume.pdf";
+    const link = document.createElement("a");
+    link.href = cvPath;
+    link.download = "Nathanael_Santoso_CV.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (

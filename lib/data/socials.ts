@@ -1,0 +1,6 @@
+export const socials = {
+  youtube: "https://youtube.com/@nathanaelsantoso",
+  tiktok: "https://tiktok.com/@nathanaelsantoso",
+  twitter: "https://x.com/nathanaelsantoso",
+  instagram: "https://instagram.com/nathanaelsantoso",
+}

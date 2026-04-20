@@ -8,16 +8,10 @@ import { AchievementGrid } from "@/components/sections/Achievements/AchievementG
 import { projects } from "@/lib/data/projects"
 import { experiences } from "@/lib/data/experiences"
 import { achievements } from "@/lib/data/achievements"
-import { FaBriefcase, FaAward, FaFolderOpen } from "react-icons/fa"
+import { FaBriefcase, FaAward, FaFolderOpen, FaLaptopCode } from "react-icons/fa"
 
 export default function HomePage() {
   const tabs: TabItem[] = [
-    {
-      value: "projects",
-      label: "Projects",
-      icon: <FaFolderOpen className="h-4 w-4" />,
-      content: <ProjectGrid projects={projects} />,
-    },
     {
       value: "experience",
       label: "Experience",
@@ -30,6 +24,12 @@ export default function HomePage() {
       ),
     },
     {
+      value: "projects",
+      label: "Projects",
+      icon: <FaFolderOpen className="h-4 w-4" />,
+      content: <ProjectGrid projects={projects} />,
+    },
+    {
       value: "achievements",
       label: "Achievements",
       icon: <FaAward className="h-4 w-4" />,
@@ -40,12 +40,18 @@ export default function HomePage() {
         />
       ),
     },
+    {
+      value: "work",
+      label: "Work",
+      icon: <FaLaptopCode className="h-4 w-4" />,
+      content: <div>Work content coming soon</div>,
+    },
   ]
 
   return (
     <main className="min-h-screen">
       <Hero />
-      <TabNav tabs={tabs} defaultValue="projects" />
+      <TabNav tabs={tabs} defaultValue="experience" />
     </main>
   )
 }

@@ -158,6 +158,17 @@ export function ExperiencePopup({ experience, onClose }: ExperiencePopupProps) {
                     </>
                   )}
 
+                  {experience.youtubeVideo && (
+                    <div className="aspect-video w-full rounded-lg overflow-hidden">
+                      <iframe
+                        src={experience.youtubeVideo}
+                        className="w-full h-full"
+                        allowFullScreen
+                        title="YouTube video"
+                      />
+                    </div>
+                  )}
+
                   {experience.photos && experience.photos.length > 0 && (
                     <ExperiencePopupCarousel
                       items={experience.photos}
