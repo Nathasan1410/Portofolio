@@ -1,3 +1,75 @@
 import type { Experience } from '@/lib/types';
 
-export const experiences: Experience[] = [];
+const CDN = 'https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill';
+
+export const experiences: Experience[] = [
+  {
+    id: 'exp-1',
+    title: 'National Hackathon 2024',
+    type: 'hackathon',
+    date: '2024-11-15',
+    kpi: 'Top 10 Finalist out of 200+ teams',
+    mainRole: 'Full-Stack Developer',
+    extraRoles: ['UI Designer', 'Presenter'],
+    roles: ['Full-Stack Developer', 'UI Designer', 'Presenter'],
+    highlight: 'Built a real-time disaster response platform in 48 hours using Next.js and WebSockets.',
+    content: 'Led the technical development of an AI-powered disaster coordination system that aggregated emergency reports and routed rescue teams optimally.',
+    photos: [
+      `${CDN}/samples/landscapes/architecture-signs.jpg`,
+      `${CDN}/samples/people/smiling-man.jpg`,
+      `${CDN}/samples/landscapes/nature-mountains.jpg`,
+    ],
+    reels: [],
+  },
+  {
+    id: 'exp-2',
+    title: 'Google Developer Student Club — Lead',
+    type: 'community',
+    date: '2023-09-01',
+    kpi: 'Grew chapter from 50 to 300+ active members',
+    mainRole: 'Chapter Lead',
+    extraRoles: ['Workshop Facilitator'],
+    roles: ['Chapter Lead', 'Workshop Facilitator'],
+    highlight: 'Organized 12 technical workshops and 3 hackathons throughout the academic year.',
+    content: 'Managed a core team of 20, coordinated with Google Developer Relations, and partnered with 5 local tech companies for sponsorships.',
+    photos: [
+      `${CDN}/samples/people/smiling-man.jpg`,
+      `${CDN}/samples/landscapes/architecture-signs.jpg`,
+    ],
+    reels: [],
+    youtubeVideo: undefined,
+  },
+  {
+    id: 'exp-3',
+    title: 'TechConf Asia 2024 — Speaker',
+    type: 'event',
+    date: '2024-06-20',
+    kpi: '250+ attendees, 4.8/5 speaker rating',
+    mainRole: 'Speaker',
+    roles: ['Speaker'],
+    highlight: 'Delivered a talk on building accessible web applications with modern frameworks.',
+    content: 'Presented best practices for web accessibility, covering WCAG 2.1 guidelines, semantic HTML, and testing strategies with real-world examples.',
+    photos: [
+      `${CDN}/samples/ecommerce/leather-bag-gray.jpg`,
+      `${CDN}/samples/landscapes/nature-mountains.jpg`,
+    ],
+    reels: [],
+  },
+  {
+    id: 'exp-4',
+    title: 'Software Engineer Intern — Startup XYZ',
+    type: 'work',
+    date: '2024-01-10',
+    kpi: 'Reduced API latency by 40%, shipped 3 major features',
+    mainRole: 'Software Engineer Intern',
+    roles: ['Software Engineer Intern'],
+    highlight: 'Worked on the core product team building B2B SaaS features used by 10,000+ users.',
+    content: 'Implemented a real-time notification system, optimized database queries, and contributed to the design system migration from MUI to Tailwind CSS.',
+    photos: [
+      `${CDN}/samples/landscapes/architecture-signs.jpg`,
+      `${CDN}/samples/food/spices.jpg`,
+      `${CDN}/samples/animals/reindeer.jpg`,
+    ],
+    reels: [],
+  },
+];
