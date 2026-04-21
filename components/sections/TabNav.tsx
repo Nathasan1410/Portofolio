@@ -4,7 +4,6 @@ import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -32,6 +31,7 @@ const itemVariants = {
 export interface TabItem {
   value: string;
   label: string;
+  icon?: React.ReactNode;
   content: React.ReactNode;
 }
 
@@ -43,54 +43,31 @@ export interface TabNavProps {
   className?: string;
 }
 
+function TabNavContent({
+  children,
+  isActive,
+  value,
+}: {
+  children: React.ReactNode;
+  isActive: boolean;
+  value: string;
+}) {
+  return (
+    <TabsPrimitive.Content
+      value={value}
+      className={cn(
+        "mt-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg",
+        isActive && "animate-in fade-in-50 duration-300"
+      )}
+      tabIndex={isActive ? 0 : -1}
+    >
+      <div className="min-h-[400px]">{children}</div>
+    </TabsPrimitive.Content>
+  );
+}
+
 export function TabNav({ tabs, defaultValue, value, onValueChange, className }: TabNavProps) {
   const defaultTabValue = defaultValue || tabs[0]?.value;
-
-  // Scroll detection for active tab highlighting
-  useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: "-20% 0px -60% 0px",
-      threshold: 0,
-    };
-
-    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const sectionId = entry.target.id;
-          const tabValue = sectionId.replace("-section", "");
-          if (tabValue !== "tab-nav") {
-            onValueChange?.(tabValue);
-          }
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersection, observerOptions);
-
-    tabs.forEach((tab) => {
-      const element = document.getElementById(`${tab.value}-section`);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-
-    return () => observer.disconnect();
-  }, [onValueChange, tabs]);
-
-  const handleTabClick = (tabValue: string) => {
-    if (tabValue === "home") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      const section = document.getElementById(`${tabValue}-section`);
-      if (section) {
-        section.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
-
-  // Filter out home tab from the navigation (Home is the hero section)
-  const navTabs = tabs.filter((tab) => tab.value !== "home");
 
   return (
     <>
@@ -115,11 +92,10 @@ export function TabNav({ tabs, defaultValue, value, onValueChange, className }: 
               )}
               aria-label="Content categories"
             >
-              {navTabs.map((tab) => (
+              {tabs.map((tab) => (
                 <TabsPrimitive.Trigger
                   key={tab.value}
                   value={tab.value}
-                  onClick={() => handleTabClick(tab.value)}
                   className={cn(
                     "group inline-flex items-center justify-center gap-2",
                     "px-4 py-2 text-sm font-medium rounded-full",
@@ -138,36 +114,29 @@ export function TabNav({ tabs, defaultValue, value, onValueChange, className }: 
         </div>
       </div>
 
-      {/* Tab Content Sections - All stacked vertically */}
+      {/* Tab Content */}
       <motion.section
         id="tab-nav"
-        className={cn("pt-24 px-4 sm:px-6 lg:px-8", className)}
+        className={cn("pt-24 pb-16 px-4 sm:px-6 lg:px-8", className)}
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        aria-label="Content sections"
+        aria-label="Content tabs"
       >
-        <div className="max-w-5xl mx-auto space-y-24">
-          {tabs.map((tab) => (
-            <section
-              key={tab.value}
-              id={`${tab.value}-section`}
-              className="scroll-mt-32 min-h-screen flex flex-col justify-start pt-8"
-            >
-              {/* Section Title */}
-              <div className="mb-12">
-                <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 dark:text-white">
-                  {tab.label}
-                </h2>
-                <div className="w-24 h-1 bg-primary mx-auto mt-4 rounded-full" />
-              </div>
-
-              <div className="flex-1">
+        <div className="max-w-5xl mx-auto">
+          <TabsPrimitive.Root
+            defaultValue={defaultTabValue}
+            value={value}
+            onValueChange={onValueChange}
+            className="w-full"
+          >
+            {tabs.map((tab) => (
+              <TabNavContent key={tab.value} value={tab.value} isActive={value === tab.value}>
                 {tab.content}
-              </div>
-            </section>
-          ))}
+              </TabNavContent>
+            ))}
+          </TabsPrimitive.Root>
         </div>
       </motion.section>
     </>
