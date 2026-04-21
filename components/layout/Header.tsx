@@ -62,8 +62,11 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-md">
-      <div className="flex h-[4rem] md:h-[4.5rem] items-center justify-between px-4 sm:px-6 md:px-8 max-w-[90vw] sm:max-w-[85vw] md:max-w-[1200px] lg:max-w-[1400px] mx-auto gap-4">
-        {/* Navigation - Centered, scalable */}
+      <div className="flex h-[4rem] md:h-[4.5rem] items-center px-4 sm:px-6 md:px-8 max-w-[90vw] sm:max-w-[85vw] md:max-w-[1200px] lg:max-w-[1400px] mx-auto">
+        {/* Left spacer - matches right button width for symmetry */}
+        <div className="hidden md:flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0 w-[200px] sm:w-[220px]" />
+
+        {/* Navigation - Truly centered */}
         <nav className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-1 justify-center">
           {navLinks.map((link) => (
             <a
@@ -83,7 +86,7 @@ export function Header() {
         </nav>
 
         {/* Action Buttons - Right side, scalable */}
-        <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
+        <div className="hidden md:flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0 w-[200px] sm:w-[220px] justify-end">
           <Button
             variant="outline"
             size="sm"
@@ -105,6 +108,15 @@ export function Header() {
             </Button>
           </a>
         </div>
+
+        {/* Mobile hamburger - shown on small screens */}
+        <button
+          className="md:hidden p-2 rounded-lg hover:bg-muted/80 transition-colors ml-auto"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <GiHamburgerMenu className="h-5 w-5" />
+        </button>
       </div>
 
       {/* Mobile menu */}
