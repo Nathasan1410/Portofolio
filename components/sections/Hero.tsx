@@ -12,12 +12,12 @@ const XIcon = () => (
 );
 
 const socialItems = [
-  { href: socials.youtube, icon: FaYoutube, label: 'YouTube', color: '#FF0000' },
-  { href: socials.tiktok, icon: FaTiktok, label: 'TikTok', color: '#00f2ea' },
-  { href: socials.twitter, icon: XIcon, label: 'X', color: '#000000' },
-  { href: socials.instagram, icon: FaInstagram, label: 'Instagram', color: '#E4405F' },
-  { href: socials.github, icon: FaGithub, label: 'GitHub', color: '#181717' },
-  { href: socials.discord, icon: FaDiscord, label: 'Discord', color: '#5865F2' },
+  { href: socials.youtube, icon: FaYoutube, label: 'YouTube' },
+  { href: socials.tiktok, icon: FaTiktok, label: 'TikTok' },
+  { href: socials.twitter, icon: XIcon, label: 'X' },
+  { href: socials.instagram, icon: FaInstagram, label: 'Instagram' },
+  { href: socials.github, icon: FaGithub, label: 'GitHub' },
+  { href: socials.discord, icon: FaDiscord, label: 'Discord' },
 ];
 
 export function Hero() {
@@ -94,8 +94,8 @@ export function Hero() {
           transition={{ delay: 0.5, duration: 0.5 }}
         >
           {/* Dock Container - Frosted Glass */}
-          <div className="flex items-center gap-1 px-2 py-2 rounded-2xl bg-zinc-900/60 dark:bg-zinc-900/70 backdrop-blur-xl border border-white/10 shadow-2xl">
-            {socialItems.map(({ href, icon: Icon, label, color }) => (
+          <div className="flex items-center gap-1 px-2 py-2 rounded-2xl bg-white/70 dark:bg-black/60 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl">
+            {socialItems.map(({ href, icon: Icon, label }) => (
               <motion.a
                 key={label}
                 href={href}
@@ -103,8 +103,8 @@ export function Hero() {
                 rel="noopener noreferrer"
                 className="group relative flex flex-col items-center"
                 whileHover={{
-                  scale: 1.2,
-                  y: -6
+                  scale: 1.15,
+                  y: -4
                 }}
                 transition={{
                   type: "spring",
@@ -112,18 +112,13 @@ export function Hero() {
                   damping: 15
                 }}
               >
-                {/* Icon Container - Squircle (like macOS) */}
-                <div
-                  className="w-12 h-12 rounded-[14px] flex items-center justify-center shadow-md overflow-hidden"
-                  style={{
-                    background: `linear-gradient(180deg, ${color}FF 0%, ${color}CC 100%)`,
-                  }}
-                >
-                  <Icon className="h-6 w-6 text-white drop-shadow-lg" />
+                {/* Icon Container - Squircle (like iOS) */}
+                <div className="w-12 h-12 rounded-[14px] flex items-center justify-center bg-black dark:bg-white shadow-md overflow-hidden">
+                  <Icon className="h-6 w-6 text-white dark:text-black" />
                 </div>
                 {/* Label - Shows on hover */}
                 <motion.span
-                  className="absolute -top-8 px-2 py-1 rounded-md bg-zinc-800/90 backdrop-blur text-[10px] font-medium text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
+                  className="absolute -top-8 px-2 py-1 rounded-md bg-black/90 backdrop-blur text-[10px] font-medium text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
                   initial={{ opacity: 0, y: 4 }}
                   whileHover={{ opacity: 1, y: 0 }}
                 >
