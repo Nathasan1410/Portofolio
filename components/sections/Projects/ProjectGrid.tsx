@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Project } from '@/lib/types'
 import { ProjectCard } from './ProjectCard'
-import { ProjectPopup } from './ProjectPopup'
+import { ProjectArticleModal } from './ProjectArticleModal'
 import { Button } from '@/components/ui/button'
 
 interface ProjectGridProps {
@@ -88,10 +88,10 @@ export function ProjectGrid({
         </div>
       )}
 
-      <ProjectPopup
+      <ProjectArticleModal
         project={selectedProject}
-        open={popupOpen}
-        onOpenChange={handlePopupOpenChange}
+        isOpen={popupOpen}
+        onClose={() => handlePopupOpenChange(false)}
       />
     </div>
   )

@@ -32,6 +32,14 @@ export interface Project {
   photos: string[];
   youtubeUrl?: string;
   thumbnail?: string;
+  // Medium Article Modal fields
+  tags?: string[];
+  showGallery?: boolean;
+  galleryImages?: string[];
+  links?: {
+    demo?: string;
+    github?: string;
+  };
 }
 
 export interface Achievement {
