@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Hero } from "@/components/sections/Hero"
 import { TabNav, TabItem } from "@/components/sections/TabNav"
+import { About } from "@/components/sections/About"
 import { ProjectGrid } from "@/components/sections/Projects/ProjectGrid"
 import { ExperienceGrid } from "@/components/sections/Experience/ExperienceGrid"
 import { AchievementGrid } from "@/components/sections/Achievements/AchievementGrid"
@@ -12,17 +13,17 @@ import { projects } from "@/lib/data/projects"
 import { experiences } from "@/lib/data/experiences"
 import { achievements } from "@/lib/data/achievements"
 import { Experience, Achievement } from "@/lib/types"
-import { FaBriefcase, FaAward, FaFolderOpen, FaLaptopCode } from "react-icons/fa"
+import { FaUser, FaBriefcase, FaAward, FaFolderOpen, FaLaptopCode } from "react-icons/fa"
 
 export default function HomePage() {
   const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null)
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null)
-  const [activeTab, setActiveTab] = useState<string>("experience")
+  const [activeTab, setActiveTab] = useState<string>("about")
 
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1)
-      if (hash && ["experience", "projects", "achievements"].includes(hash)) {
+      if (hash && ["about", "experience", "projects", "achievements", "work"].includes(hash)) {
         setActiveTab(hash)
       }
     }
@@ -36,6 +37,12 @@ export default function HomePage() {
   }, [])
 
   const tabs: TabItem[] = [
+    {
+      value: "about",
+      label: "About",
+      icon: <FaUser className="h-4 w-4" />,
+      content: <About />,
+    },
     {
       value: "experience",
       label: "Experience",
