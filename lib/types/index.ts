@@ -7,7 +7,7 @@ export interface Experience {
   title: string;
   type: 'hackathon' | 'event' | 'community' | 'work';
   date: string;
-  kpi: string;
+  kpi?: string;
   mainRole: string;
   extraRoles?: string[];
   roles: string[];
@@ -16,6 +16,12 @@ export interface Experience {
   photos: string[];
   reels: string[];
   youtubeVideo?: string;
+  images?: string[];
+  // Article Modal fields
+  tags?: string[];
+  showGallery?: boolean;
+  galleryImages?: string[];
+  heroImage?: string;
 }
 
 export interface Project {
@@ -56,4 +62,9 @@ export interface Achievement {
   teamInfo?: string[];
   keyAchievements?: string[];
   photos: string[];
+  // Article Modal fields
+  tags?: string[];
+  showGallery?: boolean;
+  galleryImages?: string[];
+  heroImage?: string;
 }
