@@ -1,6 +1,6 @@
 "use client";
 
-import { FiDownload, FiMail } from "react-icons/fi";
+import { FiMail } from "react-icons/fi";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
@@ -16,16 +16,6 @@ const navLinks = [
 export function Header() {
   const [activeSection, setActiveSection] = useState<string>("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const handleDownloadCV = () => {
-    const cvPath = "/cv/resume.pdf";
-    const link = document.createElement("a");
-    link.href = cvPath;
-    link.download = "Nathanael_Santoso_CV.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -64,7 +54,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-md">
       <div className="flex h-[4rem] md:h-[4.5rem] items-center px-4 sm:px-6 md:px-8 max-w-[90vw] sm:max-w-[85vw] md:max-w-[1200px] lg:max-w-[1400px] mx-auto">
         {/* Left spacer - matches right button width for symmetry */}
-        <div className="hidden md:flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0 w-[200px] sm:w-[220px]" />
+        <div className="hidden md:flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0 w-[120px] sm:w-[140px]" />
 
         {/* Navigation - Truly centered */}
         <nav className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-1 justify-center">
@@ -86,17 +76,7 @@ export function Header() {
         </nav>
 
         {/* Action Buttons - Right side, scalable */}
-        <div className="hidden md:flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0 w-[200px] sm:w-[220px] justify-end">
-          <Button
-            variant="outline"
-            size="sm"
-            className="rounded-full gap-1.5 text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-3 sm:px-4"
-            onClick={handleDownloadCV}
-          >
-            <FiDownload className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-            <span className="hidden sm:inline">Download CV</span>
-            <span className="sm:hidden">CV</span>
-          </Button>
+        <div className="hidden md:flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0 justify-end">
           <a href="mailto:nthnael.san1410@gmail.com">
             <Button
               size="sm"
@@ -141,18 +121,6 @@ export function Header() {
             </a>
           ))}
           <div className="flex flex-col gap-2 pt-3 border-t border-border/50 mt-3">
-            <Button
-              variant="outline"
-              size="sm"
-              className="rounded-full gap-1.5 w-full justify-center"
-              onClick={() => {
-                handleDownloadCV();
-                setMobileMenuOpen(false);
-              }}
-            >
-              <FiDownload className="h-4 w-4" />
-              Download CV
-            </Button>
             <a href="mailto:nthnael.san1410@gmail.com">
               <Button size="sm" className="rounded-full gap-1.5 w-full justify-center">
                 <FiMail className="h-4 w-4" />

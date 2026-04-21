@@ -1,9 +1,105 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiDownload, FiArrowDown, FiImage, FiLinkedin } from "react-icons/fi";
+import { FiFileText, FiArrowDown, FiImage, FiLinkedin } from "react-icons/fi";
 import { FaYoutube, FaTiktok, FaGithub, FaInstagram } from "react-icons/fa";
 import { socials } from "@/lib/data/socials";
+
+// ============================================================================
+// Animation Variants (Framer Motion best practice)
+// ============================================================================
+
+const dockVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const socialButtonVariants = {
+  hidden: { opacity: 0, y: 4 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const socialLinkHoverVariants = {
+  hover: { scale: 1.15, y: -4 },
+};
+
+const SOCIAL_ICON_TRANSITION = { duration: 0.2, ease: "easeInOut" };
+
+// ============================================================================
+// Style Constants
+// ============================================================================
+
+const BUTTON_BASE_STYLES = "group inline-flex items-center justify-center gap-2 h-10 px-5 py-2 text-sm font-medium rounded-full transition-colors shadow-lg";
+
+const PRIMARY_BUTTON_STYLES = `${BUTTON_BASE_STYLES} bg-foreground text-background hover:bg-foreground/90`;
+
+const SECONDARY_BUTTON_STYLES = `${BUTTON_BASE_STYLES} border-2 border-input bg-background/80 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-accent`;
+
+const ICON_CONTAINER_STYLES = "w-12 h-12 rounded-[14px] flex items-center justify-center bg-black dark:bg-white shadow-md overflow-hidden";
+
+const TOOLTIP_STYLES = "absolute -top-8 px-2 py-1 rounded-md bg-black/90 backdrop-blur text-[10px] font-medium text-white border border-white/10 opacity-0 transition-opacity whitespace-nowrap";
+
+// ============================================================================
+// Helper Components
+// ============================================================================
+
+interface SocialIconProps {
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  label: string;
+}
+
+function SocialIcon({ href, icon: Icon, label }: SocialIconProps) {
+  return (
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group relative flex flex-col items-center"
+      variants={socialLinkHoverVariants}
+      initial="hidden"
+      whileHover="hover"
+      transition={SOCIAL_ICON_TRANSITION}
+    >
+      <div className={ICON_CONTAINER_STYLES}>
+        <Icon className="h-6 w-6 text-white dark:text-black" />
+      </div>
+      <motion.span
+        className={TOOLTIP_STYLES}
+        variants={socialButtonVariants}
+      >
+        {label}
+      </motion.span>
+    </motion.a>
+  );
+}
+
+interface NavbarButtonProps {
+  onClick: () => void;
+  variant: "primary" | "secondary";
+  children: React.ReactNode;
+  ariaLabel: string;
+}
+
+function NavbarButton({ onClick, variant, children, ariaLabel }: NavbarButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      className={variant === "primary" ? PRIMARY_BUTTON_STYLES : SECONDARY_BUTTON_STYLES}
+      aria-label={ariaLabel}
+    >
+      {children}
+    </button>
+  );
+}
+
+function VerticalDivider() {
+  return <div className="w-px h-6 bg-border" />;
+}
+
+// ============================================================================
+// Data
+// ============================================================================
 
 const XIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
@@ -20,11 +116,15 @@ const socialItems = [
   { href: socials.linkedin, icon: FiLinkedin, label: 'LinkedIn' },
 ];
 
+// ============================================================================
+// Main Component
+// ============================================================================
+
 export function Hero() {
   const handleViewWork = () => {
-    const tabSection = document.getElementById("tab-nav");
-    if (tabSection) {
-      tabSection.scrollIntoView({ behavior: "smooth" });
+    const experienceSection = document.getElementById("experience-section");
+    if (experienceSection) {
+      experienceSection.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -48,55 +148,29 @@ export function Hero() {
 
       <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
         <motion.div
-          className="flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-white/70 dark:bg-black/60 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          className="flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-white/80 dark:bg-black/70 backdrop-blur-2xl border border-white/20 dark:border-white/10 shadow-2xl ring-1 ring-black/5 dark:ring-white/5"
+          variants={dockVariants}
+          initial="hidden"
+          animate="visible"
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <button
-            onClick={handleViewWork}
-            className="group inline-flex items-center justify-center gap-2 h-10 px-5 py-2 text-sm font-medium rounded-full bg-foreground text-background hover:bg-foreground/90 transition-colors shadow-lg"
-            aria-label="View my work"
-          >
-            View My Work
+          <NavbarButton onClick={handleViewWork} variant="primary" ariaLabel="View my experiences">
+            My Experiences ✨
             <FiArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
-          </button>
+          </NavbarButton>
 
-          <div className="w-px h-6 bg-border" />
+          <VerticalDivider />
 
           {socialItems.map(({ href, icon: Icon, label }) => (
-            <motion.a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative flex flex-col items-center"
-              whileHover={{ scale: 1.15, y: -4 }}
-              transition={{ type: "spring", stiffness: 500, damping: 15 }}
-            >
-              <div className="w-12 h-12 rounded-[14px] flex items-center justify-center bg-black dark:bg-white shadow-md overflow-hidden">
-                <Icon className="h-6 w-6 text-white dark:text-black" />
-              </div>
-              <motion.span
-                className="absolute -top-8 px-2 py-1 rounded-md bg-black/90 backdrop-blur text-[10px] font-medium text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
-                initial={{ opacity: 0, y: 4 }}
-                whileHover={{ opacity: 1, y: 0 }}
-              >
-                {label}
-              </motion.span>
-            </motion.a>
+            <SocialIcon key={label} href={href} icon={Icon} label={label} />
           ))}
 
-          <div className="w-px h-6 bg-border" />
+          <VerticalDivider />
 
-          <button
-            onClick={handleCheckCV}
-            className="group inline-flex items-center justify-center gap-2 h-10 px-5 py-2 text-sm font-medium rounded-full border-2 border-input bg-background/80 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-lg"
-            aria-label="Check my CV"
-          >
-            <FiDownload className="h-4 w-4" />
+          <NavbarButton onClick={handleCheckCV} variant="secondary" ariaLabel="Check my CV">
+            <FiFileText className="h-4 w-4" />
             Check My CV
-          </button>
+          </NavbarButton>
         </motion.div>
       </div>
     </section>
