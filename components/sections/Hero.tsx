@@ -46,9 +46,9 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 w-full max-w-5xl px-4">
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50">
         <motion.div
-          className="mx-auto flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-white/70 dark:bg-black/60 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl"
+          className="flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-white/70 dark:bg-black/60 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
