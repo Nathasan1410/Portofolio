@@ -23,7 +23,7 @@ const filterOptions: { label: string; value: FilterType }[] = [
 
 export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGridProps) {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all')
-  const [viewMode, setViewMode] = useState<'cards' | 'timeline'>('cards')
+  const [viewMode, setViewMode] = useState<'cards' | 'timeline'>('timeline')
 
   const filteredExperiences = useMemo(() => {
     if (activeFilter === 'all') return experiences
