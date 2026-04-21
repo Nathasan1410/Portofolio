@@ -1,3 +1,3 @@
 export { AchievementCard } from './AchievementCard'
 export { AchievementGrid } from './AchievementGrid'
-export { AchievementPopup } from './AchievementPopup'
+export { AchievementArticleModal } from './AchievementArticleModal'

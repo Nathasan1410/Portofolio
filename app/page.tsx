@@ -6,8 +6,8 @@ import { TabNav, TabItem } from "@/components/sections/TabNav"
 import { ProjectGrid } from "@/components/sections/Projects/ProjectGrid"
 import { ExperienceGrid } from "@/components/sections/Experience/ExperienceGrid"
 import { AchievementGrid } from "@/components/sections/Achievements/AchievementGrid"
-import { ExperiencePopup } from "@/components/sections/Experience/ExperiencePopup"
-import { AchievementPopup } from "@/components/sections/Achievements/AchievementPopup"
+import { ExperienceArticleModal } from "@/components/sections/Experience/ExperienceArticleModal"
+import { AchievementArticleModal } from "@/components/sections/Achievements/AchievementArticleModal"
 import { projects } from "@/lib/data/projects"
 import { experiences } from "@/lib/data/experiences"
 import { achievements } from "@/lib/data/achievements"
@@ -82,14 +82,15 @@ export default function HomePage() {
       </section>
       <div id="projects" className="sr-only" />
       <div id="achievements" className="sr-only" />
-      <ExperiencePopup
+      <ExperienceArticleModal
         experience={selectedExperience}
+        isOpen={!!selectedExperience}
         onClose={() => setSelectedExperience(null)}
       />
-      <AchievementPopup
+      <AchievementArticleModal
         achievement={selectedAchievement}
-        open={!!selectedAchievement}
-        onOpenChange={(open) => !open && setSelectedAchievement(null)}
+        isOpen={!!selectedAchievement}
+        onClose={() => setSelectedAchievement(null)}
       />
     </main>
   )

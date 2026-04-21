@@ -13,13 +13,29 @@ export const experiences: Experience[] = [
     extraRoles: ['UI Designer', 'Presenter'],
     roles: ['Full-Stack Developer', 'UI Designer', 'Presenter'],
     highlight: 'Built a real-time disaster response platform in 48 hours using Next.js and WebSockets.',
-    content: 'Led the technical development of an AI-powered disaster coordination system that aggregated emergency reports and routed rescue teams optimally.',
+    content: `Led the technical development of an AI-powered disaster coordination system that aggregated emergency reports and routed rescue teams optimally.
+
+### Technical Stack
+- **Next.js** for SSR and routing
+- **WebSockets** for real-time communication
+- **TensorFlow.js** for AI predictions
+
+### Impact
+The platform processed 10,000+ emergency reports and helped coordinate 500+ rescue team deployments during the demo scenario.`,
     photos: [
       `${CDN}/samples/landscapes/architecture-signs.jpg`,
       `${CDN}/samples/people/smiling-man.jpg`,
       `${CDN}/samples/landscapes/nature-mountains.jpg`,
     ],
     reels: [],
+    tags: ['Hackathon', 'AI/ML', 'Real-time'],
+    showGallery: true,
+    galleryImages: [
+      `${CDN}/samples/landscapes/architecture-signs.jpg`,
+      `${CDN}/samples/people/smiling-man.jpg`,
+      `${CDN}/samples/landscapes/nature-mountains.jpg`,
+    ],
+    heroImage: `${CDN}/samples/landscapes/architecture-signs.jpg`,
   },
   {
     id: 'exp-2',
@@ -31,13 +47,20 @@ export const experiences: Experience[] = [
     extraRoles: ['Workshop Facilitator'],
     roles: ['Chapter Lead', 'Workshop Facilitator'],
     highlight: 'Organized 12 technical workshops and 3 hackathons throughout the academic year.',
-    content: 'Managed a core team of 20, coordinated with Google Developer Relations, and partnered with 5 local tech companies for sponsorships.',
+    content: `Managed a core team of 20, coordinated with Google Developer Relations, and partnered with 5 local tech companies for sponsorships.
+
+### Key Initiatives
+- Launched a peer mentoring program
+- Introduced industry expert talks series
+- Organized campus-wide hackathon with 300+ participants`,
     photos: [
       `${CDN}/samples/people/smiling-man.jpg`,
       `${CDN}/samples/landscapes/architecture-signs.jpg`,
     ],
     reels: [],
     youtubeVideo: undefined,
+    tags: ['Community', 'Leadership', 'GDSC'],
+    heroImage: `${CDN}/samples/people/smiling-man.jpg`,
   },
   {
     id: 'exp-3',
@@ -48,12 +71,20 @@ export const experiences: Experience[] = [
     mainRole: 'Speaker',
     roles: ['Speaker'],
     highlight: 'Delivered a talk on building accessible web applications with modern frameworks.',
-    content: 'Presented best practices for web accessibility, covering WCAG 2.1 guidelines, semantic HTML, and testing strategies with real-world examples.',
+    content: `Presented best practices for web accessibility, covering WCAG 2.1 guidelines, semantic HTML, and testing strategies with real-world examples.
+
+### Topics Covered
+- Screen reader compatibility
+- Keyboard navigation patterns
+- Color contrast and visual accessibility
+- Automated testing with axe-core`,
     photos: [
       `${CDN}/samples/ecommerce/leather-bag-gray.jpg`,
       `${CDN}/samples/landscapes/nature-mountains.jpg`,
     ],
     reels: [],
+    tags: ['Speaking', 'Accessibility', 'Web'],
+    heroImage: `${CDN}/samples/ecommerce/leather-bag-gray.jpg`,
   },
   {
     id: 'exp-4',
@@ -64,12 +95,19 @@ export const experiences: Experience[] = [
     mainRole: 'Software Engineer Intern',
     roles: ['Software Engineer Intern'],
     highlight: 'Worked on the core product team building B2B SaaS features used by 10,000+ users.',
-    content: 'Implemented a real-time notification system, optimized database queries, and contributed to the design system migration from MUI to Tailwind CSS.',
+    content: `Implemented a real-time notification system, optimized database queries, and contributed to the design system migration from MUI to Tailwind CSS.
+
+### Achievements
+- Built WebSocket-based notification system
+- Optimized slow SQL queries reducing load time by 60%
+- Contributed to internal component library`,
     photos: [
       `${CDN}/samples/landscapes/architecture-signs.jpg`,
       `${CDN}/samples/food/spices.jpg`,
       `${CDN}/samples/animals/reindeer.jpg`,
     ],
     reels: [],
+    tags: ['Internship', 'Backend', 'SaaS'],
+    heroImage: `${CDN}/samples/landscapes/architecture-signs.jpg`,
   },
 ];
