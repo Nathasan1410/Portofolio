@@ -4,27 +4,6 @@ const CDN = 'https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill';
 
 export const achievements: Achievement[] = [
   {
-    id: 'ach-1',
-    title: 'Hackathon Asia 2024 — 1st Place',
-    type: 'hackathon_win',
-    date: '2024-11-18',
-    issuer: 'TechForGood Foundation',
-    highlight: 'Won 1st place out of 300+ teams for building an AI-powered disaster response system.',
-    content: 'Developed DisasterPulse, a real-time coordination platform that connected affected communities with rescue teams using AI-optimized routing.',
-    certificateUrl: 'https://example.com/cert/hackathon2024.pdf',
-    projectSubmitted: 'DisasterPulse',
-    teamInfo: ['Team: CodeForGood (4 members)'],
-    keyAchievements: [
-      'Best Technical Implementation Award',
-      'People\'s Choice Award',
-      'Interviewed by local tech news outlet',
-    ],
-    photos: [
-      `${CDN}/samples/landscapes/architecture-signs.jpg`,
-      `${CDN}/samples/people/smiling-man.jpg`,
-    ],
-  },
-  {
     id: 'ach-2',
     title: 'AWS Certified Solutions Architect',
     type: 'certificate',
@@ -69,25 +48,6 @@ export const achievements: Achievement[] = [
     certificateUrl: 'https://example.com/cert/meta-frontend.pdf',
     certificateImage: `${CDN}/samples/food/spices.jpg`,
     photos: [
-      `${CDN}/samples/food/spices.jpg`,
-    ],
-  },
-  {
-    id: 'ach-5',
-    title: 'Hackathon Asia 2023 — 3rd Place',
-    type: 'hackathon_win',
-    date: '2023-10-10',
-    issuer: 'TechForGood Foundation',
-    highlight: 'Placed 3rd for EcoTrack, a carbon footprint tracking app with AI-powered recommendations.',
-    projectSubmitted: 'EcoTrack',
-    teamInfo: ['Team: GreenTech (3 members)'],
-    keyAchievements: [
-      'Best Sustainability Impact Award',
-      'Invited to GreenTech Asia showcase',
-    ],
-    photos: [
-      `${CDN}/samples/animals/reindeer.jpg`,
-      `${CDN}/samples/landscapes/nature-mountains.jpg`,
       `${CDN}/samples/food/spices.jpg`,
     ],
   },

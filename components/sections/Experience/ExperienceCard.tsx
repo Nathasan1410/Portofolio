@@ -2,27 +2,13 @@
 
 import { motion } from 'framer-motion'
 import { Experience } from '@/lib/types'
-import { Badge } from '@/components/ui/badge'
+import { TypeBadge } from '@/components/ui/TypeBadge'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 
 interface ExperienceCardProps {
   experience: Experience
   onClick: () => void
-}
-
-const typeColors = {
-  hackathon: 'bg-cyan-500/10 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-400 border-cyan-500/20',
-  event: 'bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400 border-purple-500/20',
-  community: 'bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 border-emerald-500/20',
-  work: 'bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 border-blue-500/20',
-}
-
-const typeLabels = {
-  hackathon: 'Hackathon',
-  event: 'Event',
-  community: 'Community',
-  work: 'Work',
 }
 
 const typeGradients = {
@@ -49,42 +35,39 @@ export function ExperienceCard({ experience, onClick }: ExperienceCardProps) {
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
       )}
     >
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-3">
-            <h3 className="font-semibold text-foreground tracking-wide truncate">
-              {experience.title}
-            </h3>
-            {hasPhoto && (
-              <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                <Image
-                  src={experience.photos[0]}
-                  alt=""
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
-          </div>
-          <div className="mt-2 flex flex-wrap items-center gap-2">
-            <Badge
-              variant="outline"
-              className={cn('text-xs font-medium tracking-wider uppercase', typeColors[experience.type])}
-            >
-              {typeLabels[experience.type]}
-            </Badge>
-            <span className="text-xs text-muted-foreground font-light">
-              {experience.date}
-            </span>
+      {hasPhoto ? (
+        <div className="relative aspect-video w-full overflow-hidden rounded-lg">
+          <Image
+            src={experience.photos[0]}
+            alt=""
+            fill
+            className="object-cover"
+          />
+          <div className="absolute top-2 left-2">
+            <TypeBadge type={experience.type} />
           </div>
         </div>
-
-        {!hasPhoto && (
+      ) : (
+        <div className="relative aspect-video w-full overflow-hidden rounded-lg">
           <div className={cn(
-            'w-16 h-16 rounded-lg bg-gradient-to-br flex-shrink-0',
+            'w-full h-full bg-gradient-to-br flex items-center justify-center',
             typeGradients[experience.type]
           )} />
-        )}
+          <div className="absolute top-2 left-2">
+            <TypeBadge type={experience.type} />
+          </div>
+        </div>
+      )}
+
+      <div className="mt-4">
+        <h3 className="font-semibold text-foreground tracking-wide truncate">
+          {experience.title}
+        </h3>
+        <div className="mt-2 flex items-center gap-2">
+          <span className="text-xs text-muted-foreground font-light">
+            {experience.date}
+          </span>
+        </div>
       </div>
 
       {experience.kpi && (

@@ -21,6 +21,7 @@ export interface Experience {
 export interface Project {
   id: string;
   title: string;
+  type: 'web3' | 'ai' | 'general';
   description: string;
   techStack: string[];
   role: string;

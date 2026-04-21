@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Experience } from '@/lib/types'
-import { Badge } from '@/components/ui/badge'
+import { TypeBadge } from '@/components/ui/TypeBadge'
 import { cn } from '@/lib/utils'
 
 interface ExperienceTimelineProps {
@@ -10,25 +10,11 @@ interface ExperienceTimelineProps {
   onSelectExperience: (experience: Experience) => void
 }
 
-const typeColors = {
-  hackathon: 'bg-cyan-500/10 text-cyan-600 dark:bg-cyan-500/20 dark:text-cyan-400 border-cyan-500/20',
-  event: 'bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-400 border-purple-500/20',
-  community: 'bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400 border-emerald-500/20',
-  work: 'bg-blue-500/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-400 border-blue-500/20',
-}
-
 const typeDotColors = {
   hackathon: 'bg-cyan-500',
   event: 'bg-purple-500',
   community: 'bg-emerald-500',
   work: 'bg-blue-500',
-}
-
-const typeLabels = {
-  hackathon: 'Hackathon',
-  event: 'Event',
-  community: 'Community',
-  work: 'Work',
 }
 
 export function ExperienceTimeline({ experiences, onSelectExperience }: ExperienceTimelineProps) {
@@ -66,12 +52,7 @@ export function ExperienceTimeline({ experiences, onSelectExperience }: Experien
                     {experience.title}
                   </h3>
                   <div className="mt-1.5 flex flex-wrap items-center gap-2">
-                    <Badge
-                      variant="outline"
-                      className={cn('text-xs font-medium', typeColors[experience.type])}
-                    >
-                      {typeLabels[experience.type]}
-                    </Badge>
+                    <TypeBadge type={experience.type} />
                     <span className="text-xs text-muted-foreground">
                       {experience.date}
                     </span>

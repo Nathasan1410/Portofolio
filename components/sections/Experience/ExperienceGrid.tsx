@@ -33,6 +33,26 @@ export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGr
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">View:</span>
+          <Button
+            variant={viewMode === 'cards' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('cards')}
+            className="gap-1.5"
+          >
+            <FaTh className="h-3 w-3" /> Cards
+          </Button>
+          <Button
+            variant={viewMode === 'timeline' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('timeline')}
+            className="gap-1.5"
+          >
+            <FaStream className="h-3 w-3" /> Timeline
+          </Button>
+        </div>
+
         <div className="flex flex-wrap items-center gap-2">
           {filterOptions.map((option) => (
             <Button
@@ -53,26 +73,6 @@ export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGr
               )}
             </Button>
           ))}
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">View:</span>
-          <Button
-            variant={viewMode === 'cards' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setViewMode('cards')}
-            className="gap-1.5"
-          >
-            <FaTh className="h-3 w-3" /> Cards
-          </Button>
-          <Button
-            variant={viewMode === 'timeline' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setViewMode('timeline')}
-            className="gap-1.5"
-          >
-            <FaStream className="h-3 w-3" /> Timeline
-          </Button>
         </div>
       </div>
 

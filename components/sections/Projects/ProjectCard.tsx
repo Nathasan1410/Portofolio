@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { Project } from '@/lib/types'
 import { TechBadge } from './TechBadge'
+import { TypeBadge } from '@/components/ui/TypeBadge'
 import { cn } from '@/lib/utils'
 
 interface ProjectCardProps {
@@ -25,15 +26,22 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
       )}
     >
       {project.thumbnail ? (
-        <div className="aspect-video w-full overflow-hidden">
+        <div className="relative aspect-video w-full overflow-hidden">
           <img
             src={project.thumbnail}
             alt=""
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
+          <div className="absolute top-2 left-2">
+            <TypeBadge type={project.type} />
+          </div>
         </div>
       ) : (
-        <div className="aspect-video w-full bg-gradient-to-br from-primary/5 to-primary/20" />
+        <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-primary/5 to-primary/20">
+          <div className="absolute top-2 left-2">
+            <TypeBadge type={project.type} />
+          </div>
+        </div>
       )}
 
       <div className="p-5">

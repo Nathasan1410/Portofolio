@@ -6,6 +6,7 @@ export const projects: Project[] = [
   {
     id: 'proj-1',
     title: 'DisasterPulse',
+    type: 'ai',
     description: 'Real-time disaster response coordination platform with AI-powered resource routing and crowd-sourced damage reporting.',
     techStack: ['Next.js', 'TypeScript', 'WebSocket', 'PostgreSQL', 'TensorFlow.js'],
     role: 'Lead Developer',
@@ -22,6 +23,7 @@ export const projects: Project[] = [
   {
     id: 'proj-2',
     title: 'LearnFlow',
+    type: 'ai',
     description: 'Personalized learning platform that adapts to individual learning styles using spaced repetition and active recall techniques.',
     techStack: ['React', 'Node.js', 'MongoDB', 'OpenAI API'],
     role: 'Full-Stack Developer',
@@ -38,6 +40,7 @@ export const projects: Project[] = [
   {
     id: 'proj-3',
     title: 'EcoTrack',
+    type: 'general',
     description: 'Carbon footprint tracking app that helps individuals and businesses monitor and reduce their environmental impact.',
     techStack: ['Flutter', 'Firebase', 'TensorFlow Lite', 'Charts.js'],
     role: 'Mobile Developer',
@@ -55,6 +58,7 @@ export const projects: Project[] = [
   {
     id: 'proj-4',
     title: 'DevPortfolio',
+    type: 'web3',
     description: 'Open-source developer portfolio template with CMS integration, blog support, and GitHub activity feed.',
     techStack: ['Next.js', 'MDX', 'Tailwind CSS', 'GitHub API'],
     role: 'Creator & Maintainer',

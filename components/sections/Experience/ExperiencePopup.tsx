@@ -4,6 +4,7 @@ import { useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { FiX } from 'react-icons/fi'
+import ReactMarkdown from 'react-markdown'
 import { Experience } from '@/lib/types'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
@@ -81,15 +82,16 @@ export function ExperiencePopup({ experience, onClose }: ExperiencePopupProps) {
                 aria-modal="true"
                 aria-labelledby="experience-dialog-title"
                 className={cn(
-                  'fixed z-50 w-full max-w-lg max-h-[85vh] overflow-y-auto',
+                  'fixed z-50 w-full max-w-4xl max-h-[90vh] overflow-auto',
+                  'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
                   'bg-card rounded-xl border shadow-xl',
-                  'p-6 pt-14',
+                  'p-6',
                   'focus:outline-none'
                 )}
               >
                 <DialogPrimitive.Close
                   className={cn(
-                    'absolute right-4 top-4 rounded-sm p-1.5',
+                    'absolute right-4 top-4 rounded-sm p-1.5 z-10',
                     'opacity-70 hover:opacity-100',
                     'hover:bg-accent hover:text-accent-foreground',
                     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
@@ -101,89 +103,97 @@ export function ExperiencePopup({ experience, onClose }: ExperiencePopupProps) {
                   <span className="sr-only">Close</span>
                 </DialogPrimitive.Close>
 
-                <div className="space-y-5">
-                  <header className="space-y-3">
-                    <div className="flex items-start justify-between gap-3">
-                      <DialogPrimitive.Title
-                        id="experience-dialog-title"
-                        className="text-xl font-semibold text-foreground pr-6"
-                      >
-                        {experience.title}
-                      </DialogPrimitive.Title>
-                    </div>
+                <div className="flex flex-col md:flex-row gap-6">
+                  <div className="w-full md:w-1/3 flex-shrink-0">
+                    {(experience.youtubeVideo || (experience.photos && experience.photos.length > 0) || (experience.reels && experience.reels.length > 0)) && (
+                      <div className="space-y-4">
+                        {experience.youtubeVideo && (
+                          <div className="aspect-video w-full rounded-lg overflow-hidden">
+                            <iframe
+                              src={experience.youtubeVideo}
+                              className="w-full h-full"
+                              allowFullScreen
+                              title="YouTube video"
+                            />
+                          </div>
+                        )}
 
-                    <div className="flex flex-wrap items-center gap-2">
-                      <Badge
-                        variant="outline"
-                        className={cn('text-xs font-medium', typeColors[experience.type])}
-                      >
-                        {typeLabels[experience.type]}
-                      </Badge>
-                      <span className="text-sm text-muted-foreground">
-                        {experience.date}
-                      </span>
-                    </div>
-                  </header>
+                        {experience.photos && experience.photos.length > 0 && (
+                          <ExperiencePopupCarousel
+                            items={experience.photos}
+                            label="📸 Photos"
+                          />
+                        )}
 
-                  {experience.kpi && (
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
-                        {experience.kpi}
-                      </span>
-                    </div>
-                  )}
+                        {experience.photos && experience.photos.length > 0 && experience.reels && experience.reels.length > 0 && (
+                          <Separator />
+                        )}
 
-                  <div className="flex flex-wrap items-center gap-1 text-sm">
-                    <span className="font-medium text-foreground">
-                      {experience.mainRole}
-                    </span>
-                    {experience.extraRoles && experience.extraRoles.length > 0 && (
-                      <span className="text-muted-foreground">
-                        {' - '}
-                        {experience.extraRoles.join(' - ')}
-                      </span>
+                        {experience.reels && experience.reels.length > 0 && (
+                          <ExperiencePopupCarousel
+                            items={experience.reels}
+                            label="🎬 Reels & Vlogs"
+                          />
+                        )}
+                      </div>
                     )}
                   </div>
 
-                  <Separator />
+                  <div className="flex-1 space-y-5">
+                    <header className="space-y-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <DialogPrimitive.Title
+                          id="experience-dialog-title"
+                          className="text-xl font-semibold text-foreground pr-6"
+                        >
+                          {experience.title}
+                        </DialogPrimitive.Title>
+                      </div>
 
-                  {experience.content && (
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Badge
+                          variant="outline"
+                          className={cn('text-xs font-medium', typeColors[experience.type])}
+                        >
+                          {typeLabels[experience.type]}
+                        </Badge>
+                        <span className="text-sm text-muted-foreground">
+                          {experience.date}
+                        </span>
+                      </div>
+                    </header>
+
+                    {experience.kpi && (
+                      <div className="flex items-center gap-2">
+                        <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
+                          {experience.kpi}
+                        </span>
+                      </div>
+                    )}
+
+                    <div className="flex flex-wrap items-center gap-1 text-sm">
+                      <span className="font-medium text-foreground">
+                        {experience.mainRole}
+                      </span>
+                      {experience.extraRoles && experience.extraRoles.length > 0 && (
+                        <span className="text-muted-foreground">
+                          {' - '}
+                          {experience.extraRoles.join(' - ')}
+                        </span>
+                      )}
+                    </div>
+
+                    <Separator />
+
+{experience.content && (
                     <>
-                      <div className="prose prose-sm max-w-none text-foreground/80">
-                        <p className="whitespace-pre-wrap">{experience.content}</p>
+                      <div className="prose prose-sm dark:prose-invert max-w-none text-foreground/80">
+                        <ReactMarkdown>{experience.content}</ReactMarkdown>
                       </div>
                       <Separator />
                     </>
                   )}
-
-                  {experience.youtubeVideo && (
-                    <div className="aspect-video w-full rounded-lg overflow-hidden">
-                      <iframe
-                        src={experience.youtubeVideo}
-                        className="w-full h-full"
-                        allowFullScreen
-                        title="YouTube video"
-                      />
-                    </div>
-                  )}
-
-                  {experience.photos && experience.photos.length > 0 && (
-                    <ExperiencePopupCarousel
-                      items={experience.photos}
-                      label="📸 Photos"
-                    />
-                  )}
-
-                  {experience.photos && experience.photos.length > 0 && experience.reels && experience.reels.length > 0 && (
-                    <Separator />
-                  )}
-
-                  {experience.reels && experience.reels.length > 0 && (
-                    <ExperiencePopupCarousel
-                      items={experience.reels}
-                      label="🎬 Reels & Vlogs"
-                    />
-                  )}
+                  </div>
                 </div>
               </motion.div>
             </DialogPrimitive.Content>
