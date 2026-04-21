@@ -56,12 +56,8 @@ export function ProjectPopup({ project, open, onOpenChange }: ProjectPopupProps)
     <FullScreenDialog open={open} onOpenChange={onOpenChange}>
       <FullScreenDialogContent
         title={project.title}
-        className={cn(
-          'w-[90vw] md:w-[80vw] lg:w-[70vw] aspect-video',
-          'max-h-[90vh]'
-        )}
       >
-        <div className="flex flex-col md:flex-row gap-6 h-full">
+        <div className="flex flex-col md:flex-row gap-6 h-full overflow-hidden">
           <div className="w-full md:w-1/3 flex-shrink-0">
             <div className="space-y-4">
               {youtubeVideoId ? (
@@ -87,7 +83,7 @@ export function ProjectPopup({ project, open, onOpenChange }: ProjectPopupProps)
             </div>
           </div>
 
-          <div className="flex-1 min-w-0 space-y-4 overflow-auto">
+          <div className="flex-1 min-w-0 flex flex-col gap-4 overflow-auto">
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <h2 className="text-xl font-semibold text-foreground pr-8">

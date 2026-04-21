@@ -41,13 +41,14 @@ const FullScreenDialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         'fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2',
-        'w-[90vw] md:w-[80vw] lg:w-[70vw] aspect-video',
+        'w-[90vw] md:w-[80vw] lg:w-[70vw] max-h-[90vh]',
         'flex flex-col',
         'border bg-background shadow-lg',
         'data-[state=open]:animate-in data-[state=closed]:animate-out',
+        'data-[state=closed]:slide-out-to-bottom-10 data-[state=open]:slide-in-from-bottom-10',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
-        'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
-        'data-[state=closed]:duration-200 data-[state=open]:duration-200',
+        'data-[state=closed]:duration-300 data-[state=open]:duration-300',
+        'ease-out',
         className,
       )}
       {...props}
