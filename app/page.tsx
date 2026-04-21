@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { Hero } from "@/components/sections/Hero"
-import { SocialHighlightsBar } from "@/components/sections/SocialHighlightsBar"
 import { TabNav, TabItem } from "@/components/sections/TabNav"
 import { ProjectGrid } from "@/components/sections/Projects/ProjectGrid"
 import { ExperienceGrid } from "@/components/sections/Experience/ExperienceGrid"
@@ -77,7 +76,6 @@ export default function HomePage() {
     <main className="min-h-screen">
       <div id="home">
         <Hero />
-        <SocialHighlightsBar />
       </div>
       <section id="experience-section" className="scroll-mt-20">
         <TabNav tabs={tabs} defaultValue={activeTab} />
