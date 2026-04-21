@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiFileText, FiArrowDown, FiImage, FiLinkedin } from "react-icons/fi";
+import { FiFileText, FiImage, FiLinkedin, FiSparkles } from "react-icons/fi";
 import { FaYoutube, FaTiktok, FaGithub, FaInstagram } from "react-icons/fa";
 import { socials } from "@/lib/data/socials";
 
@@ -67,6 +67,9 @@ function SocialIcon({ href, icon: Icon, label }: SocialIconProps) {
       <motion.span
         className={TOOLTIP_STYLES}
         variants={socialButtonVariants}
+        initial="hidden"
+        whileHover="visible"
+        transition={{ duration: 0.15 }}
       >
         {label}
       </motion.span>
@@ -122,10 +125,7 @@ const socialItems = [
 
 export function Hero() {
   const handleViewWork = () => {
-    const experienceSection = document.getElementById("experience-section");
-    if (experienceSection) {
-      experienceSection.scrollIntoView({ behavior: "smooth" });
-    }
+    window.location.hash = "experience";
   };
 
   const handleCheckCV = () => {
@@ -155,8 +155,8 @@ export function Hero() {
           transition={{ delay: 0.3, duration: 0.5 }}
         >
           <NavbarButton onClick={handleViewWork} variant="primary" ariaLabel="View my experiences">
-            My Experiences ✨
-            <FiArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
+            My Experiences
+            <FiSparkles className="h-4 w-4 text-white" />
           </NavbarButton>
 
           <VerticalDivider />
