@@ -6,18 +6,14 @@ import { FiX, FiDownload, FiFileText } from 'react-icons/fi'
 import { FaAward, FaTrophy, FaStar, FaUsers } from 'react-icons/fa'
 import ReactMarkdown from 'react-markdown'
 import { Achievement } from '@/lib/types'
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { MediaCarousel } from '@/components/ui/MediaCarousel'
 import { cn } from '@/lib/utils'
+import {
+  FullScreenDialog,
+  FullScreenDialogContent,
+} from '@/components/ui/FullScreenDialog'
 
 interface AchievementPopupProps {
   achievement: Achievement | null
@@ -137,106 +133,103 @@ export function AchievementPopup({ achievement, open, onOpenChange }: Achievemen
   const Icon = config.icon
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        ref={dialogRef}
-        className="max-w-4xl max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()}
-        onKeyDown={(e) => {
-          if (e.key === 'Escape') {
-            e.stopPropagation()
-          }
-        }}
+    <FullScreenDialog open={open} onOpenChange={onOpenChange}>
+      <FullScreenDialogContent
+        title={achievement.title}
+        className={cn(
+          'w-[90vw] md:w-[80vw] lg:w-[70vw] aspect-video',
+          'max-h-[90vh]'
+        )}
       >
-        <div className="flex flex-col md:flex-row gap-6">
+        <div ref={dialogRef} className="flex flex-col md:flex-row gap-6 h-full">
           <div className="w-full md:w-1/3 flex-shrink-0">
-                    {achievement.type === 'certificate' && achievement.certificateImage && (
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-2">
-                          <FiFileText className="h-4 w-4 text-amber-500" />
-                          <span className="text-sm font-medium">Certificate</span>
-                        </div>
-                        <CertificateViewer
-                          imageUrl={achievement.certificateImage}
-                          title={achievement.title}
-                        />
-                      </div>
-                    )}
-                    {achievement.type === 'hackathon_win' && achievement.photos && achievement.photos.length > 0 && (
-                      <MediaCarousel
-                        items={achievement.photos}
-                        aspectRatio="video"
-                      />
-                    )}
-                    {achievement.type !== 'certificate' && achievement.type !== 'hackathon_win' && achievement.photos && achievement.photos.length > 0 && (
-                      <MediaCarousel
-                        items={achievement.photos}
-                        aspectRatio="video"
-                      />
-                    )}
-                  </div>
-
-                  <div className="flex-1 space-y-5">
-                    <header className="space-y-3">
-                      <div className="flex items-start justify-between gap-4">
-                        <DialogTitle className="text-xl font-semibold text-foreground pr-6">
-                          {achievement.title}
-                        </DialogTitle>
-                      </div>
-
-                      <div className="flex flex-wrap items-center gap-2">
-                        <Badge
-                          variant="outline"
-                          className={cn('text-xs font-medium bg-white/20 backdrop-blur-sm', config.colors)}
-                        >
-                          <Icon className="mr-1 h-3 w-3" />
-                          {config.label}
-                        </Badge>
-                        <span className="text-sm text-muted-foreground">
-                          {achievement.date}
-                        </span>
-                      </div>
-
-                      {achievement.issuer && (
-                        <div className="flex items-center gap-2 text-sm">
-                          <span className="text-muted-foreground">Issued by</span>
-                          <span className="font-medium text-foreground">{achievement.issuer}</span>
-                        </div>
-                      )}
-                    </header>
-
-                    <Separator />
-
-                    {achievement.content && (
-                      <div className="prose prose-sm dark:prose-invert max-w-none text-foreground/80">
-                        <ReactMarkdown>{achievement.content}</ReactMarkdown>
-                      </div>
-                    )}
-
-                    {achievement.type === 'hackathon_win' && achievement.keyAchievements && achievement.keyAchievements.length > 0 && (
-                      <>
-                        <Separator />
-                        <div className="space-y-2">
-                          <span className="text-xs text-muted-foreground uppercase tracking-wide">
-                            Key Achievements
-                          </span>
-                          <ul className="space-y-1.5">
-                            {achievement.keyAchievements.map((item, index) => (
-                              <li
-                                key={index}
-                                className="text-sm text-foreground flex items-start gap-2"
-                              >
-                                <span className="text-purple-500 mt-0.5">•</span>
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      </>
-                    )}
-                  </div>
+            {achievement.type === 'certificate' && achievement.certificateImage && (
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <FiFileText className="h-4 w-4 text-amber-500" />
+                  <span className="text-sm font-medium">Certificate</span>
                 </div>
-      </DialogContent>
-    </Dialog>
+                <CertificateViewer
+                  imageUrl={achievement.certificateImage}
+                  title={achievement.title}
+                />
+              </div>
+            )}
+            {achievement.type === 'hackathon_win' && achievement.photos && achievement.photos.length > 0 && (
+              <MediaCarousel
+                items={achievement.photos}
+                aspectRatio="video"
+              />
+            )}
+            {achievement.type !== 'certificate' && achievement.type !== 'hackathon_win' && achievement.photos && achievement.photos.length > 0 && (
+              <MediaCarousel
+                items={achievement.photos}
+                aspectRatio="video"
+              />
+            )}
+          </div>
+
+          <div className="flex-1 space-y-5 overflow-auto">
+            <header className="space-y-3">
+              <div className="flex items-start justify-between gap-4">
+                <h2 className="text-xl font-semibold text-foreground pr-6">
+                  {achievement.title}
+                </h2>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge
+                  variant="outline"
+                  className={cn('text-xs font-medium bg-white/20 backdrop-blur-sm', config.colors)}
+                >
+                  <Icon className="mr-1 h-3 w-3" />
+                  {config.label}
+                </Badge>
+                <span className="text-sm text-muted-foreground">
+                  {achievement.date}
+                </span>
+              </div>
+
+              {achievement.issuer && (
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-muted-foreground">Issued by</span>
+                  <span className="font-medium text-foreground">{achievement.issuer}</span>
+                </div>
+              )}
+            </header>
+
+            <Separator />
+
+            {achievement.content && (
+              <div className="prose prose-sm dark:prose-invert max-w-none text-foreground/80">
+                <ReactMarkdown>{achievement.content}</ReactMarkdown>
+              </div>
+            )}
+
+            {achievement.type === 'hackathon_win' && achievement.keyAchievements && achievement.keyAchievements.length > 0 && (
+              <>
+                <Separator />
+                <div className="space-y-2">
+                  <span className="text-xs text-muted-foreground uppercase tracking-wide">
+                    Key Achievements
+                  </span>
+                  <ul className="space-y-1.5">
+                    {achievement.keyAchievements.map((item, index) => (
+                      <li
+                        key={index}
+                        className="text-sm text-foreground flex items-start gap-2"
+                      >
+                        <span className="text-purple-500 mt-0.5">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </FullScreenDialogContent>
+    </FullScreenDialog>
   )
 }

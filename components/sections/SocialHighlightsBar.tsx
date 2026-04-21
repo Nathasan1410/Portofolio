@@ -3,7 +3,6 @@
 import { motion } from "framer-motion"
 import { FaYoutube, FaTiktok, FaGithub, FaDiscord, FaInstagram } from "react-icons/fa"
 import { socials } from "@/lib/data/socials"
-import { cn } from "@/lib/utils"
 
 const XIcon = ({ size = 24 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -12,41 +11,68 @@ const XIcon = ({ size = 24 }: { size?: number }) => (
 )
 
 const socialItems = [
-  { href: socials.youtube, icon: FaYoutube, label: 'YouTube' },
-  { href: socials.tiktok, icon: FaTiktok, label: 'TikTok' },
-  { href: socials.twitter, icon: XIcon, label: 'X' },
-  { href: socials.instagram, icon: FaInstagram, label: 'Instagram' },
-  { href: socials.github, icon: FaGithub, label: 'GitHub' },
-  { href: socials.discord, icon: FaDiscord, label: 'Discord' },
+  { href: socials.youtube, icon: FaYoutube, label: 'YouTube', color: '#FF0000' },
+  { href: socials.tiktok, icon: FaTiktok, label: 'TikTok', color: '#00f2ea' },
+  { href: socials.twitter, icon: XIcon, label: 'X', color: '#000000' },
+  { href: socials.instagram, icon: FaInstagram, label: 'Instagram', color: '#E4405F' },
+  { href: socials.github, icon: FaGithub, label: 'GitHub', color: '#181717' },
+  { href: socials.discord, icon: FaDiscord, label: 'Discord', color: '#5865F2' },
 ]
 
 export function SocialHighlightsBar() {
   return (
     <motion.section
-      className="py-8"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.6, duration: 0.5 }}
     >
-      <div className="flex items-center justify-center gap-6">
-        {socialItems.map(({ href, icon: Icon, label }) => (
-          <motion.a
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col items-center gap-2 group"
-            whileHover={{ y: -4 }}
-            transition={{ duration: 0.2 }}
-          >
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-muted/50 to-muted flex items-center justify-center group-hover:from-primary/20 group-hover:to-primary/10 transition-all duration-200 border border-border/50">
-              <Icon className="h-6 w-6 text-muted-foreground group-hover:text-foreground transition-colors" />
-            </div>
-            <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">
-              {label}
-            </span>
-          </motion.a>
-        ))}
+      {/* macOS Dock Container */}
+      <div className="flex justify-center">
+        <motion.div
+          className="flex items-end gap-2 px-3 py-2 rounded-2xl bg-white/10 dark:bg-black/40 backdrop-blur-xl border border-white/20 shadow-2xl"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ delay: 0.8, duration: 0.4, ease: "easeOut" }}
+        >
+          {socialItems.map(({ href, icon: Icon, label, color }, index) => (
+            <motion.a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex flex-col items-center gap-1"
+              initial={{ y: 0 }}
+              whileHover={{
+                scale: 1.2,
+                y: -8
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 17,
+                mass: 0.5
+              }}
+            >
+              {/* Icon Container - Rounded Square */}
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg overflow-hidden"
+                style={{
+                  background: `linear-gradient(135deg, ${color}DD, ${color})`,
+                }}
+              >
+                <Icon className="h-6 w-6 text-white drop-shadow-md" />
+              </div>
+              {/* Label - Hidden by default, shows on dock hover */}
+              <motion.span
+                className="text-[10px] font-medium text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+              >
+                {label}
+              </motion.span>
+            </motion.a>
+          ))}
+        </motion.div>
       </div>
     </motion.section>
   )

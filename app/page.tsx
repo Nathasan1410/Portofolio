@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Hero } from "@/components/sections/Hero"
 import { SocialHighlightsBar } from "@/components/sections/SocialHighlightsBar"
 import { TabNav, TabItem } from "@/components/sections/TabNav"
@@ -18,6 +18,23 @@ import { FaBriefcase, FaAward, FaFolderOpen, FaLaptopCode } from "react-icons/fa
 export default function HomePage() {
   const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null)
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null)
+  const [activeTab, setActiveTab] = useState<string>("experience")
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1)
+      if (hash && ["experience", "projects", "achievements"].includes(hash)) {
+        setActiveTab(hash)
+      }
+    }
+
+    // Set initial tab from hash
+    handleHashChange()
+
+    // Listen for hash changes
+    window.addEventListener("hashchange", handleHashChange)
+    return () => window.removeEventListener("hashchange", handleHashChange)
+  }, [])
 
   const tabs: TabItem[] = [
     {
@@ -58,9 +75,15 @@ export default function HomePage() {
 
   return (
     <main className="min-h-screen">
-      <Hero />
-      <SocialHighlightsBar />
-      <TabNav tabs={tabs} defaultValue="experience" />
+      <div id="home">
+        <Hero />
+        <SocialHighlightsBar />
+      </div>
+      <section id="experience-section" className="scroll-mt-20">
+        <TabNav tabs={tabs} defaultValue={activeTab} />
+      </section>
+      <div id="projects" className="sr-only" />
+      <div id="achievements" className="sr-only" />
       <ExperiencePopup
         experience={selectedExperience}
         onClose={() => setSelectedExperience(null)}
