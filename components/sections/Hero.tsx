@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiFileText, FiImage, FiLinkedin, FiSparkles } from "react-icons/fi";
-import { FaYoutube, FaTiktok, FaGithub, FaInstagram } from "react-icons/fa";
+import { FiFileText, FiImage, FiLinkedin } from "react-icons/fi";
+import { FaYoutube, FaTiktok, FaGithub, FaInstagram, FaStar } from "react-icons/fa";
 import { socials } from "@/lib/data/socials";
 
 // ============================================================================
@@ -80,15 +80,20 @@ function SocialIcon({ href, icon: Icon, label }: SocialIconProps) {
 interface NavbarButtonProps {
   onClick: () => void;
   variant: "primary" | "secondary";
+  isActive?: boolean;
   children: React.ReactNode;
   ariaLabel: string;
 }
 
-function NavbarButton({ onClick, variant, children, ariaLabel }: NavbarButtonProps) {
+function NavbarButton({ onClick, variant, isActive, children, ariaLabel }: NavbarButtonProps) {
+  const activeStyles = isActive
+    ? "bg-primary text-primary-foreground border-primary"
+    : "";
+
   return (
     <button
       onClick={onClick}
-      className={variant === "primary" ? PRIMARY_BUTTON_STYLES : SECONDARY_BUTTON_STYLES}
+      className={`${variant === "primary" ? PRIMARY_BUTTON_STYLES : SECONDARY_BUTTON_STYLES} ${activeStyles}`}
       aria-label={ariaLabel}
     >
       {children}
@@ -123,9 +128,13 @@ const socialItems = [
 // Main Component
 // ============================================================================
 
-export function Hero() {
-  const handleViewWork = () => {
-    window.location.hash = "experience";
+interface HeroProps {
+  activeTab?: string;
+}
+
+export function Hero({ activeTab = "about" }: HeroProps) {
+  const handleNavigate = (section: string) => {
+    window.location.hash = section;
   };
 
   const handleCheckCV = () => {
@@ -154,9 +163,48 @@ export function Hero() {
           animate="visible"
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <NavbarButton onClick={handleViewWork} variant="primary" ariaLabel="View my experiences">
-            My Experiences
-            <FiSparkles className="h-4 w-4 text-white" />
+          {/* Section Navigation */}
+          <NavbarButton
+            onClick={() => handleNavigate("about")}
+            variant="secondary"
+            isActive={activeTab === "about"}
+            ariaLabel="View About Me"
+          >
+            About Me
+          </NavbarButton>
+
+          <NavbarButton
+            onClick={() => handleNavigate("experience")}
+            variant="secondary"
+            isActive={activeTab === "experience"}
+            ariaLabel="View Experience"
+          >
+            Experience
+          </NavbarButton>
+
+          <NavbarButton
+            onClick={() => handleNavigate("projects")}
+            variant="secondary"
+            isActive={activeTab === "projects"}
+            ariaLabel="View Projects"
+          >
+            Projects
+          </NavbarButton>
+
+          <NavbarButton
+            onClick={() => handleNavigate("achievements")}
+            variant="secondary"
+            isActive={activeTab === "achievements"}
+            ariaLabel="View Achievements"
+          >
+            Achievements
+          </NavbarButton>
+
+          <VerticalDivider />
+
+          <NavbarButton onClick={handleCheckCV} variant="primary" ariaLabel="Check my CV">
+            Check My CV
+            <FaStar className="h-4 w-4 text-white" />
           </NavbarButton>
 
           <VerticalDivider />
@@ -164,13 +212,6 @@ export function Hero() {
           {socialItems.map(({ href, icon: Icon, label }) => (
             <SocialIcon key={label} href={href} icon={Icon} label={label} />
           ))}
-
-          <VerticalDivider />
-
-          <NavbarButton onClick={handleCheckCV} variant="secondary" ariaLabel="Check my CV">
-            <FiFileText className="h-4 w-4" />
-            Check My CV
-          </NavbarButton>
         </motion.div>
       </div>
     </section>

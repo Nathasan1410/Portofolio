@@ -10,6 +10,7 @@ import {
   GRID_LAYOUT,
   COL_PHOTO,
   COL_DESCRIPTION,
+  COL_EXPERIENCE,
   COL_STACK,
   PHOTO_STICKY,
   PHOTO_WRAPPER,
@@ -54,12 +55,11 @@ export function About() {
           </div>
         </motion.div>
 
-        {/* CENTER COLUMN - Description + Experience */}
+        {/* COLUMN 2 - Description */}
         <motion.div
           className={`${COL_DESCRIPTION} ${SECTION_SPACING}`}
           variants={itemVariants}
         >
-          {/* Description */}
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Hi, I'm {aboutData.description.split(" ")[2]?.replace(/[.,]/g, '') || "Nathanael"}
@@ -68,25 +68,28 @@ export function About() {
               {aboutData.description}
             </p>
           </div>
+        </motion.div>
 
-          {/* Experience */}
-          <div>
-            <SectionHeader title="EXPERIENCE" />
-            <div className="space-y-4">
-              {aboutData.highlights.map((highlight, idx) => (
-                <ExperienceItem
-                  key={idx}
-                  title={highlight.title}
-                  company={highlight.company}
-                  date={highlight.date}
-                  description={highlight.description}
-                />
-              ))}
-            </div>
+        {/* COLUMN 3 - Experience */}
+        <motion.div
+          className={`${COL_EXPERIENCE} ${SECTION_SPACING}`}
+          variants={itemVariants}
+        >
+          <SectionHeader title="EXPERIENCE" />
+          <div className="space-y-4">
+            {aboutData.highlights.map((highlight, idx) => (
+              <ExperienceItem
+                key={idx}
+                title={highlight.title}
+                company={highlight.company}
+                date={highlight.date}
+                description={highlight.description}
+              />
+            ))}
           </div>
         </motion.div>
 
-        {/* RIGHT COLUMN - Tech Stack */}
+        {/* COLUMN 4 - Main Stack */}
         <motion.div
           className={`${COL_STACK} ${SECTION_SPACING}`}
           variants={itemVariants}

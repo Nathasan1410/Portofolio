@@ -39,7 +39,7 @@ export default function HomePage() {
   const tabs: TabItem[] = [
     {
       value: "about",
-      label: "About",
+      label: "About Me",
       icon: <FaUser className="h-4 w-4" />,
       content: <About />,
     },
@@ -82,7 +82,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen">
       <div id="home">
-        <Hero />
+        <Hero activeTab={activeTab} />
       </div>
       <section id="experience-section" className="scroll-mt-20">
         <TabNav tabs={tabs} defaultValue={activeTab} />

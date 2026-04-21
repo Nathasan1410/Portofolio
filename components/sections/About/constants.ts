@@ -7,10 +7,11 @@
 export const GRID_LAYOUT = "grid grid-cols-1 md:grid-cols-12 gap-8";
 export const SECTION_SPACING = "space-y-8";
 
-// Column spans
-export const COL_PHOTO = "md:col-span-3 flex flex-col";
-export const COL_DESCRIPTION = "md:col-span-5";
-export const COL_STACK = "md:col-span-4";
+// Column spans (4-column layout: Photo | Description | Experience | Main Stack)
+export const COL_PHOTO = "md:col-span-2 flex flex-col";
+export const COL_DESCRIPTION = "md:col-span-3";
+export const COL_EXPERIENCE = "md:col-span-4";
+export const COL_STACK = "md:col-span-3";
 
 // Photo container
 export const PHOTO_STICKY = "sticky top-8";
