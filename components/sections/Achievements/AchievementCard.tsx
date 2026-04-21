@@ -72,7 +72,7 @@ export function AchievementCard({ achievement, onClick }: AchievementCardProps) 
               className="h-full w-full object-cover"
             />
             {/* Bottom-to-top gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white via-white/5 to-transparent pointer-events-none" />
           </>
         ) : (
           <div className={cn('flex h-full w-full items-center justify-center', getGradientBg())}>
