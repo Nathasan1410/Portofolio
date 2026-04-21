@@ -38,6 +38,8 @@ export interface TabItem {
 export interface TabNavProps {
   tabs: TabItem[];
   defaultValue?: string;
+  value?: string;
+  onValueChange?: (value: string) => void;
   className?: string;
 }
 
@@ -64,7 +66,7 @@ function TabNavContent({
   );
 }
 
-export function TabNav({ tabs, defaultValue, className }: TabNavProps) {
+export function TabNav({ tabs, defaultValue, value, onValueChange, className }: TabNavProps) {
   const defaultTabValue = defaultValue || tabs[0]?.value;
 
   return (
@@ -80,6 +82,8 @@ export function TabNav({ tabs, defaultValue, className }: TabNavProps) {
       <div className="max-w-5xl mx-auto">
         <TabsPrimitive.Root
           defaultValue={defaultTabValue}
+          value={value}
+          onValueChange={onValueChange}
           className="w-full"
         >
           <TabsPrimitive.List

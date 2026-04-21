@@ -78,34 +78,6 @@ function SocialIcon({ href, icon: Icon, label }: SocialIconProps) {
   );
 }
 
-interface NavbarButtonProps {
-  onClick: () => void;
-  variant: "primary" | "secondary";
-  isActive?: boolean;
-  children: React.ReactNode;
-  ariaLabel: string;
-}
-
-function NavbarButton({ onClick, variant, isActive, children, ariaLabel }: NavbarButtonProps) {
-  const activeStyles = isActive
-    ? "bg-primary text-primary-foreground border-primary"
-    : "";
-
-  return (
-    <button
-      onClick={onClick}
-      className={`${variant === "primary" ? PRIMARY_BUTTON_STYLES : SECONDARY_BUTTON_STYLES} ${activeStyles}`}
-      aria-label={ariaLabel}
-    >
-      {children}
-    </button>
-  );
-}
-
-function VerticalDivider() {
-  return <div className="w-px h-6 bg-border" />;
-}
-
 // ============================================================================
 // Data
 // ============================================================================
@@ -139,12 +111,37 @@ export function Hero({ activeTab = "about" }: HeroProps) {
   };
 
   const handleCheckCV = () => {
-    // TODO: Replace with actual PDF Drive URL
     window.open('https://drive.google.com/file/d/YOUR_FILE_ID/view', '_blank');
   };
 
+  const navItems = [
+    { value: "about", label: "About Me" },
+    { value: "experience", label: "Experience" },
+    { value: "projects", label: "Projects" },
+    { value: "achievements", label: "Achievements" },
+  ];
+
   return (
     <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden px-4" aria-label="Hero section">
+      {/* Top Navigation Bar */}
+      <div className="absolute top-0 left-0 right-0 z-50 flex justify-center pt-6">
+        <div className="flex items-center gap-1 px-2 py-1.5 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-lg">
+          {navItems.map((item) => (
+            <button
+              key={item.value}
+              onClick={() => handleNavigate(item.value)}
+              className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
+                activeTab === item.value
+                  ? "bg-foreground text-background"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="absolute inset-0 z-0">
         <div className="w-full h-full border-2 border-dashed border-muted-foreground/30 flex items-center justify-center bg-gradient-to-br from-muted/50 to-primary/10">
           <div className="text-center text-muted-foreground p-8 max-w-md">
@@ -164,55 +161,31 @@ export function Hero({ activeTab = "about" }: HeroProps) {
           animate="visible"
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          {/* Section Navigation */}
-          <NavbarButton
-            onClick={() => handleNavigate("about")}
-            variant="secondary"
-            isActive={activeTab === "about"}
-            ariaLabel="View About Me"
+          <button
+            onClick={handleCheckCV}
+            className="group inline-flex items-center justify-center gap-2 h-10 px-5 py-2 text-sm font-medium rounded-full transition-colors shadow-lg bg-foreground text-background hover:bg-foreground/90"
+            aria-label="Check my CV"
           >
-            About Me
-          </NavbarButton>
-
-          <NavbarButton
-            onClick={() => handleNavigate("experience")}
-            variant="secondary"
-            isActive={activeTab === "experience"}
-            ariaLabel="View Experience"
-          >
-            Experience
-          </NavbarButton>
-
-          <NavbarButton
-            onClick={() => handleNavigate("projects")}
-            variant="secondary"
-            isActive={activeTab === "projects"}
-            ariaLabel="View Projects"
-          >
-            Projects
-          </NavbarButton>
-
-          <NavbarButton
-            onClick={() => handleNavigate("achievements")}
-            variant="secondary"
-            isActive={activeTab === "achievements"}
-            ariaLabel="View Achievements"
-          >
-            Achievements
-          </NavbarButton>
-
-          <VerticalDivider />
-
-          <NavbarButton onClick={handleCheckCV} variant="primary" ariaLabel="Check my CV">
-            Check My CV
+            My Experiences
             <IoSparkles className="h-4 w-4 text-white" />
-          </NavbarButton>
+          </button>
 
-          <VerticalDivider />
+          <div className="w-px h-6 bg-border" />
 
           {socialItems.map(({ href, icon: Icon, label }) => (
             <SocialIcon key={label} href={href} icon={Icon} label={label} />
           ))}
+
+          <div className="w-px h-6 bg-border" />
+
+          <button
+            onClick={handleCheckCV}
+            className="group inline-flex items-center justify-center gap-2 h-10 px-5 py-2 text-sm font-medium rounded-full transition-colors shadow-lg border-2 border-input bg-background/80 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-accent"
+            aria-label="Check my CV"
+          >
+            <FiFileText className="h-4 w-4" />
+            Check My CV
+          </button>
         </motion.div>
       </div>
     </section>

@@ -85,7 +85,12 @@ export default function HomePage() {
         <Hero activeTab={activeTab} />
       </div>
       <section id="experience-section" className="scroll-mt-20">
-        <TabNav tabs={tabs} defaultValue={activeTab} />
+        <TabNav
+          tabs={tabs}
+          defaultValue={activeTab}
+          value={activeTab}
+          onValueChange={setActiveTab}
+        />
       </section>
       <div id="projects" className="sr-only" />
       <div id="achievements" className="sr-only" />

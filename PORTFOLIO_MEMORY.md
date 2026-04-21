@@ -1,7 +1,22 @@
 # Project Memory - Portfolio Development
 
 ## Last Updated
-2026-04-21
+2026-04-22
+
+## Documentation
+
+### AI-Optimized Docs
+- `docs/AI-BRAND-GUIDE.md` - Brand tokens, colors, typography, icons, motion, images
+- `docs/AI-CONTENT-MANIFEST.md` - File structure, data flow, component hierarchy, quirks
+- `docs/DATA-SCHEMA.md` - TypeScript interfaces, validation rules, known issues
+
+### Human-Readable Docs
+- `docs/HUMAN-BRAND-GUIDE.md` - Casual brand guide with visual examples
+- `docs/HUMAN-CONTENT-MANIFEST.md` - Step-by-step content update workflow
+- `docs/DESIGN-SYSTEM.md` - Design tokens, component patterns, animations
+
+### Task Manifest
+- `docs/TASK-MANIFEST.md` - Agent task assignments and execution plan
 
 ## Project Overview
 Personal portfolio website for **Nathanael Santoso** - Developer, Web3, AI, Yapper (content creator)
@@ -128,6 +143,15 @@ public/images/
 - [ ] **Real photos** - Need to upload to Cloudinary
 - [ ] **Real CV file** - Place `resume.pdf` in `public/cv/`
 
+### DOCUMENTATION
+- [x] `docs/AI-BRAND-GUIDE.md` - Brand tokens, colors, typography, icons, motion, images
+- [x] `docs/AI-CONTENT-MANIFEST.md` - File structure, data flow, component hierarchy, quirks
+- [x] `docs/DATA-SCHEMA.md` - TypeScript interfaces, validation rules, known issues
+- [x] `docs/HUMAN-BRAND-GUIDE.md` - Casual brand guide with visual examples
+- [x] `docs/HUMAN-CONTENT-MANIFEST.md` - Step-by-step content update workflow
+- [x] `docs/DESIGN-SYSTEM.md` - Design tokens, component patterns, animations
+- [x] `docs/TASK-MANIFEST.md` - Agent task assignments and execution plan
+
 ### BUGS
 1. `youtubeVideo` in Experience data never rendered
 2. `highlight` field in Experience/Projects/Achievements never displayed
@@ -197,6 +221,27 @@ public/images/
 5. Upload images and update data URLs
 
 **Demo URLs** currently in use (will break if Cloudinary changes demo account)
+
+---
+
+## Update Workflow
+
+When prompted to update portfolio content:
+
+1. **Read relevant docs:**
+   - Start with `docs/AI-CONTENT-MANIFEST.md` to understand file structure
+   - Check `docs/DATA-SCHEMA.md` for correct data structure
+   - Reference `docs/AI-BRAND-GUIDE.md` for design consistency
+
+2. **Identify files to modify:**
+   - Experiences → `lib/data/experiences.ts`
+   - Projects → `lib/data/projects.ts`
+   - Achievements → `lib/data/achievements.ts`
+   - Images → `public/images/` or Cloudinary
+
+3. **Make changes following KISS, DRY, Code Reusability principles**
+
+4. **Verify changes by running `npm run build`**
 
 ---
 
