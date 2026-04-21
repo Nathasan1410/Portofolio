@@ -4,8 +4,10 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Experience, FilterType } from '@/lib/types'
 import { ExperienceCard } from './ExperienceCard'
+import { ExperienceTimeline } from './ExperienceTimeline'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { FaTh, FaStream } from 'react-icons/fa'
 
 interface ExperienceGridProps {
   experiences: Experience[]
@@ -21,6 +23,7 @@ const filterOptions: { label: string; value: FilterType }[] = [
 
 export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGridProps) {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all')
+  const [viewMode, setViewMode] = useState<'cards' | 'timeline'>('cards')
 
   const filteredExperiences = useMemo(() => {
     if (activeFilter === 'all') return experiences
@@ -29,52 +32,89 @@ export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGr
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-2">
-        {filterOptions.map((option) => (
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          {filterOptions.map((option) => (
+            <Button
+              key={option.value}
+              variant={activeFilter === option.value ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setActiveFilter(option.value)}
+              className={cn(
+                'rounded-full text-xs font-medium px-4',
+                activeFilter === option.value && 'shadow-sm'
+              )}
+            >
+              {option.label}
+              {option.value !== 'all' && (
+                <span className="ml-1.5 opacity-70">
+                  ({experiences.filter((e) => e.type === option.value).length})
+                </span>
+              )}
+            </Button>
+          ))}
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-muted-foreground">View:</span>
           <Button
-            key={option.value}
-            variant={activeFilter === option.value ? 'default' : 'outline'}
+            variant={viewMode === 'cards' ? 'default' : 'outline'}
             size="sm"
-            onClick={() => setActiveFilter(option.value)}
-            className={cn(
-              'rounded-full text-xs font-medium px-4',
-              activeFilter === option.value && 'shadow-sm'
-            )}
+            onClick={() => setViewMode('cards')}
+            className="gap-1.5"
           >
-            {option.label}
-            {option.value !== 'all' && (
-              <span className="ml-1.5 opacity-70">
-                ({experiences.filter((e) => e.type === option.value).length})
-              </span>
-            )}
+            <FaTh className="h-3 w-3" /> Cards
           </Button>
-        ))}
+          <Button
+            variant={viewMode === 'timeline' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('timeline')}
+            className="gap-1.5"
+          >
+            <FaStream className="h-3 w-3" /> Timeline
+          </Button>
+        </div>
       </div>
 
       <AnimatePresence mode="wait">
         {filteredExperiences.length > 0 ? (
-          <motion.div
-            key={activeFilter}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {filteredExperiences.map((experience, index) => (
-              <motion.div
-                key={experience.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-              >
-                <ExperienceCard
-                  experience={experience}
-                  onClick={() => onSelectExperience(experience)}
-                />
-              </motion.div>
-            ))}
-          </motion.div>
+          viewMode === 'timeline' ? (
+            <motion.div
+              key={`${activeFilter}-timeline`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ExperienceTimeline
+                experiences={filteredExperiences}
+                onSelectExperience={onSelectExperience}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key={`${activeFilter}-cards`}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {filteredExperiences.map((experience, index) => (
+                <motion.div
+                  key={experience.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.05 }}
+                >
+                  <ExperienceCard
+                    experience={experience}
+                    onClick={() => onSelectExperience(experience)}
+                  />
+                </motion.div>
+              ))}
+            </motion.div>
+          )
         ) : (
           <motion.div
             initial={{ opacity: 0 }}

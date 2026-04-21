@@ -110,13 +110,23 @@ public/images/
 - [x] Framer Motion animations
 - [x] Cloudinary utility setup
 - [x] All icons converted to react-icons
+- [x] **Header social links** - YouTube, TikTok, Twitter/X, Instagram added
+- [x] **Work tab integrated** - Added to TabNav
+- [x] **CV Download fixed** - Now triggers actual file download
+- [x] **Tab order fixed** - Experience → Projects → Achievements → Work
+- [x] **Experience popup centering fixed** - Uses Radix flexbox centering
+- [x] **Experience popup now works** - Click handlers properly connected
+- [x] **Achievement popup now works** - Click handlers properly connected
+- [x] **Timeline view added** - Vertical timeline with connected nodes
+- [x] **View toggle added** - Cards/Timeline toggle in Experience grid
+- [x] **ExperienceCard enhanced** - Thumbnails, gradient placeholders, hover effects
+- [x] **AchievementCard enhanced** - Cover images, type badges, photo count
 
 ### NOT DONE ✗
-- [ ] **Header missing social links** - Only shows "Portfolio" text
-- [ ] **Work tab not integrated** - Exists at `/work` but not in TabNav
-- [ ] **CV Download button broken** - Just console.logs, no actual download
-- [ ] **Tab order wrong** - Should be: Experience, Projects, Achievements, Work
-- [ ] **Work filter missing** in ExperienceGrid
+- [ ] **Work tab content** - Currently placeholder "Work content coming soon"
+- [ ] **Real content** - Placeholder data needs actual experiences/projects/achievements
+- [ ] **Real photos** - Need to upload to Cloudinary
+- [ ] **Real CV file** - Place `resume.pdf` in `public/cv/`
 
 ### BUGS
 1. `youtubeVideo` in Experience data never rendered

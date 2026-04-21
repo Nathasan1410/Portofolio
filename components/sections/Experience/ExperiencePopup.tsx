@@ -67,7 +67,7 @@ export function ExperiencePopup({ experience, onClose }: ExperiencePopupProps) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm"
+                className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center"
               />
             </DialogPrimitive.Overlay>
 
@@ -81,9 +81,7 @@ export function ExperiencePopup({ experience, onClose }: ExperiencePopupProps) {
                 aria-modal="true"
                 aria-labelledby="experience-dialog-title"
                 className={cn(
-                  'fixed left-[50%] top-[50%] z-50',
-                  'w-full max-w-lg max-h-[85vh] overflow-y-auto',
-                  'translate-x-[-50%] translate-y-[-50%]',
+                  'fixed z-50 w-full max-w-lg max-h-[85vh] overflow-y-auto',
                   'bg-card rounded-xl border shadow-xl',
                   'p-6 pt-14',
                   'focus:outline-none'

@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FaAward, FaTrophy, FaStar } from 'react-icons/fa'
+import { FiImage } from 'react-icons/fi'
 import { Achievement, AchievementFilterType } from '@/lib/types'
 import { AchievementCard } from './AchievementCard'
 import { Button } from '@/components/ui/button'
