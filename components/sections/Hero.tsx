@@ -28,14 +28,9 @@ export function Hero() {
     }
   };
 
-  const handleDownloadCV = () => {
-    const cvPath = "/cv/resume.pdf";
-    const link = document.createElement("a");
-    link.href = cvPath;
-    link.download = "Nathanael_Santoso_CV.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleCheckCV = () => {
+    // TODO: Replace with actual PDF Drive URL
+    window.open('https://drive.google.com/file/d/YOUR_FILE_ID/view', '_blank');
   };
 
   return (
@@ -51,9 +46,9 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-6xl mx-auto">
+      <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-10 w-full max-w-5xl px-4">
         <motion.div
-          className="flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-white/70 dark:bg-black/60 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl"
+          className="mx-auto flex items-center gap-2 px-3 py-2.5 rounded-2xl bg-white/70 dark:bg-black/60 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
@@ -79,8 +74,8 @@ export function Hero() {
               whileHover={{ scale: 1.15, y: -4 }}
               transition={{ type: "spring", stiffness: 500, damping: 15 }}
             >
-              <div className="w-10 h-10 rounded-[12px] flex items-center justify-center bg-black dark:bg-white shadow-md overflow-hidden">
-                <Icon className="h-5 w-5 text-white dark:text-black" />
+              <div className="w-12 h-12 rounded-[14px] flex items-center justify-center bg-black dark:bg-white shadow-md overflow-hidden">
+                <Icon className="h-6 w-6 text-white dark:text-black" />
               </div>
               <motion.span
                 className="absolute -top-8 px-2 py-1 rounded-md bg-black/90 backdrop-blur text-[10px] font-medium text-white border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap"
@@ -95,12 +90,12 @@ export function Hero() {
           <div className="w-px h-6 bg-border" />
 
           <button
-            onClick={handleDownloadCV}
+            onClick={handleCheckCV}
             className="group inline-flex items-center justify-center gap-2 h-10 px-5 py-2 text-sm font-medium rounded-full border-2 border-input bg-background/80 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-lg"
-            aria-label="Download CV"
+            aria-label="Check my CV"
           >
             <FiDownload className="h-4 w-4" />
-            CV
+            Check My CV
           </button>
         </motion.div>
       </div>
