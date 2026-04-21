@@ -51,14 +51,15 @@ const TimelineCard = ({ experience }: { experience: Experience }) => {
   return (
     <div className="group flex flex-col md:flex-row w-full bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md relative transition-all duration-300">
 
-      {/* 16:9 Image Container with Weakened Gradient */}
+      {/* 16:9 Image Container with Bottom-to-Top Gradient */}
       <div className="relative w-full md:w-[30%] min-w-[200px] max-w-[320px] aspect-video shrink-0 bg-gray-100">
         <img
           src={imageUrl}
           className="object-cover w-full h-full opacity-90 transition-opacity group-hover:opacity-100"
           alt={experience.title}
         />
-        <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-transparent via-white/10 to-white pointer-events-none" />
+        {/* Bottom-to-top gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent pointer-events-none" />
       </div>
 
       {/* Text Content */}
@@ -73,8 +74,8 @@ const TimelineCard = ({ experience }: { experience: Experience }) => {
           {/* KPI with Neutral Subtle Badge -> Color pop on Hover */}
           {experience.kpi && (
             <div className="mt-2">
-              <span className={`inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-700 shadow-sm transition-colors duration-300 ${kpiHoverColors[experience.type]}`}>
-                <svg className={`w-3.5 h-3.5 text-gray-400 transition-all duration-300 group-hover:-translate-y-[1px] group-hover:translate-x-[1px] ${kpiIconHoverColors[experience.type]}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <span className={`inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-semibold shadow-sm transition-all duration-300 ${kpiHoverColors[experience.type]}`}>
+                <svg className={`w-3.5 h-3.5 transition-all duration-300 group-hover:-translate-y-[1px] ${kpiIconHoverColors[experience.type]}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
                 {experience.kpi}
