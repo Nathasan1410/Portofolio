@@ -1,33 +1,21 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
-import { FiLinkedin, FiGithub, FiTwitter, FiMail, FiExternalLink } from "react-icons/fi";
-import { FaMicrophone } from "react-icons/fa6";
+import { motion } from "framer-motion";
 import { aboutData } from "@/lib/data/about";
-import { cn } from "@/lib/utils";
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: [0.25, 0.46, 0.45, 0.94] as const,
-    },
-  },
-};
+import { containerVariants, itemVariants } from "./variants";
+import { SectionHeader } from "./SectionHeader";
+import { ExperienceItem } from "./ExperienceItem";
+import { TechStackGrid } from "./TechStackGrid";
+import {
+  GRID_LAYOUT,
+  COL_PHOTO,
+  COL_DESCRIPTION,
+  COL_STACK,
+  PHOTO_STICKY,
+  PHOTO_WRAPPER,
+  PHOTO_PLACEHOLDER,
+  SECTION_SPACING,
+} from "./constants";
 
 export function About() {
   return (
@@ -37,18 +25,17 @@ export function About() {
       initial="hidden"
       animate="visible"
     >
-      {/* 3-Column Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+      {/* Grid Layout */}
+      <div className={GRID_LAYOUT}>
 
-        {/* LEFT COLUMN - Photo (full height) */}
+        {/* LEFT COLUMN - Photo */}
         <motion.div
-          className="md:col-span-3 flex flex-col"
+          className={COL_PHOTO}
           variants={itemVariants}
         >
-          <div className="sticky top-8">
-            <div className="relative aspect-[3/4] w-full max-w-xs mx-auto">
-              {/* Photo Placeholder */}
-              <div className="w-full h-full border-2 border-dashed border-muted-foreground/30 rounded-2xl bg-gradient-to-br from-muted/50 to-primary/10 flex items-center justify-center overflow-hidden">
+          <div className={PHOTO_STICKY}>
+            <div className={PHOTO_WRAPPER}>
+              <div className={PHOTO_PLACEHOLDER}>
                 {aboutData.photo ? (
                   <img
                     src={aboutData.photo}
@@ -67,9 +54,9 @@ export function About() {
           </div>
         </motion.div>
 
-        {/* CENTER COLUMN - Description, Experience, Contact */}
+        {/* CENTER COLUMN - Description + Experience */}
         <motion.div
-          className="md:col-span-5 space-y-8"
+          className={`${COL_DESCRIPTION} ${SECTION_SPACING}`}
           variants={itemVariants}
         >
           {/* Description */}
@@ -82,129 +69,30 @@ export function About() {
             </p>
           </div>
 
-          {/* Experience Highlights */}
+          {/* Experience */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <span>EXPERIENCE</span>
-              <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
-            </h3>
+            <SectionHeader title="EXPERIENCE" />
             <div className="space-y-4">
               {aboutData.highlights.map((highlight, idx) => (
-                <div key={idx} className="group">
-                  <div className="flex items-start justify-between gap-3 mb-1">
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white group-hover:text-primary transition-colors">
-                        {highlight.title}
-                      </h4>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {highlight.company} • {highlight.date}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                    {highlight.description}
-                  </p>
-                </div>
+                <ExperienceItem
+                  key={idx}
+                  title={highlight.title}
+                  company={highlight.company}
+                  date={highlight.date}
+                  description={highlight.description}
+                />
               ))}
-            </div>
-          </div>
-
-          {/* Contact Section */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <span>CONTACT</span>
-              <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={aboutData.contact.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              >
-                <FiLinkedin className="h-5 w-5" />
-                <span className="text-sm font-medium">LinkedIn</span>
-              </a>
-              <a
-                href={aboutData.contact.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              >
-                <FiGithub className="h-5 w-5" />
-                <span className="text-sm font-medium">GitHub</span>
-              </a>
-              <a
-                href={aboutData.contact.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              >
-                <FiTwitter className="h-5 w-5" />
-                <span className="text-sm font-medium">X / Twitter</span>
-              </a>
-              <a
-                href={`mailto:${aboutData.contact.email}`}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              >
-                <FiMail className="h-5 w-5" />
-                <span className="text-sm font-medium">Email</span>
-              </a>
             </div>
           </div>
         </motion.div>
 
-        {/* RIGHT COLUMN - Main Stack & Public Speaking */}
+        {/* RIGHT COLUMN - Tech Stack */}
         <motion.div
-          className="md:col-span-4 space-y-8"
+          className={`${COL_STACK} ${SECTION_SPACING}`}
           variants={itemVariants}
         >
-          {/* Main Stack */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-              <span>MAIN STACK</span>
-              <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
-            </h3>
-            <div className="flex flex-wrap gap-2">
-              {aboutData.mainStack.map((tech, idx) => (
-                <span
-                  key={idx}
-                  className={cn(
-                    "inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
-                    "bg-gradient-to-r from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-700",
-                    "hover:from-primary/10 hover:to-primary/5 dark:hover:from-primary/20 dark:hover:to-primary/10",
-                    "border border-gray-200 dark:border-gray-600 hover:border-primary/30",
-                    "text-gray-700 dark:text-gray-300"
-                  )}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          {/* Public Speaking Badge */}
-          {aboutData.publicSpeaking && (
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-                <span>SPEAKING</span>
-                <div className="h-px flex-1 bg-gray-200 dark:bg-gray-700" />
-              </h3>
-              <div className="inline-flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/20 dark:to-orange-900/20 border border-amber-200 dark:border-amber-800">
-                <div className="p-2 rounded-lg bg-amber-500 dark:bg-amber-600 text-white">
-                  <FaMicrophone className="h-5 w-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-amber-900 dark:text-amber-100">
-                    Public Speaker
-                  </p>
-                  <p className="text-xs text-amber-700 dark:text-amber-300">
-                    Tech conferences & meetups
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+          <SectionHeader title="MAIN STACK" />
+          <TechStackGrid techs={aboutData.mainStack} />
         </motion.div>
 
       </div>

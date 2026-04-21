@@ -1,5 +1,3 @@
-import { socials } from './socials';
-
 export const aboutData = {
   // Your photo path - replace with your actual PNG file
   photo: '/about/profile.png', // Place your PNG in public/about/ folder
@@ -57,15 +55,4 @@ With expertise spanning full-stack development, smart contracts, and AI/ML integ
     'PostgreSQL',
     'WebSockets',
   ],
-
-  // Public speaking badge
-  publicSpeaking: true,
-
-  // Contact links (reused from socials)
-  contact: {
-    linkedin: socials.linkedin,
-    github: socials.github,
-    twitter: socials.twitter,
-    email: 'nathanaelsantoso@example.com', // Replace with your actual email
-  },
 };
