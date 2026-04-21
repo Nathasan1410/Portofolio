@@ -106,42 +106,12 @@ interface HeroProps {
 }
 
 export function Hero({ activeTab = "about" }: HeroProps) {
-  const handleNavigate = (section: string) => {
-    window.location.hash = section;
-  };
-
   const handleCheckCV = () => {
     window.open('https://drive.google.com/file/d/YOUR_FILE_ID/view', '_blank');
   };
 
-  const navItems = [
-    { value: "about", label: "About Me" },
-    { value: "experience", label: "Experience" },
-    { value: "projects", label: "Projects" },
-    { value: "achievements", label: "Achievements" },
-  ];
-
   return (
     <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden px-4" aria-label="Hero section">
-      {/* Top Navigation Bar */}
-      <div className="absolute top-0 left-0 right-0 z-50 flex justify-center pt-6">
-        <div className="flex items-center gap-1 px-2 py-1.5 rounded-full bg-white/80 dark:bg-black/70 backdrop-blur-xl border border-white/20 dark:border-white/10 shadow-lg">
-          {navItems.map((item) => (
-            <button
-              key={item.value}
-              onClick={() => handleNavigate(item.value)}
-              className={`px-4 py-2 text-sm font-medium rounded-full transition-all ${
-                activeTab === item.value
-                  ? "bg-foreground text-background"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-      </div>
-
       <div className="absolute inset-0 z-0">
         <div className="w-full h-full border-2 border-dashed border-muted-foreground/30 flex items-center justify-center bg-gradient-to-br from-muted/50 to-primary/10">
           <div className="text-center text-muted-foreground p-8 max-w-md">
