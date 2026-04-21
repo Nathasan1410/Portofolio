@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import { FiFileText, FiImage, FiLinkedin } from "react-icons/fi";
-import { FaYoutube, FaTiktok, FaGithub, FaInstagram, FaStar } from "react-icons/fa";
+import { FaYoutube, FaTiktok, FaGithub, FaInstagram } from "react-icons/fa";
+import { IoSparkles } from "react-icons/io5";
 import { socials } from "@/lib/data/socials";
 
 // ============================================================================
@@ -204,7 +205,7 @@ export function Hero({ activeTab = "about" }: HeroProps) {
 
           <NavbarButton onClick={handleCheckCV} variant="primary" ariaLabel="Check my CV">
             Check My CV
-            <FaStar className="h-4 w-4 text-white" />
+            <IoSparkles className="h-4 w-4 text-white" />
           </NavbarButton>
 
           <VerticalDivider />
