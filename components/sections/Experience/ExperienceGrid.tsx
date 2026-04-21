@@ -7,18 +7,18 @@ import { ExperienceCard } from './ExperienceCard'
 import { ExperienceTimeline } from './ExperienceTimeline'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { FaTh, FaStream } from 'react-icons/fa'
+import { FaTh, FaStream, FaRocket, FaCalendar, FaUsers } from 'react-icons/fa'
 
 interface ExperienceGridProps {
   experiences: Experience[]
   onSelectExperience: (experience: Experience) => void
 }
 
-const filterOptions: { label: string; value: FilterType }[] = [
-  { label: 'All', value: 'all' },
-  { label: 'Hackathons', value: 'hackathon' },
-  { label: 'Events', value: 'event' },
-  { label: 'Community', value: 'community' },
+const filterOptions: { label: string; value: FilterType; icon: typeof FaTh }[] = [
+  { label: 'All', value: 'all', icon: FaTh },
+  { label: 'Hackathons', value: 'hackathon', icon: FaRocket },
+  { label: 'Events', value: 'event', icon: FaCalendar },
+  { label: 'Community', value: 'community', icon: FaUsers },
 ]
 
 export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGridProps) {
@@ -36,20 +36,20 @@ export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGr
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">View:</span>
           <Button
-            variant={viewMode === 'cards' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setViewMode('cards')}
-            className="gap-1.5"
-          >
-            <FaTh className="h-3 w-3" /> Cards
-          </Button>
-          <Button
             variant={viewMode === 'timeline' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setViewMode('timeline')}
             className="gap-1.5"
           >
             <FaStream className="h-3 w-3" /> Timeline
+          </Button>
+          <Button
+            variant={viewMode === 'cards' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('cards')}
+            className="gap-1.5"
+          >
+            <FaTh className="h-3 w-3" /> Cards
           </Button>
         </div>
 
@@ -65,6 +65,7 @@ export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGr
                 activeFilter === option.value && 'shadow-sm'
               )}
             >
+              {option.icon && <option.icon className="mr-1.5 h-3 w-3" />}
               {option.label}
               {option.value !== 'all' && (
                 <span className="ml-1.5 opacity-70">

@@ -51,4 +51,38 @@ export const achievements: Achievement[] = [
       `${CDN}/samples/food/spices.jpg`,
     ],
   },
+  {
+    id: 'ach-5',
+    title: 'SamaBlockDev Hackathon Winner',
+    type: 'hackathon_win',
+    date: '2024-06-10',
+    issuer: 'SamaBlock',
+    highlight: 'First place in a 48-hour blockchain development competition building a decentralized application.',
+    content: 'Built a DeFi dashboard with wallet integration, swap functionality, and real-time analytics. Won against 50+ teams.',
+    keyAchievements: [
+      'First Place - 50+ competing teams',
+      'Built full-stack dApp in 48 hours',
+      'Integrated Web3 wallet and smart contracts',
+    ],
+    photos: [
+      `${CDN}/samples/people/kitchen-bar.jpg`,
+    ],
+  },
+  {
+    id: 'ach-6',
+    title: 'AI Innovators Hackathon - Best AI Integration',
+    type: 'hackathon_win',
+    date: '2024-04-20',
+    issuer: 'TechConf',
+    highlight: 'Awarded Best AI Integration for developing an AI-powered code review assistant.',
+    content: 'Created an AI tool that automates code review using LLMs, integrating with GitHub Actions for continuous feedback.',
+    keyAchievements: [
+      'Best AI Integration Award',
+      'Processed 1000+ lines of code during demo',
+      'Seamless GitHub Actions CI/CD pipeline',
+    ],
+    photos: [
+      `${CDN}/samples/landscapes/nature-mountains.jpg`,
+    ],
+  },
 ];

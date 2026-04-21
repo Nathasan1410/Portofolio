@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Hero } from "@/components/sections/Hero"
+import { SocialHighlightsBar } from "@/components/sections/SocialHighlightsBar"
 import { TabNav, TabItem } from "@/components/sections/TabNav"
 import { ProjectGrid } from "@/components/sections/Projects/ProjectGrid"
 import { ExperienceGrid } from "@/components/sections/Experience/ExperienceGrid"
@@ -58,6 +59,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen">
       <Hero />
+      <SocialHighlightsBar />
       <TabNav tabs={tabs} defaultValue="experience" />
       <ExperiencePopup
         experience={selectedExperience}

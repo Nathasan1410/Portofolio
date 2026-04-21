@@ -8,7 +8,7 @@ import ReactMarkdown from 'react-markdown'
 import { Experience } from '@/lib/types'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
-import { ExperiencePopupCarousel } from './ExperiencePopupCarousel'
+import { MediaCarousel } from '@/components/ui/MediaCarousel'
 import { cn } from '@/lib/utils'
 
 interface ExperiencePopupProps {
@@ -119,9 +119,9 @@ export function ExperiencePopup({ experience, onClose }: ExperiencePopupProps) {
                         )}
 
                         {experience.photos && experience.photos.length > 0 && (
-                          <ExperiencePopupCarousel
+                          <MediaCarousel
                             items={experience.photos}
-                            label="📸 Photos"
+                            aspectRatio="video"
                           />
                         )}
 
@@ -130,9 +130,9 @@ export function ExperiencePopup({ experience, onClose }: ExperiencePopupProps) {
                         )}
 
                         {experience.reels && experience.reels.length > 0 && (
-                          <ExperiencePopupCarousel
+                          <MediaCarousel
                             items={experience.reels}
-                            label="🎬 Reels & Vlogs"
+                            aspectRatio="video"
                           />
                         )}
                       </div>
@@ -153,7 +153,7 @@ export function ExperiencePopup({ experience, onClose }: ExperiencePopupProps) {
                       <div className="flex flex-wrap items-center gap-2">
                         <Badge
                           variant="outline"
-                          className={cn('text-xs font-medium', typeColors[experience.type])}
+                          className={cn('text-xs font-medium bg-white/20 backdrop-blur-sm', typeColors[experience.type])}
                         >
                           {typeLabels[experience.type]}
                         </Badge>
@@ -171,12 +171,12 @@ export function ExperiencePopup({ experience, onClose }: ExperiencePopupProps) {
                       </div>
                     )}
 
-                    <div className="flex flex-wrap items-center gap-1 text-sm">
+                    <div className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
                       <span className="font-medium text-foreground">
                         {experience.mainRole}
                       </span>
                       {experience.extraRoles && experience.extraRoles.length > 0 && (
-                        <span className="text-muted-foreground">
+                        <span>
                           {' - '}
                           {experience.extraRoles.join(' - ')}
                         </span>
@@ -185,14 +185,11 @@ export function ExperiencePopup({ experience, onClose }: ExperiencePopupProps) {
 
                     <Separator />
 
-{experience.content && (
-                    <>
+                    {experience.content && (
                       <div className="prose prose-sm dark:prose-invert max-w-none text-foreground/80">
                         <ReactMarkdown>{experience.content}</ReactMarkdown>
                       </div>
-                      <Separator />
-                    </>
-                  )}
+                    )}
                   </div>
                 </div>
               </motion.div>

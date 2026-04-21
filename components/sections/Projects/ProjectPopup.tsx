@@ -10,14 +10,7 @@ import { Project } from '@/lib/types'
 import { TechBadge } from './TechBadge'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { AspectRatio } from '@/components/ui/aspect-ratio'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel'
+import { MediaCarousel } from '@/components/ui/MediaCarousel'
 import { cn } from '@/lib/utils'
 
 interface ProjectPopupProps {
@@ -99,35 +92,20 @@ export function ProjectPopup({ project, open, onOpenChange }: ProjectPopupProps)
                   <div className="w-full md:w-1/3 flex-shrink-0">
                     <div className="space-y-4">
                       {youtubeVideoId ? (
-                        <div className="rounded-lg overflow-hidden">
-                          <AspectRatio ratio={16 / 9}>
-                            <iframe
-                              src={`https://www.youtube.com/embed/${youtubeVideoId}`}
-                              title={`${project.title} video`}
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                              className="h-full w-full"
-                            />
-                          </AspectRatio>
+                        <div className="aspect-video w-full rounded-lg overflow-hidden">
+                          <iframe
+                            src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+                            title={`${project.title} video`}
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="h-full w-full"
+                          />
                         </div>
                       ) : project.photos && project.photos.length > 0 ? (
-                        <Carousel>
-                          <CarouselContent>
-                            {project.photos.map((photo, index) => (
-                              <CarouselItem key={index}>
-                                <div className="rounded-lg overflow-hidden">
-                                  <img
-                                    src={photo}
-                                    alt={`${project.title} screenshot ${index + 1}`}
-                                    className="h-full w-full object-cover"
-                                  />
-                                </div>
-                              </CarouselItem>
-                            ))}
-                          </CarouselContent>
-                          <CarouselPrevious />
-                          <CarouselNext />
-                        </Carousel>
+                        <MediaCarousel
+                          items={project.photos}
+                          aspectRatio="video"
+                        />
                       ) : (
                         <div className="flex h-40 items-center justify-center rounded-lg bg-muted text-muted-foreground text-sm">
                           No media available
@@ -136,65 +114,70 @@ export function ProjectPopup({ project, open, onOpenChange }: ProjectPopupProps)
                     </div>
                   </div>
 
-                  <div className="flex-1 space-y-5">
+                  <div className="flex-1 min-w-0 space-y-4">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         <DialogPrimitive.Title className="text-xl font-semibold text-foreground pr-8">
                           {project.title}
                         </DialogPrimitive.Title>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          {project.techStack.map((tech) => (
-                            <TechBadge key={tech} name={tech} />
-                          ))}
-                        </div>
                       </div>
                     </div>
 
-                    <Separator />
+                    <p className="text-sm text-muted-foreground whitespace-normal overflow-wrap-break-word">
+                      {project.description}
+                    </p>
 
-{project.content && (
-                  <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground">
+                    <div className="flex flex-wrap gap-2">
+                      {project.techStack.map((tech) => (
+                        <TechBadge key={tech} name={tech} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
+                {project.content && (
+                  <div className="prose prose-sm dark:prose-invert max-w-none overflow-wrap-break-word text-muted-foreground">
                     <ReactMarkdown>{project.content}</ReactMarkdown>
                   </div>
                 )}
 
-                    <Separator />
+                <Separator />
 
-                    <div className="flex flex-wrap gap-3">
-                      {project.githubUrl ? (
-                        <a
-                          href={project.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex h-8 items-center justify-center gap-2 rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 px-2.5 bg-primary text-primary-foreground hover:bg-primary/80"
-                        >
-                          <FaGithub className="h-4 w-4" />
-                          View Code
-                        </a>
-                      ) : (
-                        <Button disabled variant="outline" className="gap-2">
-                          <FaGithub className="h-4 w-4" />
-                          View Code
-                        </Button>
-                      )}
-                      {project.demoUrl ? (
-                        <a
-                          href={project.demoUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex h-8 items-center justify-center gap-2 rounded-lg border-border bg-background hover:bg-muted hover:text-foreground text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 px-2.5"
-                        >
-                          <FiExternalLink className="h-4 w-4" />
-                          Live Demo
-                        </a>
-                      ) : (
-                        <Button disabled variant="secondary" className="gap-2">
-                          <FiExternalLink className="h-4 w-4" />
-                          Coming Soon
-                        </Button>
-                      )}
-                    </div>
-                  </div>
+                <div className="flex flex-wrap gap-3">
+                  {project.githubUrl ? (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-8 items-center justify-center gap-2 rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 px-2.5 bg-primary text-primary-foreground hover:bg-primary/80"
+                    >
+                      <FaGithub className="h-4 w-4" />
+                      View Code
+                    </a>
+                  ) : (
+                    <Button disabled variant="outline" className="gap-2">
+                      <FaGithub className="h-4 w-4" />
+                      View Code
+                    </Button>
+                  )}
+                  {project.demoUrl ? (
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex h-8 items-center justify-center gap-2 rounded-lg border-border bg-background hover:bg-muted hover:text-foreground text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 px-2.5"
+                    >
+                      <FiExternalLink className="h-4 w-4" />
+                      Live Demo
+                    </a>
+                  ) : (
+                    <Button disabled variant="secondary" className="gap-2">
+                      <FiExternalLink className="h-4 w-4" />
+                      Coming Soon
+                    </Button>
+                  )}
                 </div>
               </motion.div>
             </DialogPrimitive.Content>

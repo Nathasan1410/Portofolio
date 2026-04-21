@@ -1,38 +1,41 @@
-import { FaYoutube, FaTiktok, FaInstagram } from "react-icons/fa";
-import { socials } from "@/lib/data/socials";
+"use client";
 
-const XIcon = ({ size = 20 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-  </svg>
-);
-
-const socialLinks = [
-  { href: socials.youtube, icon: FaYoutube, label: "YouTube", hoverColor: "hover:text-red-500" },
-  { href: socials.tiktok, icon: FaTiktok, label: "TikTok", hoverColor: "hover:text-white" },
-  { href: socials.twitter, icon: XIcon, label: "X", hoverColor: "hover:text-white" },
-  { href: socials.instagram, icon: FaInstagram, label: "Instagram", hoverColor: "hover:text-pink-500" },
-];
+import { FiDownload, FiMail } from "react-icons/fi";
+import { Button } from "@/components/ui/button";
 
 export function Header() {
+  const handleDownloadCV = () => {
+    const cvPath = "/cv/resume.pdf";
+    const link = document.createElement("a");
+    link.href = cvPath;
+    link.download = "Nathanael_Santoso_CV.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
-    <header className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-sm">
       <div className="container flex h-14 items-center justify-between">
-        <span className="font-display font-bold text-lg">Portfolio</span>
-        <nav className="flex items-center gap-3">
-          {socialLinks.map(({ href, icon: Icon, label, hoverColor }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              className={`text-muted-foreground transition-colors duration-200 ${hoverColor}`}
-            >
-              <Icon size={20} />
-            </a>
-          ))}
-        </nav>
+        <span />
+        <span className="font-display font-bold text-lg">Nathan's Space</span>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            className="rounded-full gap-1.5"
+            onClick={handleDownloadCV}
+          >
+            <FiDownload className="h-4 w-4" />
+            Download CV
+          </Button>
+          <a href="mailto:nthnael.san1410@gmail.com">
+            <Button size="sm" className="rounded-full gap-1.5">
+              <FiMail className="h-4 w-4" />
+              Contact Me
+            </Button>
+          </a>
+        </div>
       </div>
     </header>
   );
