@@ -23,7 +23,7 @@ const socialLinkHoverVariants = {
   hover: { scale: 1.15, y: -4 },
 };
 
-const SOCIAL_ICON_TRANSITION = { duration: 0.2, ease: "easeInOut" };
+const SOCIAL_ICON_TRANSITION = { duration: 0.2, ease: "easeInOut" as const };
 
 // ============================================================================
 // Style Constants
