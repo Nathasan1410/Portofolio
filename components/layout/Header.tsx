@@ -30,10 +30,8 @@ export function Header() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
 
-    // Update hash for tab navigation (projects, achievements)
     if (["#projects", "#achievements"].includes(href)) {
       window.location.hash = href.slice(1);
-      // Scroll to the tab section
       const tabSection = document.querySelector("#experience-section");
       if (tabSection) {
         tabSection.scrollIntoView({ behavior: "smooth" });
@@ -42,7 +40,6 @@ export function Header() {
       return;
     }
 
-    // Home and Experience section - smooth scroll
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
@@ -58,26 +55,23 @@ export function Header() {
       }
     };
 
-    // Set initial active section
     handleHashChange();
-
-    // Listen for hash changes
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border/50 bg-background/95 backdrop-blur-md">
-      <div className="flex h-16 items-center justify-between px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
-        <span />
-        <nav className="hidden md:flex items-center gap-2">
+    <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-md">
+      <div className="flex h-[4rem] md:h-[4.5rem] items-center justify-between px-4 sm:px-6 md:px-8 max-w-[90vw] sm:max-w-[85vw] md:max-w-[1200px] lg:max-w-[1400px] mx-auto gap-4">
+        {/* Navigation - Centered, scalable */}
+        <nav className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-1 justify-center">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
               className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap",
+                "px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-medium transition-all whitespace-nowrap flex-shrink-0",
                 activeSection === link.href.substring(1)
                   ? "bg-primary/15 text-primary shadow-sm"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
@@ -87,31 +81,32 @@ export function Header() {
             </a>
           ))}
         </nav>
-        <button
-          className="md:hidden p-2 rounded-lg hover:bg-muted/80 transition-colors"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          <GiHamburgerMenu className="h-5 w-5" />
-        </button>
-        <div className="hidden md:flex items-center gap-3">
+
+        {/* Action Buttons - Right side, scalable */}
+        <div className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0">
           <Button
             variant="outline"
             size="sm"
-            className="rounded-full gap-1.5"
+            className="rounded-full gap-1.5 text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-3 sm:px-4"
             onClick={handleDownloadCV}
           >
-            <FiDownload className="h-4 w-4" />
-            Download CV
+            <FiDownload className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Download CV</span>
+            <span className="sm:hidden">CV</span>
           </Button>
           <a href="mailto:nthnael.san1410@gmail.com">
-            <Button size="sm" className="rounded-full gap-1.5">
-              <FiMail className="h-4 w-4" />
-              Contact Me
+            <Button
+              size="sm"
+              className="rounded-full gap-1.5 text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-3 sm:px-4"
+            >
+              <FiMail className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Contact Me</span>
+              <span className="sm:hidden">Contact</span>
             </Button>
           </a>
         </div>
       </div>
+
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-border/50 bg-background px-4 py-3 space-y-2">
