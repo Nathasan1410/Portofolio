@@ -38,30 +38,33 @@ export function AchievementGrid({ achievements, onSelectAchievement }: Achieveme
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center gap-2">
-        {filterOptions.map((option) => {
-          const Icon = option.icon
-          return (
-            <Button
-              key={option.value}
-              variant={activeFilter === option.value ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setActiveFilter(option.value)}
-              className={cn(
-                'rounded-full text-xs font-medium px-4',
-                activeFilter === option.value && 'shadow-sm'
-              )}
-            >
-              <Icon className="mr-1.5 h-3.5 w-3.5" />
-              {option.label}
-              {option.value !== 'all' && (
-                <span className="ml-1.5 opacity-70">
-                  ({counts[option.value]})
-                </span>
-              )}
-            </Button>
-          )
-        })}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex-1"></div>
+        <div className="flex flex-wrap items-center gap-2">
+          {filterOptions.map((option) => {
+            const Icon = option.icon
+            return (
+              <Button
+                key={option.value}
+                variant={activeFilter === option.value ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setActiveFilter(option.value)}
+                className={cn(
+                  'rounded-full text-xs font-medium px-4',
+                  activeFilter === option.value && 'shadow-sm'
+                )}
+              >
+                <Icon className="mr-1.5 h-3.5 w-3.5" />
+                {option.label}
+                {option.value !== 'all' && (
+                  <span className="ml-1.5 opacity-70">
+                    ({counts[option.value]})
+                  </span>
+                )}
+              </Button>
+            )
+          })}
+        </div>
       </div>
 
       <AnimatePresence mode="wait">

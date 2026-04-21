@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiDownload, FiArrowDown, FiImage } from "react-icons/fi";
+import { FiDownload, FiArrowDown, FiImage, FiLinkedin } from "react-icons/fi";
 import { FaYoutube, FaTiktok, FaGithub, FaDiscord, FaInstagram } from "react-icons/fa";
 import { socials } from "@/lib/data/socials";
 
@@ -40,7 +40,7 @@ export function Hero() {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4"
+      className="relative h-screen flex flex-col items-center justify-center overflow-hidden px-4"
       aria-label="Hero section"
     >
       {/* FULL BACKGROUND IMAGE PLACEHOLDER - Replace with your custom PNG */}
@@ -59,39 +59,13 @@ export function Hero() {
       </div>
 
       {/* Content Overlay - UI elements on top of background */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-6xl mx-auto">
-        {/* CTA Buttons */}
-        <motion.div
-          className="flex flex-wrap items-center justify-center gap-4 mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-        >
-          <button
-            onClick={handleViewWork}
-            className="group inline-flex items-center justify-center gap-2 h-12 px-8 py-3 text-base font-medium rounded-full bg-foreground text-background hover:bg-foreground/90 transition-colors shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            aria-label="View my work"
-          >
-            View My Work
-            <FiArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
-          </button>
-
-          <button
-            onClick={handleDownloadCV}
-            className="group inline-flex items-center justify-center gap-2 h-12 px-8 py-3 text-base font-medium rounded-full border-2 border-input bg-background/80 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            aria-label="Download CV"
-          >
-            <FiDownload className="h-4 w-4" />
-            CV Download
-          </button>
-        </motion.div>
-
-        {/* macOS Dock - Social Media Icons */}
+      <div className="relative z-10 flex flex-col items-center justify-center w-full max-w-6xl mx-auto flex-1">
+        {/* macOS Dock - Social Media Icons - Centered vertically */}
         <motion.div
           className="flex justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
         >
           {/* Dock Container - Frosted Glass */}
           <div className="flex items-center gap-1 px-2 py-2 rounded-2xl bg-white/70 dark:bg-black/60 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl">
@@ -130,21 +104,43 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Bottom Navbar - View My Work & CV Download */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
-        initial={{ opacity: 0, y: -10 }}
+        className="relative z-10 pb-8"
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.5 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
       >
-        <div className="flex flex-col items-center gap-2 text-muted-foreground">
-          <span className="text-xs uppercase tracking-widest">Scroll</span>
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+        {/* Navbar Container - Frosted Glass */}
+        <div className="flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/70 dark:bg-black/60 backdrop-blur-xl border border-black/10 dark:border-white/10 shadow-2xl">
+          <a
+            href={socials.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center justify-center gap-2 h-10 px-6 py-2 text-sm font-medium rounded-full border-2 border-input bg-background/80 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            aria-label="LinkedIn"
           >
-            <FiArrowDown className="h-4 w-4" />
-          </motion.div>
+            <FiLinkedin className="h-4 w-4" />
+            LinkedIn
+          </a>
+
+          <button
+            onClick={handleViewWork}
+            className="group inline-flex items-center justify-center gap-2 h-10 px-6 py-2 text-sm font-medium rounded-full bg-foreground text-background hover:bg-foreground/90 transition-colors shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            aria-label="View my work"
+          >
+            View My Work
+            <FiArrowDown className="h-4 w-4 transition-transform group-hover:translate-y-1" />
+          </button>
+
+          <button
+            onClick={handleDownloadCV}
+            className="group inline-flex items-center justify-center gap-2 h-10 px-6 py-2 text-sm font-medium rounded-full border-2 border-input bg-background/80 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            aria-label="Download CV"
+          >
+            <FiDownload className="h-4 w-4" />
+            CV Download
+          </button>
         </div>
       </motion.div>
     </section>

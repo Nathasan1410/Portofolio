@@ -5,4 +5,5 @@ export const socials = {
   instagram: "https://instagram.com/nathanaelsantoso",
   github: "https://github.com/Nathasan1410",
   discord: "https://discord.com/users/nathanaelsantoso",
+  linkedin: "https://linkedin.com/in/nathanaelsantoso",
 }
