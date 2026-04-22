@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Masonry } from 'antd'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiChevronDown, FiChevronUp, FiX, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
@@ -9,7 +10,7 @@ interface BentoGalleryProps {
   title?: string
 }
 
-const INITIAL_DISPLAY = 6
+const INITIAL_DISPLAY = 12
 
 // Fallback placeholder image
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1518843875459-f738682238a6?w=800&h=600&fit=crop'
@@ -58,6 +59,13 @@ export function BentoGallery({ images, title = 'Gallery' }: BentoGalleryProps) {
   const displayImages = isExpanded ? images : images.slice(0, INITIAL_DISPLAY)
   const hasMore = images.length > INITIAL_DISPLAY
 
+  // Prepare items for Masonry
+  const items = displayImages.map((img, idx) => ({
+    key: `gallery-${idx}`,
+    data: img,
+    index: idx,
+  }))
+
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % images.length)
   }
@@ -71,48 +79,36 @@ export function BentoGallery({ images, title = 'Gallery' }: BentoGalleryProps) {
     setIsCarouselOpen(true)
   }
 
-  // Bento grid pattern - larger first image
-  const getGridSpan = (index: number, isExpanded: boolean) => {
-    if (isExpanded) {
-      if (index === 0) return 'md:col-span-2 md:row-span-2'
-      if (index === 4) return 'md:col-span-2'
-      if (index === 7) return 'md:row-span-2'
-    }
-    if (index === 0) return 'md:col-span-2 md:row-span-2'
-    return ''
-  }
-
   return (
     <>
       <div className="mt-16 pt-12 border-t border-gray-100 font-sans">
         <h3 className="text-2xl font-bold text-gray-900 mb-8">{title}</h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[200px]">
-          <AnimatePresence mode="popLayout">
-            {displayImages.map((img, idx) => (
-              <motion.div
-                key={idx}
-                layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.3, delay: idx * 0.05 }}
-                onClick={() => openCarousel(idx)}
-                className={`relative rounded-2xl overflow-hidden group cursor-pointer ${getGridSpan(idx, isExpanded)}`}
-              >
-                <img
-                  src={img}
-                  alt={`${title} item ${idx + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = PLACEHOLDER_IMAGE
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
+        <Masonry
+          columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}
+          gutter={{ xs: 8, sm: 12, md: 16 }}
+          items={items}
+          itemRender={({ data, index }) => (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.03 }}
+              onClick={() => openCarousel(index)}
+              className="relative rounded-xl overflow-hidden group cursor-pointer mb-4"
+            >
+              <img
+                src={data}
+                alt={`${title} ${index + 1}`}
+                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                style={{ display: 'block' }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = PLACEHOLDER_IMAGE
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </motion.div>
+          )}
+        />
 
         {hasMore && (
           <motion.button
