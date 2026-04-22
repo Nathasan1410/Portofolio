@@ -52,19 +52,19 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/50 bg-background/95 backdrop-blur-md">
-      <div className="flex h-[4rem] md:h-[4.5rem] items-center px-4 sm:px-6 md:px-8 max-w-[90vw] sm:max-w-[85vw] md:max-w-[1200px] lg:max-w-[1400px] mx-auto">
+      <div className="flex h-14 sm:h-16 items-center px-3 sm:px-4 md:px-6 max-w-[95vw] sm:max-w-[90vw] md:max-w-[1200px] lg:max-w-[1400px] mx-auto">
         {/* Left spacer - matches right button width for symmetry */}
-        <div className="hidden md:flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0 w-[120px] sm:w-[140px]" />
+        <div className="hidden md:flex items-center gap-1 sm:gap-2 flex-shrink-0 w-[100px] sm:w-[120px] md:w-[140px]" />
 
         {/* Navigation - Truly centered */}
-        <nav className="flex items-center gap-1 sm:gap-2 md:gap-3 flex-1 justify-center">
+        <nav className="flex items-center gap-0.5 sm:gap-1 md:gap-2 flex-1 justify-center overflow-x-auto">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
               className={cn(
-                "px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm md:text-base font-medium transition-all whitespace-nowrap flex-shrink-0",
+                "px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 rounded-full text-[10px] xs:text-xs sm:text-sm md:text-base font-medium transition-all whitespace-nowrap flex-shrink-0",
                 activeSection === link.href.substring(1)
                   ? "bg-primary/15 text-primary shadow-sm"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/80"
@@ -76,13 +76,13 @@ export function Header() {
         </nav>
 
         {/* Action Buttons - Right side, scalable */}
-        <div className="hidden md:flex items-center gap-1 sm:gap-2 md:gap-3 flex-shrink-0 justify-end">
+        <div className="hidden md:flex items-center gap-1 sm:gap-2 flex-shrink-0 justify-end">
           <a href="mailto:nthnael.san1410@gmail.com">
             <Button
               size="sm"
-              className="rounded-full gap-1.5 text-xs sm:text-sm h-8 sm:h-9 md:h-10 px-3 sm:px-4"
+              className="rounded-full gap-1 text-[10px] xs:text-xs sm:text-sm h-7 sm:h-8 md:h-9 px-2 sm:px-3 md:px-4"
             >
-              <FiMail className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <FiMail className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
               <span className="hidden sm:inline">Contact Me</span>
               <span className="sm:hidden">Contact</span>
             </Button>
@@ -91,11 +91,11 @@ export function Header() {
 
         {/* Mobile hamburger - shown on small screens */}
         <button
-          className="md:hidden p-2 rounded-lg hover:bg-muted/80 transition-colors ml-auto"
+          className="md:hidden p-1.5 sm:p-2 rounded-lg hover:bg-muted/80 transition-colors ml-auto"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          <GiHamburgerMenu className="h-5 w-5" />
+          <GiHamburgerMenu className="h-4 w-4 sm:h-5 sm:w-5" />
         </button>
       </div>
 
