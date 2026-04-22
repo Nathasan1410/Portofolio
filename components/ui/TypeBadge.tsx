@@ -14,16 +14,16 @@ interface TypeBadgeProps {
 }
 
 const typeConfig: Record<AnyType, { bg: string; text: string; border: string; label: string; icon?: React.ComponentType<{ className?: string }> }> = {
-  hackathon: { bg: 'bg-cyan-500/10', text: 'text-cyan-600', border: 'border-cyan-500/20', label: 'Hackathon' },
-  event: { bg: 'bg-purple-500/10', text: 'text-purple-600', border: 'border-purple-500/20', label: 'Event' },
-  community: { bg: 'bg-emerald-500/10', text: 'text-emerald-600', border: 'border-emerald-500/20', label: 'Community' },
-  work: { bg: 'bg-blue-500/10', text: 'text-blue-600', border: 'border-blue-500/20', label: 'Work' },
-  web3: { bg: 'bg-indigo-500/10', text: 'text-indigo-600', border: 'border-indigo-500/20', label: 'Web3' },
-  ai: { bg: 'bg-violet-500/10', text: 'text-violet-600', border: 'border-violet-500/20', label: 'AI' },
-  general: { bg: 'bg-gray-500/10', text: 'text-gray-600', border: 'border-gray-500/20', label: 'General' },
-  certificate: { bg: 'bg-amber-500/10', text: 'text-amber-600', border: 'border-amber-500/20', label: 'Certificate', icon: FaAward },
-  hackathon_win: { bg: 'bg-purple-500/10', text: 'text-purple-600', border: 'border-purple-500/20', label: 'Hackathon Win', icon: FaTrophy },
-  recognition: { bg: 'bg-blue-500/10', text: 'text-blue-600', border: 'border-blue-500/20', label: 'Recognition', icon: FaStar },
+  hackathon: { bg: 'bg-white/20 backdrop-blur-sm', text: 'text-cyan-600', border: 'border-cyan-500/30', label: 'Hackathon' },
+  event: { bg: 'bg-white/20 backdrop-blur-sm', text: 'text-purple-600', border: 'border-purple-500/30', label: 'Event' },
+  community: { bg: 'bg-white/20 backdrop-blur-sm', text: 'text-emerald-600', border: 'border-emerald-500/30', label: 'Community' },
+  work: { bg: 'bg-white/20 backdrop-blur-sm', text: 'text-blue-600', border: 'border-blue-500/30', label: 'Work' },
+  web3: { bg: 'bg-white/20 backdrop-blur-sm', text: 'text-indigo-600', border: 'border-indigo-500/30', label: 'Web3' },
+  ai: { bg: 'bg-white/20 backdrop-blur-sm', text: 'text-violet-600', border: 'border-violet-500/30', label: 'AI' },
+  general: { bg: 'bg-white/20 backdrop-blur-sm', text: 'text-gray-600', border: 'border-gray-500/30', label: 'General' },
+  certificate: { bg: 'bg-white/20 backdrop-blur-sm', text: 'text-amber-600', border: 'border-amber-500/30', label: 'Certificate', icon: FaAward },
+  hackathon_win: { bg: 'bg-white/20 backdrop-blur-sm', text: 'text-purple-600', border: 'border-purple-500/30', label: 'Hackathon Win', icon: FaTrophy },
+  recognition: { bg: 'bg-white/20 backdrop-blur-sm', text: 'text-blue-600', border: 'border-blue-500/30', label: 'Recognition', icon: FaStar },
 }
 
 export function TypeBadge({ type, showIcon = false, className }: TypeBadgeProps) {
@@ -35,7 +35,6 @@ export function TypeBadge({ type, showIcon = false, className }: TypeBadgeProps)
       variant="outline"
       className={cn(
         'text-xs font-medium tracking-wider uppercase',
-        'backdrop-blur-sm bg-white/20',
         config.bg, config.text, config.border,
         className
       )}
