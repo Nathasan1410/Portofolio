@@ -4,6 +4,7 @@ import { FiX, FiAward, FiFileText } from 'react-icons/fi'
 import { FaCalendar, FaTrophy, FaStar, FaUsers } from 'react-icons/fa'
 import { Achievement } from '@/lib/types'
 import ReactMarkdown from 'react-markdown'
+import { BentoGallery } from '../Projects/BentoGallery'
 
 interface AchievementArticleModalProps {
   isOpen: boolean
@@ -127,20 +128,7 @@ export function AchievementArticleModal({ isOpen, onClose, achievement }: Achiev
             )}
 
             {achievement.photos && achievement.photos.length > 0 && (
-              <div className="mt-16 pt-12 border-t border-gray-100 font-sans">
-                <h3 className="text-2xl font-bold text-gray-900 mb-8">Gallery</h3>
-                <div className="columns-2 md:columns-3 gap-4 space-y-4">
-                  {achievement.photos.map((img, idx) => (
-                    <div key={idx} className="break-inside-avoid">
-                      <img
-                        src={img}
-                        alt={'Gallery item ' + (idx + 1)}
-                        className="w-full rounded-xl object-cover hover:opacity-90 transition-opacity cursor-pointer border border-gray-100 shadow-sm"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <BentoGallery images={achievement.photos} />
             )}
           </article>
         </div>

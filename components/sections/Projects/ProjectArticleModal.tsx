@@ -5,6 +5,7 @@ import { FiExternalLink } from 'react-icons/fi'
 import { FaGithub } from 'react-icons/fa'
 import { Project } from '@/lib/types'
 import ReactMarkdown from 'react-markdown'
+import { BentoGallery } from './BentoGallery'
 
 interface ProjectArticleModalProps {
   isOpen: boolean
@@ -97,36 +98,10 @@ export function ProjectArticleModal({ isOpen, onClose, project }: ProjectArticle
               )}
             </div>
             {(project.showGallery && project.galleryImages && project.galleryImages.length > 0) && (
-              <div className="mt-16 pt-12 border-t border-gray-100 font-sans">
-                <h3 className="text-2xl font-bold text-gray-900 mb-8">Gallery</h3>
-                <div className="columns-2 md:columns-3 gap-4 space-y-4">
-                  {project.galleryImages.map((img, idx) => (
-                    <div key={idx} className="break-inside-avoid">
-                      <img
-                        src={img}
-                        alt={'Gallery item ' + (idx + 1)}
-                        className="w-full rounded-xl object-cover hover:opacity-90 transition-opacity cursor-pointer border border-gray-100 shadow-sm"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <BentoGallery images={project.galleryImages} />
             )}
             {(!project.showGallery && project.photos && project.photos.length > 0) && (
-              <div className="mt-16 pt-12 border-t border-gray-100 font-sans">
-                <h3 className="text-2xl font-bold text-gray-900 mb-8">Screenshots</h3>
-                <div className="columns-2 md:columns-3 gap-4 space-y-4">
-                  {project.photos.map((img, idx) => (
-                    <div key={idx} className="break-inside-avoid">
-                      <img
-                        src={img}
-                        alt={'Screenshot ' + (idx + 1)}
-                        className="w-full rounded-xl object-cover hover:opacity-90 transition-opacity cursor-pointer border border-gray-100 shadow-sm"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <BentoGallery images={project.photos} title="Screenshots" />
             )}
           </article>
         </div>

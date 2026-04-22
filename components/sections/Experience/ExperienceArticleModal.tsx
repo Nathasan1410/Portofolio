@@ -4,6 +4,7 @@ import { FiX } from 'react-icons/fi'
 import { FaCalendar, FaAward, FaRocket, FaUsers, FaBriefcase } from 'react-icons/fa'
 import { Experience } from '@/lib/types'
 import ReactMarkdown from 'react-markdown'
+import { BentoGallery } from '../Projects/BentoGallery'
 
 interface ExperienceArticleModalProps {
   isOpen: boolean
@@ -114,20 +115,7 @@ export function ExperienceArticleModal({ isOpen, onClose, experience }: Experien
             )}
 
             {(experience.photos && experience.photos.length > 1) && (
-              <div className="mt-16 pt-12 border-t border-gray-100 font-sans">
-                <h3 className="text-2xl font-bold text-gray-900 mb-8">Gallery</h3>
-                <div className="columns-2 md:columns-3 gap-4 space-y-4">
-                  {experience.photos.slice(1).map((img, idx) => (
-                    <div key={idx} className="break-inside-avoid">
-                      <img
-                        src={img}
-                        alt={'Gallery item ' + (idx + 1)}
-                        className="w-full rounded-xl object-cover hover:opacity-90 transition-opacity cursor-pointer border border-gray-100 shadow-sm"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <BentoGallery images={experience.photos.slice(1)} />
             )}
 
             {experience.youtubeVideo && (
