@@ -43,6 +43,8 @@ export function ExperienceCard({ experience, onClick }: ExperienceCardProps) {
             fill
             className="object-cover"
           />
+          {/* Subtle bottom gradient to blend image into card content */}
+          <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-white via-white/5 to-transparent pointer-events-none" />
           <div className="absolute top-2 left-2">
             <TypeBadge type={experience.type} />
           </div>
