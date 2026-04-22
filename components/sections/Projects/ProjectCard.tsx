@@ -33,7 +33,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
           {/* Bottom-to-top gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/5 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white/10 via-white/[0.005] to-transparent pointer-events-none" />
           <div className="absolute top-2 left-2">
             <TypeBadge type={project.type} />
           </div>
@@ -41,7 +41,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
       ) : (
         <div className="relative aspect-video w-full overflow-hidden bg-gradient-to-br from-primary/5 to-primary/20">
           {/* Bottom-to-top gradient overlay for placeholder */}
-          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/10 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white/10 via-white/[0.01] to-transparent pointer-events-none" />
           <div className="absolute top-2 left-2">
             <TypeBadge type={project.type} />
           </div>
