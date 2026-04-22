@@ -5,6 +5,7 @@ import { FiFileText, FiImage, FiLinkedin } from "react-icons/fi";
 import { FaYoutube, FaTiktok, FaGithub, FaInstagram } from "react-icons/fa";
 import { IoSparkles } from "react-icons/io5";
 import { socials } from "@/lib/data/socials";
+import { AnimatedPill } from "@/components/ui/AnimatedPill";
 
 // ============================================================================
 // Animation Variants (Framer Motion best practice)
@@ -110,6 +111,14 @@ export function Hero({ activeTab = "about" }: HeroProps) {
     window.open('https://drive.google.com/file/d/YOUR_FILE_ID/view', '_blank');
   };
 
+  const handleExperiencesClick = () => {
+    window.location.hash = "experience";
+    const section = document.getElementById("experience-section");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden px-4" aria-label="Hero section">
       <div className="absolute inset-0 z-0">
@@ -131,14 +140,12 @@ export function Hero({ activeTab = "about" }: HeroProps) {
           animate="visible"
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <button
-            onClick={handleCheckCV}
-            className="group inline-flex items-center justify-center gap-1.5 sm:gap-2 h-8 sm:h-9 md:h-10 px-3 sm:px-4 md:px-5 text-[10px] xs:text-xs sm:text-sm font-medium rounded-full transition-colors shadow-lg bg-foreground text-background hover:bg-foreground/90 flex-shrink-0"
-            aria-label="Check my CV"
-          >
-            My Experiences
-            <IoSparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 md:h-4 md:w-4 text-white" />
-          </button>
+          <AnimatedPill
+            icon={<IoSparkles className="h-4 w-4" />}
+            label="My Experiences"
+            variant="primary"
+            onClick={handleExperiencesClick}
+          />
 
           <div className="w-px h-4 sm:h-5 md:h-6 bg-border flex-shrink-0" />
 
@@ -148,15 +155,12 @@ export function Hero({ activeTab = "about" }: HeroProps) {
 
           <div className="w-px h-4 sm:h-5 md:h-6 bg-border flex-shrink-0" />
 
-          <button
+          <AnimatedPill
+            icon={<FiFileText className="h-4 w-4" />}
+            label="Check My CV"
+            variant="secondary"
             onClick={handleCheckCV}
-            className="group inline-flex items-center justify-center gap-1.5 sm:gap-2 h-8 sm:h-9 md:h-10 px-3 sm:px-4 md:px-5 text-[10px] xs:text-xs sm:text-sm font-medium rounded-full transition-colors shadow-lg border-2 border-input bg-background/80 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-accent flex-shrink-0"
-            aria-label="Check my CV"
-          >
-            <FiFileText className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-[18px] md:w-[18px]" />
-            <span className="hidden xs:inline">Check My CV</span>
-            <span className="xs:hidden">CV</span>
-          </button>
+          />
         </motion.div>
       </div>
     </section>
