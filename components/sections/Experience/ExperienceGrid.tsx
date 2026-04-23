@@ -7,9 +7,9 @@ import { ExperienceCard } from './ExperienceCard'
 import { ExperienceTimeline } from './ExperienceTimeline'
 import { Button } from '@/components/ui/button'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { cn } from '@/lib/utils'
 import { FaTh, FaStream, FaRocket, FaCalendar, FaUsers } from 'react-icons/fa'
-import { FilterPillBar } from '@/lib/primitives'
+import { SlideToggle } from '@/components/ui/SlideToggle'
+import { SwipeableFilter } from '@/components/ui/SwipeableFilter'
 
 interface ExperienceGridProps {
   experiences: Experience[]
@@ -39,8 +39,9 @@ export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGr
 
   const filterOptions = useMemo(() => {
     return filterConfig.map((config) => ({
-      ...config,
-      icon: <config.icon className="h-3 w-3" />,
+      label: config.label,
+      value: config.value,
+      icon: <config.icon className="h-3.5 w-3.5" />,
       count: config.value === 'all'
         ? experiences.length
         : experiences.filter((e) => e.type === config.value).length,
@@ -49,31 +50,25 @@ export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGr
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-2 self-start rounded-full border border-border bg-background/90 p-1 shadow-sm">
-          <Button
-            variant={viewMode === 'timeline' ? 'default' : 'outline'}
+      <div className="flex items-center justify-between gap-4">
+        {/* Left: View Toggle (desktop only) */}
+        <div className="hidden sm:block">
+          <SlideToggle
+            options={[
+              { label: 'Timeline', value: 'timeline', icon: <FaStream /> },
+              { label: 'Cards', value: 'cards', icon: <FaTh /> }
+            ]}
+            value={viewMode}
+            onChange={(value) => setViewMode(value as 'cards' | 'timeline')}
             size="sm"
-            onClick={() => setViewMode('timeline')}
-            className="gap-1.5 rounded-full"
-          >
-            <FaStream className="h-3 w-3" /> Timeline
-          </Button>
-          <Button
-            variant={viewMode === 'cards' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setViewMode('cards')}
-            className="gap-1.5 rounded-full"
-          >
-            <FaTh className="h-3 w-3" /> Cards
-          </Button>
+          />
         </div>
 
-        <FilterPillBar
+        {/* Right: Filter */}
+        <SwipeableFilter
           options={filterOptions}
-          activeValue={activeFilter}
+          value={activeFilter}
           onChange={(value) => setActiveFilter(value as FilterType)}
-          isMobile={isMobile}
         />
       </div>
 

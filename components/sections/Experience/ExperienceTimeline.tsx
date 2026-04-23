@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion'
 import { Experience } from '@/lib/types'
+import { useIsMobile } from '@/hooks/use-mobile'
+import { cn } from '@/lib/utils'
 
 interface ExperienceTimelineProps {
   experiences: Experience[]
@@ -44,15 +46,21 @@ function TypeBadge({ type }: { type: Experience['type'] }) {
   )
 }
 
-const TimelineCard = ({ experience }: { experience: Experience }) => {
+const TimelineCard = ({ experience, isMobile }: { experience: Experience; isMobile: boolean }) => {
   // Fallback to heroImage, then photos, then placeholder
   const imageUrl = experience.images?.[0] || experience.heroImage || experience.photos?.[0] || '/placeholder-experience.jpg'
 
   return (
-    <div className="group flex flex-col md:flex-row w-full bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md relative transition-all duration-300">
+    <div className={cn(
+      "group flex w-full bg-white rounded-xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-md relative transition-all duration-300",
+      isMobile ? "flex-col" : "flex-col md:flex-row"
+    )}>
 
-      {/* 16:9 Image Container with Right-to-Left Gradient */}
-      <div className="relative w-full md:w-[30%] min-w-[200px] max-w-[320px] aspect-video shrink-0 bg-gray-100">
+      {/* Image Container - Full width on mobile, 30% on desktop */}
+      <div className={cn(
+        "relative shrink-0 bg-gray-100",
+        isMobile ? "w-full aspect-video" : "w-full md:w-[30%] md:min-w-[200px] md:max-w-[320px] aspect-video"
+      )}>
         <img
           src={imageUrl}
           className="object-cover w-full h-full opacity-90 transition-opacity group-hover:opacity-100"
@@ -62,15 +70,21 @@ const TimelineCard = ({ experience }: { experience: Experience }) => {
       </div>
 
       {/* Text Content */}
-      <div className="p-4 sm:p-6 flex-1 min-w-0 z-10 flex flex-col sm:flex-row justify-between items-start gap-4">
+      <div className={cn(
+        "flex-1 min-w-0 z-10 flex justify-between gap-4",
+        isMobile ? "p-3 flex-col items-start" : "p-4 sm:p-6 flex-col sm:flex-row items-start"
+      )}>
 
-        {/* LEFT SIDE: Title, KPI (Neutral Badge), Role */}
+        {/* LEFT SIDE: Title, KPI, Role */}
         <div className="flex-1 min-w-0 flex flex-col items-start pt-1">
-          <h3 className="font-bold text-gray-900 text-lg sm:text-xl leading-snug truncate w-full">
+          <h3 className={cn(
+            "font-bold text-gray-900 leading-snug truncate w-full",
+            isMobile ? "text-base" : "text-lg sm:text-xl"
+          )}>
             {experience.title}
           </h3>
 
-          {/* KPI with Neutral Subtle Badge -> Color pop on Hover */}
+          {/* KPI Badge */}
           {experience.kpi && (
             <div className="mt-2">
               <span className={`inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-gray-50 px-2.5 py-1 text-xs font-semibold text-gray-700 shadow-sm transition-colors duration-300 ${kpiHoverColors[experience.type]}`}>
@@ -82,19 +96,28 @@ const TimelineCard = ({ experience }: { experience: Experience }) => {
             </div>
           )}
 
-          {/* Role formatting: [Main Role Bold - Sub roles] */}
+          {/* Role */}
           <div className="text-sm text-gray-800 mt-2.5">
             <span className="font-bold">{experience.mainRole}</span>
-            {experience.extraRoles && experience.extraRoles.length > 0 && (
+            {!isMobile && experience.extraRoles && experience.extraRoles.length > 0 && (
               <span> - {experience.extraRoles.join(' - ')}</span>
+            )}
+            {isMobile && experience.extraRoles && experience.extraRoles.length > 0 && (
+              <span className="text-gray-500"> +{experience.extraRoles.length}</span>
             )}
           </div>
         </div>
 
-        {/* RIGHT SIDE: Label on Top, Date below */}
-        <div className="flex flex-col items-start sm:items-end text-left sm:text-right gap-1.5 shrink-0 sm:min-w-[120px]">
+        {/* RIGHT SIDE: Type Badge and Date */}
+        <div className={cn(
+          "flex shrink-0 gap-1.5",
+          isMobile ? "flex-row items-center justify-between w-full mt-2" : "flex-col items-start sm:items-end text-left sm:text-right sm:min-w-[120px]"
+        )}>
           <TypeBadge type={experience.type} />
-          <span className="text-xs text-gray-500 font-medium mt-0.5">
+          <span className={cn(
+            "text-xs text-gray-500 font-medium",
+            !isMobile && "mt-0.5"
+          )}>
             {experience.date}
           </span>
         </div>
@@ -105,34 +128,50 @@ const TimelineCard = ({ experience }: { experience: Experience }) => {
 }
 
 export function ExperienceTimeline({ experiences, onSelectExperience }: ExperienceTimelineProps) {
+  const isMobile = useIsMobile()
+
   return (
     <div className="relative py-4">
-      {/* Vertical Global Line */}
-      <div className="absolute left-[27px] top-4 bottom-4 w-[2px] bg-gray-200" />
+      {/* Vertical Timeline Line - Closer to edge on mobile */}
+      <div className={cn(
+        "absolute top-4 bottom-4 w-[2px] bg-gray-200",
+        isMobile ? "left-[11px]" : "left-[27px]"
+      )} />
 
-      <div className="space-y-8">
+      <div className="space-y-6 sm:space-y-8">
         {experiences.map((experience, index) => (
           <motion.div
             key={experience.id}
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: index * 0.1 }}
-            className="relative pl-16"
+            className={cn(
+              "relative",
+              isMobile ? "pl-8" : "pl-16"
+            )}
           >
-            {/* Timeline Dot */}
+            {/* Timeline Dot - Smaller on mobile */}
             <div
-              className={`absolute left-[18px] top-8 h-5 w-5 rounded-full border-4 border-white ${typeDotColors[experience.type]} shadow-sm z-10`}
+              className={cn(
+                "absolute rounded-full border-white shadow-sm z-10",
+                isMobile
+                  ? "left-[6px] top-6 h-3.5 w-3.5 border-2"
+                  : "left-[18px] top-8 h-5 w-5 border-4",
+                typeDotColors[experience.type]
+              )}
             />
 
-            {/* Horizontal Connection Line */}
-            <div className="absolute left-[38px] top-[41px] h-[2px] w-[26px] bg-gray-200" />
+            {/* Horizontal Connection Line - Hidden on mobile */}
+            {!isMobile && (
+              <div className="absolute left-[38px] top-[41px] h-[2px] w-[26px] bg-gray-200" />
+            )}
 
             {/* Card Wrapper */}
             <button
               onClick={() => onSelectExperience(experience)}
               className="w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-xl transition-transform duration-300 hover:-translate-y-1 block"
             >
-              <TimelineCard experience={experience} />
+              <TimelineCard experience={experience} isMobile={isMobile} />
             </button>
           </motion.div>
         ))}

@@ -6,8 +6,7 @@ import { FaAward, FaTrophy, FaStar } from 'react-icons/fa'
 import { Achievement, AchievementFilterType } from '@/lib/types'
 import { AchievementCard } from './AchievementCard'
 import { Button } from '@/components/ui/button'
-import { FilterPillBar } from '@/lib/primitives'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { SwipeableFilter } from '@/components/ui/SwipeableFilter'
 
 interface AchievementGridProps {
   achievements: Achievement[]
@@ -23,7 +22,6 @@ const filterConfig: { label: string; value: AchievementFilterType; icon: typeof 
 
 export function AchievementGrid({ achievements, onSelectAchievement }: AchievementGridProps) {
   const [activeFilter, setActiveFilter] = useState<AchievementFilterType>('all')
-  const isMobile = useIsMobile()
 
   const filterOptions = useMemo(() => {
     const getCount = (value: AchievementFilterType): number => {
@@ -31,8 +29,9 @@ export function AchievementGrid({ achievements, onSelectAchievement }: Achieveme
       return achievements.filter((a) => a.type === value).length
     }
     return filterConfig.map((config) => ({
-      ...config,
-      icon: <config.icon className="h-3 w-3" />,
+      label: config.label,
+      value: config.value,
+      icon: <config.icon className="h-3.5 w-3.5" />,
       count: getCount(config.value),
     }))
   }, [achievements])
@@ -44,13 +43,11 @@ export function AchievementGrid({ achievements, onSelectAchievement }: Achieveme
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex-1"></div>
-        <FilterPillBar
+      <div className="flex items-center justify-end">
+        <SwipeableFilter
           options={filterOptions}
-          activeValue={activeFilter}
+          value={activeFilter}
           onChange={(value) => setActiveFilter(value as AchievementFilterType)}
-          isMobile={isMobile}
         />
       </div>
 

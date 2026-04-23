@@ -74,15 +74,15 @@ export function FilterPillBar({
         return (
           <Button
             key={option.value}
-            variant={isActive ? 'default' : 'outline'}
+            variant="outline"
             size="sm"
             onClick={() => onChange(option.value)}
             className={cn(
               'rounded-full whitespace-nowrap flex-shrink-0',
-              'transition-all duration-200',
+              'transition-all duration-200 border',
               isActive
-                ? 'bg-slate-900 text-white hover:bg-slate-800'
-                : 'bg-white/50 hover:bg-white/80 border-slate-200'
+                ? 'bg-primary text-primary-foreground border-primary shadow-sm'
+                : 'bg-background hover:bg-muted border-input'
             )}
           >
             {option.icon && (

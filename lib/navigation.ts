@@ -32,7 +32,7 @@ export const sectionNavItems: SectionNavItemConfig[] = [
   {
     value: "experience",
     label: "Experience",
-    mobileLabel: "Exp",
+    mobileLabel: "Experience",
     icon: FiBriefcase,
     hash: "#experience",
   },
@@ -46,7 +46,7 @@ export const sectionNavItems: SectionNavItemConfig[] = [
   {
     value: "achievements",
     label: "Achievements",
-    mobileLabel: "Awards",
+    mobileLabel: "Achievements",
     icon: FiAward,
     hash: "#achievements",
   },
