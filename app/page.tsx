@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Hero } from "@/components/sections/Hero"
 import { TabNav, TabItem } from "@/components/sections/TabNav"
+import { Footer } from "@/components/layout/Footer"
 import { About } from "@/components/sections/About"
 import { ProjectGrid } from "@/components/sections/Projects/ProjectGrid"
 import { ExperienceGrid } from "@/components/sections/Experience/ExperienceGrid"
@@ -92,6 +93,7 @@ export default function HomePage() {
           onValueChange={setActiveTab}
         />
       </section>
+      <Footer />
       <div id="projects" className="sr-only" />
       <div id="achievements" className="sr-only" />
       <ExperienceArticleModal
