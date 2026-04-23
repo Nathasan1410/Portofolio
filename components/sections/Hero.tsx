@@ -1,49 +1,51 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FiFileText, FiImage, FiLinkedin } from "react-icons/fi";
-import { FaYoutube, FaTiktok, FaGithub, FaInstagram } from "react-icons/fa";
+import {
+  FiArrowRight,
+  FiFileText,
+} from "react-icons/fi";
 import { IoSparkles } from "react-icons/io5";
-import { socials } from "@/lib/data/socials";
 import { AnimatedPill } from "@/components/ui/AnimatedPill";
-
-// ============================================================================
-// Animation Variants (Framer Motion best practice)
-// ============================================================================
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { heroCopy, heroMedia, hasHeroMedia } from "@/lib/data/hero";
+import { socialLinks, socials, type SocialLinkId } from "@/lib/data/socials";
+import { EXPERIENCE_SECTION_ID, getSectionHash } from "@/lib/navigation";
+import { cn } from "@/lib/utils";
 
 const dockVariants = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
 };
 
-const socialButtonVariants = {
-  hidden: { opacity: 0, y: 4 },
-  visible: { opacity: 1, y: 0 },
-};
+const mobileActionClassName = cn(
+  "inline-flex h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-medium",
+  "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+);
 
-const socialLinkHoverVariants = {
-  hover: { scale: 1.15, y: -4 },
-};
+const dockLinkIds: SocialLinkId[] = [
+  "youtube",
+  "tiktok",
+  "twitter",
+  "instagram",
+  "github",
+  "linkedin",
+];
 
-const SOCIAL_ICON_TRANSITION = { duration: 0.2, ease: "easeInOut" as const };
+const desktopSocialItems = socialLinks.filter((item) => dockLinkIds.includes(item.id));
+const professionalLinks = socialLinks.filter((item) => item.group === "professional");
+const communityLinks = socialLinks.filter(
+  (item) => item.group === "social" && item.id !== "discord"
+);
 
-// ============================================================================
-// Style Constants - Scalable with clamp() for responsive sizing
-// ============================================================================
-
-const BUTTON_BASE_STYLES = "group inline-flex items-center justify-center gap-1.5 sm:gap-2 h-8 sm:h-9 md:h-10 px-3 sm:px-4 md:px-5 text-[10px] xs:text-xs sm:text-sm font-medium rounded-full transition-colors shadow-lg";
-
-const PRIMARY_BUTTON_STYLES = `${BUTTON_BASE_STYLES} bg-foreground text-background hover:bg-foreground/90`;
-
-const SECONDARY_BUTTON_STYLES = `${BUTTON_BASE_STYLES} border-2 border-input bg-background/80 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-accent`;
-
-const ICON_CONTAINER_STYLES = "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-[10px] sm:rounded-[12px] md:rounded-[14px] flex items-center justify-center bg-black dark:bg-white shadow-md overflow-hidden";
-
-const TOOLTIP_STYLES = "absolute -top-6 sm:-top-7 md:-top-8 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md bg-black/90 backdrop-blur text-[8px] xs:text-[9px] sm:text-[10px] font-medium text-white border border-white/10 opacity-0 transition-opacity whitespace-nowrap";
-
-// ============================================================================
-// Helper Components
-// ============================================================================
+const heroImageSrc = heroMedia.desktop.src || heroMedia.mobile.src;
 
 interface SocialIconProps {
   href: string;
@@ -58,83 +60,190 @@ function SocialIcon({ href, icon: Icon, label }: SocialIconProps) {
       target="_blank"
       rel="noopener noreferrer"
       className="group relative flex flex-col items-center"
-      variants={socialLinkHoverVariants}
-      initial="hidden"
-      whileHover="hover"
-      transition={SOCIAL_ICON_TRANSITION}
+      whileHover={{ scale: 1.15, y: -4 }}
+      transition={{ duration: 0.2, ease: "easeInOut" }}
+      aria-label={label}
     >
-      <div className={ICON_CONTAINER_STYLES}>
-        <Icon className="h-6 w-6 text-white dark:text-black" />
+      <div className="flex h-12 w-12 items-center justify-center rounded-[14px] bg-black text-white shadow-md">
+        <Icon className="h-6 w-6" />
       </div>
-      <motion.span
-        className={TOOLTIP_STYLES}
-        variants={socialButtonVariants}
-        initial="hidden"
-        whileHover="visible"
-        transition={{ duration: 0.15 }}
+      <span
+        className="absolute -top-8 whitespace-nowrap rounded-md border border-white/10 bg-black/90 px-2 py-1 text-[10px] font-medium text-white opacity-0 transition-opacity group-hover:opacity-100"
       >
         {label}
-      </motion.span>
+      </span>
     </motion.a>
   );
 }
 
-// ============================================================================
-// Data
-// ============================================================================
-
-const XIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-  </svg>
-);
-
-const socialItems = [
-  { href: socials.youtube, icon: FaYoutube, label: 'YouTube' },
-  { href: socials.tiktok, icon: FaTiktok, label: 'TikTok' },
-  { href: socials.twitter, icon: XIcon, label: 'X' },
-  { href: socials.instagram, icon: FaInstagram, label: 'Instagram' },
-  { href: socials.github, icon: FaGithub, label: 'GitHub' },
-  { href: socials.linkedin, icon: FiLinkedin, label: 'LinkedIn' },
-];
-
-// ============================================================================
-// Main Component
-// ============================================================================
-
-interface HeroProps {
-  activeTab?: string;
+function openUrl(url: string) {
+  window.open(url, "_blank", "noopener,noreferrer");
 }
 
-export function Hero({ activeTab = "about" }: HeroProps) {
+export function Hero() {
   const handleCheckCV = () => {
-    window.open('https://drive.google.com/file/d/YOUR_FILE_ID/view', '_blank');
+    openUrl(socials.resume);
   };
 
   const handleExperiencesClick = () => {
-    window.location.hash = "experience";
-    const section = document.getElementById("experience-section");
+    window.location.hash = getSectionHash("experience");
+    const section = document.getElementById(EXPERIENCE_SECTION_ID);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   return (
-    <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden px-4" aria-label="Hero section">
+    <section
+      className="relative min-h-[100svh] overflow-hidden px-4"
+      aria-label="Hero section"
+    >
       <div className="absolute inset-0 z-0">
-        <div className="w-full h-full border-2 border-dashed border-muted-foreground/30 flex items-center justify-center bg-gradient-to-br from-muted/50 to-primary/10">
-          <div className="text-center text-muted-foreground p-8 max-w-md">
-            <FiImage className="h-24 w-24 mx-auto mb-4 opacity-50" />
-            <p className="text-lg font-medium mb-2">Full Hero Background Image</p>
-            <p className="text-sm opacity-70">Recommended: 1920x1080px or 2560x1440px PNG</p>
-            <p className="text-xs opacity-50 mt-4">This will be the full background - dock & buttons overlay on top</p>
+        {hasHeroMedia ? (
+          <picture className="block h-full w-full">
+            {heroMedia.mobile.src && (
+              <source media="(max-width: 767px)" srcSet={heroMedia.mobile.src} />
+            )}
+            <img
+              src={heroImageSrc}
+              alt={heroMedia.alt}
+              className="h-full w-full object-cover"
+            />
+          </picture>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center border-2 border-dashed border-muted-foreground/30 bg-gradient-to-br from-muted/50 to-primary/10">
+            <div className="max-w-md px-8 text-center text-muted-foreground">
+              <svg
+                className="mx-auto mb-4 h-24 w-24 opacity-50"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                />
+              </svg>
+              <p className="mb-2 text-lg font-medium">{heroCopy.placeholderTitle}</p>
+              <p className="text-sm opacity-80">{heroCopy.placeholderBody}</p>
+              <div className="mt-4 space-y-1 text-xs opacity-70">
+                <p>Desktop: {heroMedia.desktop.recommendedSize}</p>
+                <p>Mobile crop: {heroMedia.mobile.recommendedSize}</p>
+                <p>{heroMedia.focalGuidance}</p>
+              </div>
+            </div>
           </div>
+        )}
+
+        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-white/5 to-white/75 md:to-white/25" />
+      </div>
+
+      <div className="absolute inset-x-4 bottom-[calc(env(safe-area-inset-bottom)+1rem)] z-10 md:hidden">
+        <div className="mx-auto max-w-sm rounded-[24px] border border-white/30 bg-white/82 p-3 shadow-2xl backdrop-blur-2xl ring-1 ring-black/5">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={handleExperiencesClick}
+              className={cn(
+                mobileActionClassName,
+                "bg-foreground text-background hover:bg-foreground/90"
+              )}
+            >
+              {heroCopy.primaryAction}
+            </button>
+            <button
+              type="button"
+              onClick={handleCheckCV}
+              className={cn(
+                mobileActionClassName,
+                "border border-input bg-background/90 text-foreground hover:bg-muted"
+              )}
+            >
+              {heroCopy.secondaryAction}
+            </button>
+          </div>
+
+          <Sheet>
+            <SheetTrigger asChild>
+              <button
+                type="button"
+                className={cn(
+                  mobileActionClassName,
+                  "mt-2 w-full border border-input bg-background/90 text-foreground hover:bg-muted"
+                )}
+              >
+                {heroCopy.connectAction}
+                <FiArrowRight className="h-4 w-4" />
+              </button>
+            </SheetTrigger>
+            <SheetContent
+              side="bottom"
+              className="rounded-t-[28px] border-white/20 bg-white/95 pb-[calc(env(safe-area-inset-bottom)+1.5rem)]"
+            >
+              <SheetHeader>
+                <SheetTitle>Connect</SheetTitle>
+                <SheetDescription>
+                  Keep the hero simple on mobile. External links live here instead of the fixed dock.
+                </SheetDescription>
+              </SheetHeader>
+
+              <div className="mt-6 space-y-6">
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Professional
+                  </p>
+                  <div className="grid grid-cols-1 gap-2">
+                    {professionalLinks.map((item) => (
+                      <a
+                        key={item.id}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between rounded-2xl border border-border bg-background px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                      >
+                        <span className="flex items-center gap-3">
+                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-muted text-foreground">
+                            <item.icon className="h-4 w-4" />
+                          </span>
+                          {item.label}
+                        </span>
+                        <FiArrowRight className="h-4 w-4 text-muted-foreground" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    Social
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {communityLinks.map((item) => (
+                      <a
+                        key={item.id}
+                        href={item.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-2xl border border-border bg-background px-3 py-3 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                      >
+                        <item.icon className="h-4 w-4" />
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
 
-      <div className="fixed bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-[95vw] sm:max-w-[90vw] overflow-x-auto">
+      <div className="fixed bottom-6 left-1/2 z-50 hidden -translate-x-1/2 md:block">
         <motion.div
-          className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 md:px-3 py-1.5 sm:py-2 md:py-2.5 rounded-xl sm:rounded-2xl bg-white/80 dark:bg-black/70 backdrop-blur-2xl border border-white/20 dark:border-white/10 shadow-2xl ring-1 ring-black/5 dark:ring-white/5 mx-auto w-fit"
+          className="mx-auto flex w-fit items-center gap-1.5 rounded-2xl border border-white/20 bg-white/80 px-3 py-2.5 shadow-2xl backdrop-blur-2xl ring-1 ring-black/5"
           variants={dockVariants}
           initial="hidden"
           animate="visible"
@@ -142,22 +251,27 @@ export function Hero({ activeTab = "about" }: HeroProps) {
         >
           <AnimatedPill
             icon={<IoSparkles className="h-4 w-4" />}
-            label="My Experiences"
+            label={heroCopy.primaryAction}
             variant="primary"
             onClick={handleExperiencesClick}
           />
 
-          <div className="w-px h-4 sm:h-5 md:h-6 bg-border flex-shrink-0" />
+          <div className="h-6 w-px shrink-0 bg-border" />
 
-          {socialItems.map(({ href, icon: Icon, label }) => (
-            <SocialIcon key={label} href={href} icon={Icon} label={label} />
+          {desktopSocialItems.map((item) => (
+            <SocialIcon
+              key={item.id}
+              href={item.href}
+              icon={item.icon}
+              label={item.label}
+            />
           ))}
 
-          <div className="w-px h-4 sm:h-5 md:h-6 bg-border flex-shrink-0" />
+          <div className="h-6 w-px shrink-0 bg-border" />
 
           <AnimatedPill
             icon={<FiFileText className="h-4 w-4" />}
-            label="Check My CV"
+            label={heroCopy.secondaryAction}
             variant="secondary"
             onClick={handleCheckCV}
           />

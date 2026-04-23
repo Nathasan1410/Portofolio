@@ -1,8 +1,9 @@
 "use client";
 
 import * as React from "react";
-import * as TabsPrimitive from "@radix-ui/react-tabs";
 import { motion } from "framer-motion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TAB_NAV_SECTION_ID } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 
 const containerVariants = {
@@ -10,27 +11,34 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.1,
+      staggerChildren: 0.08,
+      delayChildren: 0.08,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
-      ease: [0.25, 0.46, 0.45, 0.94],
+      duration: 0.4,
+      ease: "easeOut" as const,
     },
   },
 };
 
+const floatingBarClassName = cn(
+  "mx-auto w-fit max-w-full overflow-x-auto rounded-2xl border px-1.5 py-1.5",
+  "border-white/20 bg-white/80 shadow-lg backdrop-blur-xl",
+  "ring-1 ring-black/5"
+);
+
 export interface TabItem {
   value: string;
   label: string;
+  mobileLabel?: string;
   icon?: React.ReactNode;
   content: React.ReactNode;
 }
@@ -53,23 +61,24 @@ function TabNavContent({
   value: string;
 }) {
   return (
-    <TabsPrimitive.Content
+    <TabsContent
       value={value}
       className={cn(
-        "mt-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg",
+        "mt-0 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         isActive && "animate-in fade-in-50 duration-300"
       )}
       tabIndex={isActive ? 0 : -1}
     >
       <div className="min-h-[400px]">{children}</div>
-    </TabsPrimitive.Content>
+    </TabsContent>
   );
 }
 
 export function TabNav({ tabs, defaultValue, value, onValueChange, className }: TabNavProps) {
   const defaultTabValue = defaultValue || tabs[0]?.value;
+
   const scrollToTabSection = React.useCallback(() => {
-    const section = document.getElementById("tab-nav");
+    const section = document.getElementById(TAB_NAV_SECTION_ID);
     if (!section) {
       return;
     }
@@ -89,81 +98,71 @@ export function TabNav({ tabs, defaultValue, value, onValueChange, className }: 
   );
 
   return (
-    <>
-      {/* Fixed Persistent Capsule Navigation */}
-      <div className="fixed top-4 sm:top-5 md:top-6 left-1/2 z-50 max-w-[calc(100vw-1rem)] -translate-x-1/2 overflow-x-auto sm:max-w-[calc(100vw-2rem)]">
-        <div
-          className={cn(
-            "mx-auto w-max min-w-max flex items-center gap-0.5 sm:gap-1 px-1 sm:px-1.5 py-1 sm:py-1.5 rounded-xl sm:rounded-2xl",
-            "bg-white/80 dark:bg-black/70 backdrop-blur-xl",
-            "border border-white/20 dark:border-white/10 shadow-lg"
-          )}
+    <motion.section
+      id={TAB_NAV_SECTION_ID}
+      className={cn("scroll-mt-20 px-4 pb-16 pt-6 sm:px-6 lg:px-8", className)}
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      aria-label="Content tabs"
+    >
+      <div className="mx-auto max-w-5xl">
+        <Tabs
+          defaultValue={defaultTabValue}
+          value={value}
+          onValueChange={handleValueChange}
+          className="w-full"
         >
-          <TabsPrimitive.Root
-            defaultValue={defaultTabValue}
-            value={value}
-            onValueChange={handleValueChange}
-            className="w-max"
-          >
-            <TabsPrimitive.List
-              className={cn(
-                "flex flex-nowrap justify-center gap-0.5 sm:gap-1 md:gap-1.5"
-              )}
-              aria-label="Content categories"
-            >
-              {tabs.map((tab) => (
-                <TabsPrimitive.Trigger
-                  key={tab.value}
-                  value={tab.value}
-                  onClick={() => {
-                    if (value === tab.value) {
-                      scrollToTabSection();
-                    }
-                  }}
-                  className={cn(
-                    "group inline-flex items-center justify-center gap-1 sm:gap-1.5 md:gap-2",
-                    "px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 text-[10px] xs:text-xs sm:text-sm font-medium rounded-full",
-                    "text-muted-foreground",
-                    "transition-all duration-200",
-                    "hover:text-foreground hover:bg-muted/50",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                    "data-[state=active]:bg-foreground data-[state=active]:text-background data-[state=active]:shadow-sm",
-                    "whitespace-nowrap flex-shrink-0"
-                  )}
-                >
-                  <span>{tab.label}</span>
-                </TabsPrimitive.Trigger>
-              ))}
-            </TabsPrimitive.List>
-          </TabsPrimitive.Root>
-        </div>
-      </div>
+          <div className="sticky top-3 z-30 mb-6">
+            <div className={floatingBarClassName}>
+              <TabsList
+                className={cn(
+                  "h-auto w-max min-w-full gap-1 bg-transparent p-0 text-muted-foreground",
+                  "justify-start sm:justify-center"
+                )}
+                aria-label="Content categories"
+              >
+                {tabs.map((tab) => (
+                  <TabsTrigger
+                    key={tab.value}
+                    value={tab.value}
+                    onClick={() => {
+                      if (value === tab.value) {
+                        scrollToTabSection();
+                      }
+                    }}
+                    className={cn(
+                      "group inline-flex min-w-[84px] shrink-0 items-center justify-center gap-1.5 rounded-full px-3 py-2",
+                      "text-xs font-medium sm:min-w-0 sm:px-4 sm:text-sm",
+                      "data-[state=active]:bg-foreground data-[state=active]:text-background",
+                      "data-[state=active]:shadow-sm"
+                    )}
+                  >
+                    {tab.icon && (
+                      <span className="inline-flex h-4 w-4 items-center justify-center">
+                        {tab.icon}
+                      </span>
+                    )}
+                    <span className="sm:hidden">{tab.mobileLabel ?? tab.label}</span>
+                    <span className="hidden sm:inline">{tab.label}</span>
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+          </div>
 
-      {/* Tab Content */}
-      <motion.section
-        id="tab-nav"
-        className={cn("scroll-mt-24 pt-24 pb-16 px-4 sm:scroll-mt-28 sm:px-6 lg:px-8", className)}
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        aria-label="Content tabs"
-      >
-        <div className="max-w-5xl mx-auto">
-          <TabsPrimitive.Root
-            defaultValue={defaultTabValue}
-            value={value}
-            onValueChange={onValueChange}
-            className="w-full"
-          >
+          <motion.div variants={containerVariants}>
             {tabs.map((tab) => (
-              <TabNavContent key={tab.value} value={tab.value} isActive={value === tab.value}>
-                {tab.content}
-              </TabNavContent>
+              <motion.div key={tab.value} variants={itemVariants}>
+                <TabNavContent value={tab.value} isActive={value === tab.value}>
+                  {tab.content}
+                </TabNavContent>
+              </motion.div>
             ))}
-          </TabsPrimitive.Root>
-        </div>
-      </motion.section>
-    </>
+          </motion.div>
+        </Tabs>
+      </div>
+    </motion.section>
   );
 }

@@ -1,45 +1,61 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Experience, FilterType } from '@/lib/types'
 import { ExperienceCard } from './ExperienceCard'
 import { ExperienceTimeline } from './ExperienceTimeline'
 import { Button } from '@/components/ui/button'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
 import { FaTh, FaStream, FaRocket, FaCalendar, FaUsers } from 'react-icons/fa'
+import { FilterPillBar } from '@/lib/primitives'
 
 interface ExperienceGridProps {
   experiences: Experience[]
   onSelectExperience: (experience: Experience) => void
 }
 
-const filterOptions: { label: string; value: FilterType; icon: typeof FaTh }[] = [
-  { label: 'All', value: 'all', icon: FaTh },
-  { label: 'Hackathons', value: 'hackathon', icon: FaRocket },
-  { label: 'Events', value: 'event', icon: FaCalendar },
-  { label: 'Community', value: 'community', icon: FaUsers },
+const filterConfig = [
+  { label: 'All', value: 'all' as FilterType, icon: FaTh },
+  { label: 'Hackathons', value: 'hackathon' as FilterType, icon: FaRocket },
+  { label: 'Events', value: 'event' as FilterType, icon: FaCalendar },
+  { label: 'Community', value: 'community' as FilterType, icon: FaUsers },
 ]
 
 export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGridProps) {
+  const isMobile = useIsMobile()
   const [activeFilter, setActiveFilter] = useState<FilterType>('all')
   const [viewMode, setViewMode] = useState<'cards' | 'timeline'>('timeline')
+
+  useEffect(() => {
+    setViewMode(isMobile ? 'cards' : 'timeline')
+  }, [isMobile])
 
   const filteredExperiences = useMemo(() => {
     if (activeFilter === 'all') return experiences
     return experiences.filter((exp) => exp.type === activeFilter)
   }, [experiences, activeFilter])
 
+  const filterOptions = useMemo(() => {
+    return filterConfig.map((config) => ({
+      ...config,
+      icon: <config.icon className="h-3 w-3" />,
+      count: config.value === 'all'
+        ? experiences.length
+        : experiences.filter((e) => e.type === config.value).length,
+    }))
+  }, [experiences])
+
   return (
     <div className="space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-muted-foreground">View:</span>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2 self-start rounded-full border border-border bg-background/90 p-1 shadow-sm">
           <Button
             variant={viewMode === 'timeline' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setViewMode('timeline')}
-            className="gap-1.5"
+            className="gap-1.5 rounded-full"
           >
             <FaStream className="h-3 w-3" /> Timeline
           </Button>
@@ -47,34 +63,18 @@ export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGr
             variant={viewMode === 'cards' ? 'default' : 'outline'}
             size="sm"
             onClick={() => setViewMode('cards')}
-            className="gap-1.5"
+            className="gap-1.5 rounded-full"
           >
             <FaTh className="h-3 w-3" /> Cards
           </Button>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          {filterOptions.map((option) => (
-            <Button
-              key={option.value}
-              variant={activeFilter === option.value ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setActiveFilter(option.value)}
-              className={cn(
-                'rounded-full text-xs font-medium px-4',
-                activeFilter === option.value && 'shadow-sm'
-              )}
-            >
-              {option.icon && <option.icon className="mr-1.5 h-3 w-3" />}
-              {option.label}
-              {option.value !== 'all' && (
-                <span className="ml-1.5 opacity-70">
-                  ({experiences.filter((e) => e.type === option.value).length})
-                </span>
-              )}
-            </Button>
-          ))}
-        </div>
+        <FilterPillBar
+          options={filterOptions}
+          activeValue={activeFilter}
+          onChange={(value) => setActiveFilter(value as FilterType)}
+          isMobile={isMobile}
+        />
       </div>
 
       <AnimatePresence mode="wait">

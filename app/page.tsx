@@ -1,28 +1,36 @@
 "use client"
 
-import { useState, useEffect } from 'react'
-import { Hero } from "@/components/sections/Hero"
-import { TabNav, TabItem } from "@/components/sections/TabNav"
+import { useEffect, useState } from 'react'
 import { Footer } from "@/components/layout/Footer"
-import { About } from "@/components/sections/About"
-import { ProjectGrid } from "@/components/sections/Projects/ProjectGrid"
-import { ExperienceGrid } from "@/components/sections/Experience/ExperienceGrid"
-import { AchievementGrid } from "@/components/sections/Achievements/AchievementGrid"
-import { ExperienceArticleModal } from "@/components/sections/Experience/ExperienceArticleModal"
 import { AchievementArticleModal } from "@/components/sections/Achievements/AchievementArticleModal"
-import { projects } from "@/lib/data/projects"
-import { experiences } from "@/lib/data/experiences"
+import { AchievementGrid } from "@/components/sections/Achievements/AchievementGrid"
+import { About } from "@/components/sections/About"
+import { ExperienceArticleModal } from "@/components/sections/Experience/ExperienceArticleModal"
+import { ExperienceGrid } from "@/components/sections/Experience/ExperienceGrid"
+import { Hero } from "@/components/sections/Hero"
+import { ProjectGrid } from "@/components/sections/Projects/ProjectGrid"
+import { TabItem, TabNav } from "@/components/sections/TabNav"
 import { achievements } from "@/lib/data/achievements"
-import { Experience, Achievement } from "@/lib/types"
-import { FaUser, FaBriefcase, FaAward, FaFolderOpen, FaLaptopCode } from "react-icons/fa"
+import { experiences } from "@/lib/data/experiences"
+import { projects } from "@/lib/data/projects"
+import { Achievement, Experience } from "@/lib/types"
+import {
+  EXPERIENCE_SECTION_ID,
+  TAB_NAV_SECTION_ID,
+  getSectionFromHash,
+  getSectionHash,
+  isSectionId,
+  sectionNavItems,
+  type SectionId,
+} from "@/lib/navigation"
 
 export default function HomePage() {
   const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null)
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null)
-  const [activeTab, setActiveTab] = useState<string>("about")
+  const [activeTab, setActiveTab] = useState<SectionId>("about")
 
   const scrollToTabNav = () => {
-    const section = document.getElementById("tab-nav")
+    const section = document.getElementById(TAB_NAV_SECTION_ID)
     if (!section) {
       return
     }
@@ -34,78 +42,87 @@ export default function HomePage() {
   }
 
   const handleTabChange = (nextTab: string) => {
+    if (!isSectionId(nextTab)) {
+      return
+    }
+
     setActiveTab(nextTab)
-    window.history.replaceState(null, "", `#${nextTab}`)
+    window.history.replaceState(null, "", getSectionHash(nextTab))
   }
 
   useEffect(() => {
     const handleHashChange = () => {
-      const hash = window.location.hash.slice(1)
-      if (hash && ["about", "experience", "projects", "achievements", "work"].includes(hash)) {
-        setActiveTab(hash)
-        window.requestAnimationFrame(() => {
-          scrollToTabNav()
-        })
+      const nextTab = getSectionFromHash(window.location.hash)
+      if (!nextTab) {
+        return
       }
+
+      setActiveTab(nextTab)
+      window.requestAnimationFrame(() => {
+        scrollToTabNav()
+      })
     }
 
-    // Set initial tab from hash
     handleHashChange()
-
-    // Listen for hash changes
     window.addEventListener("hashchange", handleHashChange)
     return () => window.removeEventListener("hashchange", handleHashChange)
   }, [])
 
-  const tabs: TabItem[] = [
-    {
-      value: "about",
-      label: "About Me",
-      icon: <FaUser className="h-4 w-4" />,
-      content: <About />,
-    },
-    {
-      value: "experience",
-      label: "Experience",
-      icon: <FaBriefcase className="h-4 w-4" />,
-      content: (
-        <ExperienceGrid
-          experiences={experiences}
-          onSelectExperience={(exp) => setSelectedExperience(exp)}
-        />
-      ),
-    },
-    {
-      value: "projects",
-      label: "Projects",
-      icon: <FaFolderOpen className="h-4 w-4" />,
-      content: <ProjectGrid projects={projects} />,
-    },
-    {
-      value: "achievements",
-      label: "Achievements",
-      icon: <FaAward className="h-4 w-4" />,
-      content: (
-        <AchievementGrid
-          achievements={achievements}
-          onSelectAchievement={(ach) => setSelectedAchievement(ach)}
-        />
-      ),
-    },
-    {
-      value: "work",
-      label: "Work",
-      icon: <FaLaptopCode className="h-4 w-4" />,
-      content: <div>Work content coming soon</div>,
-    },
-  ]
+  const tabs: TabItem[] = sectionNavItems.map((item) => {
+    const Icon = item.icon
+
+    switch (item.value) {
+      case "about":
+        return {
+          value: item.value,
+          label: item.label,
+          mobileLabel: item.mobileLabel,
+          icon: <Icon className="h-4 w-4" />,
+          content: <About />,
+        }
+      case "experience":
+        return {
+          value: item.value,
+          label: item.label,
+          mobileLabel: item.mobileLabel,
+          icon: <Icon className="h-4 w-4" />,
+          content: (
+            <ExperienceGrid
+              experiences={experiences}
+              onSelectExperience={(experience) => setSelectedExperience(experience)}
+            />
+          ),
+        }
+      case "projects":
+        return {
+          value: item.value,
+          label: item.label,
+          mobileLabel: item.mobileLabel,
+          icon: <Icon className="h-4 w-4" />,
+          content: <ProjectGrid projects={projects} />,
+        }
+      case "achievements":
+        return {
+          value: item.value,
+          label: item.label,
+          mobileLabel: item.mobileLabel,
+          icon: <Icon className="h-4 w-4" />,
+          content: (
+            <AchievementGrid
+              achievements={achievements}
+              onSelectAchievement={(achievement) => setSelectedAchievement(achievement)}
+            />
+          ),
+        }
+    }
+  })
 
   return (
     <main className="min-h-screen">
       <div id="home">
-        <Hero activeTab={activeTab} />
+        <Hero />
       </div>
-      <section id="experience-section" className="scroll-mt-20">
+      <section id={EXPERIENCE_SECTION_ID} className="scroll-mt-20">
         <TabNav
           tabs={tabs}
           defaultValue={activeTab}
@@ -114,8 +131,6 @@ export default function HomePage() {
         />
       </section>
       <Footer />
-      <div id="projects" className="sr-only" />
-      <div id="achievements" className="sr-only" />
       <ExperienceArticleModal
         experience={selectedExperience}
         isOpen={!!selectedExperience}

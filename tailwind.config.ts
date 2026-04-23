@@ -11,6 +11,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: '475px',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -68,7 +71,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-jetbrains-mono)', 'monospace'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'monospace'],
         display: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
