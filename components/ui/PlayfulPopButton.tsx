@@ -59,23 +59,39 @@ export function PlayfulPopButton({
   const [hearts, setHearts] = useState<HeartParticle[]>([]);
   const [hasClicked, setHasClicked] = useState(false);
 
+  const incrementLocalFallback = () => {
+    try {
+      const raw = window.localStorage.getItem("loveCounterLocal");
+      const current = raw ? Number.parseInt(raw, 10) : 0;
+      const safeCurrent = Number.isFinite(current) ? current : 0;
+      const next = safeCurrent + 1;
+      window.localStorage.setItem("loveCounterLocal", String(next));
+      onCountChange?.(next);
+    } catch {
+      onCountChange?.(1);
+    }
+  };
+
   const incrementGlobalCount = async () => {
     try {
-      const response = await fetch(
-        "https://api.countapi.xyz/hit/tempegoreng-myid/portfolio-made-with-love",
-        { cache: "no-store" }
-      );
+      const response = await fetch("/api/love-counter", {
+        method: "POST",
+        cache: "no-store",
+      });
 
       if (!response.ok) {
+        incrementLocalFallback();
         return;
       }
 
-      const data = (await response.json()) as { value?: number };
-      if (typeof data.value === "number") {
-        onCountChange?.(data.value);
+      const data = (await response.json()) as { count?: number };
+      if (typeof data.count === "number") {
+        onCountChange?.(data.count);
+      } else {
+        incrementLocalFallback();
       }
     } catch {
-      // Keep interaction smooth if the counter API is unavailable.
+      incrementLocalFallback();
     }
   };
 
