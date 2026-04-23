@@ -47,10 +47,17 @@ type HeartStyle = CSSProperties & {
   "--rot": string;
 };
 
-export function PlayfulPopButton() {
+type PlayfulPopButtonProps = {
+  onCountChange?: (value: number) => void;
+  onFirstClick?: () => void;
+};
+
+export function PlayfulPopButton({
+  onCountChange,
+  onFirstClick,
+}: PlayfulPopButtonProps) {
   const [hearts, setHearts] = useState<HeartParticle[]>([]);
-  const [clickCount, setClickCount] = useState<number | null>(null);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [hasClicked, setHasClicked] = useState(false);
 
   const incrementGlobalCount = async () => {
     try {
@@ -65,7 +72,7 @@ export function PlayfulPopButton() {
 
       const data = (await response.json()) as { value?: number };
       if (typeof data.value === "number") {
-        setClickCount(data.value);
+        onCountChange?.(data.value);
       }
     } catch {
       // Keep interaction smooth if the counter API is unavailable.
@@ -73,7 +80,10 @@ export function PlayfulPopButton() {
   };
 
   const handleClick = () => {
-    setHasInteracted(true);
+    if (!hasClicked) {
+      setHasClicked(true);
+      onFirstClick?.();
+    }
     void incrementGlobalCount();
 
     const randomTx = Math.random() * 90 - 45;
@@ -146,12 +156,6 @@ export function PlayfulPopButton() {
           &lt;3
         </span>
       </button>
-
-      {hasInteracted && (
-        <span className="ml-2 text-inherit text-muted-foreground/70">
-          {clickCount === null ? "..." : `${clickCount} taps`}
-        </span>
-      )}
     </span>
   );
 }
