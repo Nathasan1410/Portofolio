@@ -50,11 +50,13 @@ type HeartStyle = CSSProperties & {
 type PlayfulPopButtonProps = {
   onCountChange?: (value: number) => void;
   onFirstClick?: () => void;
+  onTap?: () => void;
 };
 
 export function PlayfulPopButton({
   onCountChange,
   onFirstClick,
+  onTap,
 }: PlayfulPopButtonProps) {
   const [hearts, setHearts] = useState<HeartParticle[]>([]);
   const [hasClicked, setHasClicked] = useState(false);
@@ -100,6 +102,7 @@ export function PlayfulPopButton({
       setHasClicked(true);
       onFirstClick?.();
     }
+    onTap?.();
     void incrementGlobalCount();
 
     const randomTx = Math.random() * 90 - 45;

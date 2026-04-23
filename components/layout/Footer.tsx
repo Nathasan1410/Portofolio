@@ -7,6 +7,15 @@ export function Footer() {
   const [hasInteracted, setHasInteracted] = useState(false);
   const [clickCount, setClickCount] = useState<number | null>(null);
 
+  const handleTap = () => {
+    setHasInteracted(true);
+    setClickCount((prev) => (prev === null ? 1 : prev + 1));
+  };
+
+  const handleCountSync = (value: number) => {
+    setClickCount((prev) => (prev === null ? value : Math.max(prev, value)));
+  };
+
   return (
     <footer className="border-t border-black/5 px-4 pb-28 pt-10 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
@@ -17,7 +26,8 @@ export function Footer() {
           </span>
           <PlayfulPopButton
             onFirstClick={() => setHasInteracted(true)}
-            onCountChange={setClickCount}
+            onTap={handleTap}
+            onCountChange={handleCountSync}
           />
         </p>
         {hasInteracted && (
