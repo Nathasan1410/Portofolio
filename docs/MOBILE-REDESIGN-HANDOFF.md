@@ -73,12 +73,23 @@ Phase 1 is implemented.
    - Create reusable `ConnectSheet` / `SocialStrip` primitives if needed
    - Decide whether footer should carry a secondary social strip
 
-### Phase 3
+### Phase 3 (Completed)
 
-1. Card consistency across Projects / Achievements / Experience
-2. Docs cleanup so `Header` is no longer treated as active nav
-3. Final visual QA across real mobile breakpoints
-4. Re-run production build after the `.next` lock is cleared
+1. **Card consistency across Projects / Achievements / Experience**
+   - Created shared `ContentCard` component in `components/ui/ContentCard.tsx`
+   - Refactored `ProjectCard` and `AchievementCard` to use `ContentCard`
+   - All cards now have consistent mobile density (p-3 mobile, p-5 desktop)
+   - All cards use `aspect-[4/3]` on mobile, `aspect-video` on desktop
+   - All cards use `contentTypeTheme` for gradient fallbacks
+
+2. **Filter consistency**
+   - `AchievementGrid` now uses shared `FilterPillBar` from `lib/primitives`
+   - `ProjectGrid` now uses shared `FilterPillBar`
+   - All grids have consistent filter styling and mobile behavior
+
+3. **Docs cleanup**
+   - Updated `AI-CONTENT-MANIFEST.md` to mark Header.tsx as unused
+   - Added ContentCard, FilterPillBar, SocialStrip to shared components table
 
 ## Constraints
 

@@ -1,11 +1,11 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { FaAward, FaTrophy, FaStar } from 'react-icons/fa'
+import { FaAward, FaTrophy } from 'react-icons/fa'
 import { FiImage } from 'react-icons/fi'
 import { Achievement } from '@/lib/types'
-import { TypeBadge } from '@/components/ui/TypeBadge'
-import { cn } from '@/lib/utils'
+import { ContentCard } from '@/components/ui/ContentCard'
+import { useIsMobile } from '@/hooks/use-mobile'
+import { contentTypeTheme, ContentType } from '@/lib/primitives'
 
 interface AchievementCardProps {
   achievement: Achievement
@@ -15,106 +15,67 @@ interface AchievementCardProps {
 const celebratoryTypes = ['certificate', 'hackathon_win']
 
 export function AchievementCard({ achievement, onClick }: AchievementCardProps) {
+  const isMobile = useIsMobile()
   const isCelebratory = celebratoryTypes.includes(achievement.type)
 
-  const getImageSource = () => {
+  const getImageSource = (): string | undefined => {
     if (achievement.type === 'certificate' && achievement.certificateImage) {
       return achievement.certificateImage
     }
     if (achievement.photos && achievement.photos.length > 0) {
       return achievement.photos[0]
     }
-    return null
+    return undefined
   }
 
   const imageSource = getImageSource()
 
-  const getGradientBg = () => {
-    switch (achievement.type) {
-      case 'certificate':
-        return 'bg-gradient-to-br from-amber-500/20 to-orange-500/20'
-      case 'hackathon_win':
-        return 'bg-gradient-to-br from-purple-500/20 to-pink-500/20'
-      case 'recognition':
-        return 'bg-gradient-to-br from-blue-500/20 to-cyan-500/20'
-      default:
-        return 'bg-gradient-to-br from-gray-500/20 to-gray-600/20'
-    }
-  }
+  // Get theme for fallback gradient when no image
+  const theme = contentTypeTheme[achievement.type as ContentType]
 
   return (
-    <motion.button
-      onClick={onClick}
-      whileHover={{ y: -4, scale: 1.01 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ duration: 0.2 }}
-      className={cn(
-        'group relative w-full rounded-xl border bg-card text-left overflow-hidden',
-        'shadow-sm hover:shadow-lg',
-        'transition-all duration-200',
-        isCelebratory && 'hover:border-amber-500/30 dark:hover:border-amber-500/40',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2'
-      )}
-    >
+    <div className="relative group">
+      {/* Celebratory corner icons - only on hover */}
       {isCelebratory && (
-        <div className="absolute -right-2 -top-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
-          {achievement.type === 'certificate' && <FaAward className="h-5 w-5 text-amber-500" />}
-          {achievement.type === 'hackathon_win' && <FaTrophy className="h-5 w-5 text-purple-500" />}
+        <div className="absolute -right-1 -top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 pointer-events-none">
+          {achievement.type === 'certificate' && (
+            <FaAward className="h-5 w-5 text-amber-500" />
+          )}
+          {achievement.type === 'hackathon_win' && (
+            <FaTrophy className="h-5 w-5 text-purple-500" />
+          )}
         </div>
       )}
 
-      <div className="relative aspect-video w-full overflow-hidden">
-        {imageSource ? (
-          <>
-            <img
-              src={imageSource}
-              alt={achievement.title}
-              className="h-full w-full object-cover"
-            />
-            {/* Subtle bottom gradient to blend image into card content */}
-            <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-white via-white/5 to-transparent pointer-events-none" />
-          </>
-        ) : (
-          <div className={cn('flex h-full w-full items-center justify-center', getGradientBg())}>
-            {achievement.type === 'certificate' && <FaAward className="h-10 w-10 text-amber-500/40" />}
-            {achievement.type === 'hackathon_win' && <FaTrophy className="h-10 w-10 text-purple-500/40" />}
-            {achievement.type === 'recognition' && <FaStar className="h-10 w-10 text-blue-500/40" />}
-          </div>
-        )}
-
-        <div className="absolute top-2 left-2">
-          <TypeBadge type={achievement.type} showIcon />
-        </div>
-      </div>
-
-      <div className="p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-foreground truncate pr-6">
-              {achievement.title}
-            </h3>
-            <div className="mt-2 flex flex-wrap items-center gap-2">
-              <span className="text-xs text-muted-foreground">
-                {achievement.date}
-              </span>
+      <ContentCard
+        title={achievement.title}
+        highlight={achievement.issuer}
+        type={achievement.type as ContentType}
+        media={{
+          src: imageSource,
+          alt: achievement.title,
+        }}
+        footer={
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-muted-foreground">
+              {achievement.date}
+            </span>
+            <div className="flex items-center gap-2">
               {achievement.photos && achievement.photos.length > 0 && (
                 <div className="flex items-center gap-1 text-xs text-muted-foreground">
                   <FiImage className="h-3 w-3" />
                   {achievement.photos.length}
                 </div>
               )}
+              <span className="text-xs text-muted-foreground">
+                Issued by {achievement.issuer}
+              </span>
             </div>
           </div>
-        </div>
-
-        <div className="mt-3">
-          <span className="text-sm text-muted-foreground">
-            Issued by {achievement.issuer}
-          </span>
-        </div>
-      </div>
-
-      <div className="absolute inset-0 rounded-xl border border-transparent group-hover:border-amber-500/20 dark:group-hover:border-amber-500/30 transition-colors duration-200 pointer-events-none" />
-    </motion.button>
+        }
+        isMobile={isMobile}
+        onClick={onClick}
+      />
+    </div>
   )
 }

@@ -25,7 +25,7 @@ portfolio/
 │
 ├── components/
 │   ├── layout/                   # Layout components
-│   │   ├── Header.tsx
+│   │   ├── Header.tsx            # ⚠️ DEFINED BUT NOT USED (deprecated, TabNav is active nav)
 │   │   └── Footer.tsx
 │   │
 │   ├── sections/                 # Main page sections
@@ -218,7 +218,9 @@ app/page.tsx
 | `TypeBadge` | `components/ui/TypeBadge.tsx` | Experience type indicator |
 | `FullScreenDialog` | `components/ui/FullScreenDialog.tsx` | Radix Dialog wrapper |
 | `MediaCarousel` | `components/ui/MediaCarousel.tsx` | Image/video carousel |
-| `FilterBar` | Inline in ExperienceGrid | Filter buttons |
+| `ContentCard` | `components/ui/ContentCard.tsx` | Shared card shell (Experience, Project, Achievement) |
+| `FilterPillBar` | `lib/primitives.tsx` | Reusable filter bar with pills |
+| `SocialStrip` | `components/ui/SocialStrip.tsx` | Reusable social links strip |
 
 ---
 

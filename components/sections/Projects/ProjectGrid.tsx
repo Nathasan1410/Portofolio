@@ -5,7 +5,8 @@ import { motion } from 'framer-motion'
 import { Project } from '@/lib/types'
 import { ProjectCard } from './ProjectCard'
 import { ProjectArticleModal } from './ProjectArticleModal'
-import { Button } from '@/components/ui/button'
+import { FilterPillBar } from '@/lib/primitives'
+import { useIsMobile } from '@/hooks/use-mobile'
 
 interface ProjectGridProps {
   projects: Project[]
@@ -21,11 +22,24 @@ export function ProjectGrid({
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
   const [popupOpen, setPopupOpen] = useState(false)
   const [activeFilter, setActiveFilter] = useState(defaultFilter)
+  const isMobile = useIsMobile()
 
-  const filters = useMemo(() => {
-    if (!filterOptions) return ['all']
-    return ['all', ...filterOptions]
+  const filterConfig = useMemo(() => {
+    const baseFilters = ['all', ...(filterOptions || [])]
+    return baseFilters.map(filter => ({
+      label: filter === 'all' ? 'All' : filter.charAt(0).toUpperCase() + filter.slice(1),
+      value: filter,
+    }))
   }, [filterOptions])
+
+  const filterOptionsWithCounts = useMemo(() => {
+    return filterConfig.map(config => ({
+      ...config,
+      count: config.value === 'all'
+        ? projects.length
+        : projects.filter(p => p.techStack.some(t => t.toLowerCase() === config.value.toLowerCase())).length
+    }))
+  }, [filterConfig, projects])
 
   const filteredProjects = useMemo(() => {
     if (activeFilter === 'all') return projects
@@ -50,19 +64,14 @@ export function ProjectGrid({
 
   return (
     <div className="w-full">
-      {filters.length > 1 && (
-        <div className="mb-6 flex flex-wrap gap-2">
-          {filters.map((filter) => (
-            <Button
-              key={filter}
-              variant={activeFilter === filter ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setActiveFilter(filter)}
-              className="capitalize"
-            >
-              {filter}
-            </Button>
-          ))}
+      {filterOptionsWithCounts.length > 1 && (
+        <div className="mb-6">
+          <FilterPillBar
+            options={filterOptionsWithCounts}
+            activeValue={activeFilter}
+            onChange={setActiveFilter}
+            isMobile={isMobile}
+          />
         </div>
       )}
 
