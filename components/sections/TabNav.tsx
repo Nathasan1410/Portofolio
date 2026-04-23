@@ -68,14 +68,33 @@ function TabNavContent({
 
 export function TabNav({ tabs, defaultValue, value, onValueChange, className }: TabNavProps) {
   const defaultTabValue = defaultValue || tabs[0]?.value;
+  const scrollToTabSection = React.useCallback(() => {
+    const section = document.getElementById("tab-nav");
+    if (!section) {
+      return;
+    }
+
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, []);
+
+  const handleValueChange = React.useCallback(
+    (nextValue: string) => {
+      onValueChange?.(nextValue);
+      scrollToTabSection();
+    },
+    [onValueChange, scrollToTabSection]
+  );
 
   return (
     <>
       {/* Fixed Persistent Capsule Navigation */}
-      <div className="fixed top-4 sm:top-5 md:top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-[95vw] sm:max-w-[90vw] overflow-x-auto">
+      <div className="fixed top-4 sm:top-5 md:top-6 left-1/2 z-50 max-w-[calc(100vw-1rem)] -translate-x-1/2 overflow-x-auto sm:max-w-[calc(100vw-2rem)]">
         <div
           className={cn(
-            "flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-1 sm:py-1.5 md:py-2 rounded-xl sm:rounded-2xl",
+            "mx-auto w-max min-w-max flex items-center gap-0.5 sm:gap-1 px-1 sm:px-1.5 py-1 sm:py-1.5 rounded-xl sm:rounded-2xl",
             "bg-white/80 dark:bg-black/70 backdrop-blur-xl",
             "border border-white/20 dark:border-white/10 shadow-lg"
           )}
@@ -83,12 +102,12 @@ export function TabNav({ tabs, defaultValue, value, onValueChange, className }: 
           <TabsPrimitive.Root
             defaultValue={defaultTabValue}
             value={value}
-            onValueChange={onValueChange}
-            className="w-full"
+            onValueChange={handleValueChange}
+            className="w-max"
           >
             <TabsPrimitive.List
               className={cn(
-                "flex flex-wrap justify-center gap-0.5 sm:gap-1 md:gap-1.5"
+                "flex flex-nowrap justify-center gap-0.5 sm:gap-1 md:gap-1.5"
               )}
               aria-label="Content categories"
             >
@@ -96,6 +115,11 @@ export function TabNav({ tabs, defaultValue, value, onValueChange, className }: 
                 <TabsPrimitive.Trigger
                   key={tab.value}
                   value={tab.value}
+                  onClick={() => {
+                    if (value === tab.value) {
+                      scrollToTabSection();
+                    }
+                  }}
                   className={cn(
                     "group inline-flex items-center justify-center gap-1 sm:gap-1.5 md:gap-2",
                     "px-2.5 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 text-[10px] xs:text-xs sm:text-sm font-medium rounded-full",
@@ -118,7 +142,7 @@ export function TabNav({ tabs, defaultValue, value, onValueChange, className }: 
       {/* Tab Content */}
       <motion.section
         id="tab-nav"
-        className={cn("pt-24 pb-16 px-4 sm:px-6 lg:px-8", className)}
+        className={cn("scroll-mt-24 pt-24 pb-16 px-4 sm:scroll-mt-28 sm:px-6 lg:px-8", className)}
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"

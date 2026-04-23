@@ -21,11 +21,31 @@ export default function HomePage() {
   const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null)
   const [activeTab, setActiveTab] = useState<string>("about")
 
+  const scrollToTabNav = () => {
+    const section = document.getElementById("tab-nav")
+    if (!section) {
+      return
+    }
+
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    })
+  }
+
+  const handleTabChange = (nextTab: string) => {
+    setActiveTab(nextTab)
+    window.history.replaceState(null, "", `#${nextTab}`)
+  }
+
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1)
       if (hash && ["about", "experience", "projects", "achievements", "work"].includes(hash)) {
         setActiveTab(hash)
+        window.requestAnimationFrame(() => {
+          scrollToTabNav()
+        })
       }
     }
 
@@ -90,7 +110,7 @@ export default function HomePage() {
           tabs={tabs}
           defaultValue={activeTab}
           value={activeTab}
-          onValueChange={setActiveTab}
+          onValueChange={handleTabChange}
         />
       </section>
       <Footer />
