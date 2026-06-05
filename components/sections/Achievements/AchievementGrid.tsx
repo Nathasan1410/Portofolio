@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FaAward, FaTrophy, FaStar } from 'react-icons/fa'
+import { Award, Trophy, Star, LayoutGrid } from 'lucide-react'
 import { Achievement, AchievementFilterType } from '@/lib/types'
 import { AchievementCard } from './AchievementCard'
 import { Button } from '@/components/ui/button'
@@ -13,11 +13,11 @@ interface AchievementGridProps {
   onSelectAchievement: (achievement: Achievement) => void
 }
 
-const filterConfig: { label: string; value: AchievementFilterType; icon: typeof FaAward }[] = [
-  { label: 'All', value: 'all', icon: FaAward },
-  { label: 'Certificates', value: 'certificate', icon: FaAward },
-  { label: 'Wins', value: 'hackathon_win', icon: FaTrophy },
-  { label: 'Recognition', value: 'recognition', icon: FaStar },
+const filterConfig = [
+  { id: 'all', label: 'All', value: 'all' as AchievementFilterType, icon: LayoutGrid },
+  { id: 'certificate', label: 'Certificates', value: 'certificate' as AchievementFilterType, icon: Award },
+  { id: 'hackathon_win', label: 'Wins', value: 'hackathon_win' as AchievementFilterType, icon: Trophy },
+  { id: 'recognition', label: 'Recognition', value: 'recognition' as AchievementFilterType, icon: Star },
 ]
 
 export function AchievementGrid({ achievements, onSelectAchievement }: AchievementGridProps) {
@@ -29,9 +29,9 @@ export function AchievementGrid({ achievements, onSelectAchievement }: Achieveme
       return achievements.filter((a) => a.type === value).length
     }
     return filterConfig.map((config) => ({
+      id: config.value,
       label: config.label,
-      value: config.value,
-      icon: <config.icon className="h-3.5 w-3.5" />,
+      icon: config.icon,
       count: getCount(config.value),
     }))
   }, [achievements])
@@ -82,7 +82,7 @@ export function AchievementGrid({ achievements, onSelectAchievement }: Achieveme
             exit={{ opacity: 0 }}
             className="flex flex-col items-center justify-center py-12 text-center"
           >
-            <FaAward className="h-12 w-12 text-muted-foreground/50 mb-4" />
+            <Award className="h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-muted-foreground">
               No achievements found for this filter.
             </p>

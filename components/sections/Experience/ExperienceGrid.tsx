@@ -7,7 +7,7 @@ import { ExperienceCard } from './ExperienceCard'
 import { ExperienceTimeline } from './ExperienceTimeline'
 import { Button } from '@/components/ui/button'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { FaTh, FaStream, FaRocket, FaCalendar, FaUsers } from 'react-icons/fa'
+import { LayoutGrid, Rocket, Calendar, Users, Rows3 } from 'lucide-react'
 import { SlideToggle } from '@/components/ui/SlideToggle'
 import { SwipeableFilter } from '@/components/ui/SwipeableFilter'
 
@@ -17,10 +17,10 @@ interface ExperienceGridProps {
 }
 
 const filterConfig = [
-  { label: 'All', value: 'all' as FilterType, icon: FaTh },
-  { label: 'Hackathons', value: 'hackathon' as FilterType, icon: FaRocket },
-  { label: 'Events', value: 'event' as FilterType, icon: FaCalendar },
-  { label: 'Community', value: 'community' as FilterType, icon: FaUsers },
+  { id: 'all', label: 'All', value: 'all' as FilterType, icon: LayoutGrid },
+  { id: 'hackathon', label: 'Hackathons', value: 'hackathon' as FilterType, icon: Rocket },
+  { id: 'event', label: 'Events', value: 'event' as FilterType, icon: Calendar },
+  { id: 'community', label: 'Community', value: 'community' as FilterType, icon: Users },
 ]
 
 export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGridProps) {
@@ -39,9 +39,10 @@ export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGr
 
   const filterOptions = useMemo(() => {
     return filterConfig.map((config) => ({
-      label: config.label,
+      id: config.value,
       value: config.value,
-      icon: <config.icon className="h-3.5 w-3.5" />,
+      label: config.label,
+      icon: config.icon,
       count: config.value === 'all'
         ? experiences.length
         : experiences.filter((e) => e.type === config.value).length,
@@ -55,8 +56,8 @@ export function ExperienceGrid({ experiences, onSelectExperience }: ExperienceGr
         <div className="hidden sm:block">
           <SlideToggle
             options={[
-              { label: 'Timeline', value: 'timeline', icon: <FaStream /> },
-              { label: 'Cards', value: 'cards', icon: <FaTh /> }
+              { label: 'Timeline', value: 'timeline', icon: <Rows3 /> },
+              { label: 'Cards', value: 'cards', icon: <LayoutGrid /> }
             ]}
             value={viewMode}
             onChange={(value) => setViewMode(value as 'cards' | 'timeline')}

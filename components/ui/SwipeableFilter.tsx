@@ -1,19 +1,18 @@
 'use client'
 
 import * as React from 'react'
-import { motion } from 'framer-motion'
-import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-export interface SwipeableFilterOption {
+export interface FilterOption {
+  id: string
   label: string
-  value: string
-  icon?: React.ReactNode
-  count?: number
+  count: number
+  icon: React.ComponentType<{ className?: string }>
 }
 
 interface SwipeableFilterProps {
-  options: SwipeableFilterOption[]
+  options: FilterOption[]
   value: string
   onChange: (value: string) => void
   className?: string
@@ -25,202 +24,173 @@ export function SwipeableFilter({
   onChange,
   className,
 }: SwipeableFilterProps) {
-  const scrollRef = React.useRef<HTMLDivElement>(null)
-  const [canScrollLeft, setCanScrollLeft] = React.useState(false)
-  const [canScrollRight, setCanScrollRight] = React.useState(true)
   const [isDragging, setIsDragging] = React.useState(false)
   const [startX, setStartX] = React.useState(0)
   const [scrollStartX, setScrollStartX] = React.useState(0)
+  const [animationClass, setAnimationClass] = React.useState('')
+  const containerRef = React.useRef<HTMLDivElement>(null)
 
-  const activeIndex = options.findIndex((opt) => opt.value === value)
+  const activeIndex = options.findIndex((opt) => opt.id === value)
+  const activeOption = options[activeIndex]
 
-  // Check scroll bounds
-  const checkScrollBounds = React.useCallback(() => {
-    const el = scrollRef.current
-    if (!el) return
-    setCanScrollLeft(el.scrollLeft > 0)
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1)
-  }, [])
-
-  // Scroll to active option
+  // Scroll active option into view
   React.useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-
-    const activeButton = el.querySelector(`[data-value="${value}"]`) as HTMLElement
-    if (activeButton) {
-      const containerWidth = el.clientWidth
-      const buttonWidth = activeButton.offsetWidth
-      const buttonLeft = activeButton.offsetLeft
-      const scrollTarget = buttonLeft - containerWidth / 2 + buttonWidth / 2
-
-      el.scrollTo({
-        left: Math.max(0, scrollTarget),
-        behavior: 'smooth',
-      })
+    if (containerRef.current && activeOption) {
+      containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }
-  }, [value])
+  }, [value, activeOption])
 
-  // Listen for scroll events
-  React.useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-
-    checkScrollBounds()
-    el.addEventListener('scroll', checkScrollBounds, { passive: true })
-    return () => el.removeEventListener('scroll', checkScrollBounds)
-  }, [checkScrollBounds, options.length])
-
-  // Scroll handlers
-  const scroll = (direction: 'left' | 'right') => {
-    const el = scrollRef.current
-    if (!el) return
-
-    const scrollAmount = el.clientWidth * 0.6
-    el.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth',
-    })
+  const navigateToFilter = (newIndex: number) => {
+    if (newIndex >= 0 && newIndex < options.length) {
+      const direction = newIndex > activeIndex ? 'right' : 'left'
+      setAnimationClass(direction === 'right' ? 'animate-in slide-in-from-right-8 fade-in duration-300' : 'animate-in slide-in-from-left-8 fade-in duration-300')
+      onChange(options[newIndex].id)
+      // Clear animation class after animation completes
+      setTimeout(() => setAnimationClass(''), 300)
+    }
   }
 
-  // Touch/drag handlers for swipe
-  const handleTouchStart = (e: React.TouchEvent | React.MouseEvent) => {
+  const handlePrev = () => {
+    navigateToFilter(activeIndex - 1)
+  }
+
+  const handleNext = () => {
+    navigateToFilter(activeIndex + 1)
+  }
+
+  // Touch event handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
     setIsDragging(true)
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
-    setStartX(clientX)
-    setScrollStartX(scrollRef.current?.scrollLeft ?? 0)
+    setStartX(e.touches[0].clientX)
+    setScrollStartX(e.touches[0].clientX)
   }
 
-  const handleTouchMove = (e: React.TouchEvent | React.MouseEvent) => {
-    if (!isDragging || !scrollRef.current) return
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
-    const delta = startX - clientX
-    scrollRef.current.scrollLeft = scrollStartX + delta
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging) return
+    // Prevent default to stop page scroll
+    e.preventDefault()
   }
 
-  const handleTouchEnd = (e: React.TouchEvent | React.MouseEvent) => {
-    if (!isDragging || !scrollRef.current) return
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!isDragging) return
     setIsDragging(false)
 
-    const clientX = 'changedTouches' in e ? e.changedTouches[0].clientX : e.clientX
-    const delta = startX - clientX
+    const endX = e.changedTouches[0].clientX
+    const delta = startX - endX
     const threshold = 50
 
-    // Snap to nearest option on significant swipe
     if (Math.abs(delta) > threshold) {
-      if (delta > 0 && activeIndex < options.length - 1) {
-        onChange(options[activeIndex + 1].value)
-      } else if (delta < 0 && activeIndex > 0) {
-        onChange(options[activeIndex - 1].value)
+      if (delta > 0) {
+        // Swiped left, go to next
+        handleNext()
+      } else {
+        // Swiped right, go to previous
+        handlePrev()
       }
     }
   }
 
+  // Mouse event handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true)
+    setStartX(e.clientX)
+    setScrollStartX(e.clientX)
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return
+    e.preventDefault()
+  }
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    if (!isDragging) return
+    setIsDragging(false)
+
+    const delta = startX - e.clientX
+    const threshold = 50
+
+    if (Math.abs(delta) > threshold) {
+      if (delta > 0) {
+        handleNext()
+      } else {
+        handlePrev()
+      }
+    }
+  }
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      setIsDragging(false)
+    }
+  }
+
+  const canGoPrev = activeIndex > 0
+  const canGoNext = activeIndex < options.length - 1
+
+  if (!activeOption) return null
+
+  const IconComponent = activeOption.icon
+
   return (
     <div
+      ref={containerRef}
       className={cn(
-        'relative flex items-center gap-1',
+        'flex items-center justify-center gap-3',
         className
       )}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Left Arrow */}
       <button
         type="button"
-        onClick={() => scroll('left')}
+        onClick={handlePrev}
+        disabled={!canGoPrev}
         className={cn(
-          'flex h-8 w-6 shrink-0 items-center justify-center rounded-full',
-          'text-muted-foreground transition-all duration-200',
-          'hover:bg-muted hover:text-foreground',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-          !canScrollLeft && 'pointer-events-none opacity-0'
+          'flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200',
+          'text-gray-400 hover:text-black hover:bg-gray-100',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2',
+          !canGoPrev && 'opacity-30 cursor-not-allowed hover:text-gray-400 hover:bg-transparent'
         )}
-        aria-label="Previous filters"
-        disabled={!canScrollLeft}
+        aria-label="Previous filter"
       >
-        <FiChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="h-5 w-5" />
       </button>
 
-      {/* Scrollable container */}
+      {/* Active Filter Pill */}
       <div
-        ref={scrollRef}
         className={cn(
-          'relative flex items-center gap-2 overflow-x-auto overscroll-x-contain',
-          'scrollbar-hide scroll-smooth snap-x snap-mandatory',
-          'px-1 py-1'
+          'flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full',
+          'select-none touch-manipulation',
+          animationClass
         )}
-        style={{
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none',
-        }}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-        onMouseDown={handleTouchStart}
-        onMouseMove={handleTouchMove}
-        onMouseUp={handleTouchEnd}
-        onMouseLeave={() => isDragging && setIsDragging(false)}
       >
-        {options.map((option) => {
-          const isActive = option.value === value
-
-          return (
-            <motion.button
-              key={option.value}
-              type="button"
-              data-value={option.value}
-              onClick={() => onChange(option.value)}
-              layout
-              className={cn(
-                'relative flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5',
-                'snap-center transition-colors duration-200',
-                'min-h-[36px] touch-manipulation',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-                isActive
-                  ? 'bg-primary text-primary-foreground font-medium'
-                  : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
-              )}
-              whileTap={{ scale: 0.95 }}
-              transition={{ duration: 0.1 }}
-            >
-              {option.icon && (
-                <span className="inline-flex h-4 w-4 items-center justify-center">
-                  {option.icon}
-                </span>
-              )}
-              <span className="whitespace-nowrap text-sm">{option.label}</span>
-              {option.count !== undefined && (
-                <span
-                  className={cn(
-                    'ml-0.5 inline-flex min-w-[18px] items-center justify-center rounded-full px-1',
-                    'text-[10px] font-semibold leading-4',
-                    isActive
-                      ? 'bg-primary-foreground/20 text-primary-foreground'
-                      : 'bg-muted-foreground/20 text-muted-foreground'
-                  )}
-                >
-                  {option.count}
-                </span>
-              )}
-            </motion.button>
-          )
-        })}
+        {IconComponent && <IconComponent className="h-4 w-4" />}
+        <span className="text-sm font-medium whitespace-nowrap">{activeOption.label}</span>
+        <span className="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 bg-white text-black text-xs font-semibold rounded-full">
+          {activeOption.count}
+        </span>
       </div>
 
       {/* Right Arrow */}
       <button
         type="button"
-        onClick={() => scroll('right')}
+        onClick={handleNext}
+        disabled={!canGoNext}
         className={cn(
-          'flex h-8 w-6 shrink-0 items-center justify-center rounded-full',
-          'text-muted-foreground transition-all duration-200',
-          'hover:bg-muted hover:text-foreground',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-          !canScrollRight && 'pointer-events-none opacity-0'
+          'flex h-8 w-8 items-center justify-center rounded-full transition-all duration-200',
+          'text-gray-400 hover:text-black hover:bg-gray-100',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2',
+          !canGoNext && 'opacity-30 cursor-not-allowed hover:text-gray-400 hover:bg-transparent'
         )}
-        aria-label="Next filters"
-        disabled={!canScrollRight}
+        aria-label="Next filter"
       >
-        <FiChevronRight className="h-4 w-4" />
+        <ChevronRight className="h-5 w-5" />
       </button>
     </div>
   )
