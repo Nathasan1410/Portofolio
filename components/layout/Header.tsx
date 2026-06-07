@@ -10,7 +10,6 @@ const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Experience", href: "#experience-section" },
   { label: "Projects", href: "#projects" },
-  { label: "Achievements", href: "#achievements" },
 ] as const;
 
 export function Header() {
@@ -20,7 +19,7 @@ export function Header() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
 
-    if (["#projects", "#achievements"].includes(href)) {
+    if (href === "#projects") {
       window.location.hash = href.slice(1);
       const tabSection = document.querySelector("#experience-section");
       if (tabSection) {

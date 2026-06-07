@@ -119,10 +119,7 @@ export type ContentType =
   | 'work'
   | 'web3'
   | 'ai'
-  | 'general'
-  | 'certificate'
-  | 'hackathon_win'
-  | 'recognition';
+  | 'general';
 
 export interface ContentTheme {
   gradient: {
@@ -174,22 +171,6 @@ export const contentTypeTheme: Record<ContentType, ContentTheme> = {
     gradient: { from: 'from-slate-500', to: 'to-zinc-500' },
     icon: 'Code',
     label: 'General',
-  },
-  // Achievement types
-  certificate: {
-    gradient: { from: 'from-sky-500', to: 'to-blue-500' },
-    icon: 'Award',
-    label: 'Certificate',
-  },
-  hackathon_win: {
-    gradient: { from: 'from-amber-500', to: 'to-yellow-500' },
-    icon: 'Trophy',
-    label: 'Win',
-  },
-  recognition: {
-    gradient: { from: 'from-emerald-500', to: 'to-green-500' },
-    icon: 'Star',
-    label: 'Recognition',
   },
 };
 

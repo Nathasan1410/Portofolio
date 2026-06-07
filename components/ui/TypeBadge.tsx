@@ -1,11 +1,9 @@
-import { FaAward, FaTrophy, FaStar } from 'react-icons/fa'
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 
 type ExperienceType = 'hackathon' | 'event' | 'community' | 'work'
 type ProjectType = 'web3' | 'ai' | 'general'
-type AchievementType = 'certificate' | 'hackathon_win' | 'recognition'
-type AnyType = ExperienceType | ProjectType | AchievementType
+type AnyType = ExperienceType | ProjectType
 
 interface TypeBadgeProps {
   type: AnyType
@@ -21,9 +19,6 @@ const typeConfig: Record<AnyType, { bg: string; text: string; border: string; la
   web3: { bg: 'bg-white/90 backdrop-blur-md', text: 'text-indigo-700', border: 'border-indigo-500/40', label: 'Web3' },
   ai: { bg: 'bg-white/90 backdrop-blur-md', text: 'text-violet-700', border: 'border-violet-500/40', label: 'AI' },
   general: { bg: 'bg-white/90 backdrop-blur-md', text: 'text-gray-700', border: 'border-gray-500/40', label: 'General' },
-  certificate: { bg: 'bg-white/90 backdrop-blur-md', text: 'text-amber-700', border: 'border-amber-500/40', label: 'Certificate', icon: FaAward },
-  hackathon_win: { bg: 'bg-white/90 backdrop-blur-md', text: 'text-purple-700', border: 'border-purple-500/40', label: 'Hackathon Win', icon: FaTrophy },
-  recognition: { bg: 'bg-white/90 backdrop-blur-md', text: 'text-blue-700', border: 'border-blue-500/40', label: 'Recognition', icon: FaStar },
 }
 
 export function TypeBadge({ type, showIcon = false, className }: TypeBadgeProps) {
@@ -45,4 +40,4 @@ export function TypeBadge({ type, showIcon = false, className }: TypeBadgeProps)
   )
 }
 
-export type { ExperienceType, ProjectType, AchievementType, AnyType, TypeBadgeProps }
+export type { ExperienceType, ProjectType, AnyType, TypeBadgeProps }

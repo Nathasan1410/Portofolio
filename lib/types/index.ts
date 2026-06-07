@@ -1,7 +1,5 @@
 export type FilterType = 'all' | 'hackathon' | 'event' | 'community' | 'work';
 
-export type AchievementFilterType = 'all' | 'certificate' | 'hackathon_win' | 'recognition';
-
 export interface Experience {
   id: string;
   title: string;
@@ -46,25 +44,4 @@ export interface Project {
     demo?: string;
     github?: string;
   };
-}
-
-export interface Achievement {
-  id: string;
-  title: string;
-  type: 'certificate' | 'hackathon_win' | 'recognition';
-  date: string;
-  issuer?: string;
-  highlight: string;
-  content?: string;
-  certificateUrl?: string;
-  certificateImage?: string;
-  projectSubmitted?: string;
-  teamInfo?: string[];
-  keyAchievements?: string[];
-  photos: string[];
-  // Article Modal fields
-  tags?: string[];
-  showGallery?: boolean;
-  galleryImages?: string[];
-  heroImage?: string;
 }
