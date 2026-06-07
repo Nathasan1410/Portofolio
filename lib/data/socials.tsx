@@ -3,7 +3,6 @@ import {
   FiFileText,
   FiInstagram,
   FiLinkedin,
-  FiMessageCircle,
 } from "react-icons/fi";
 
 // X (Twitter) icon component
@@ -18,7 +17,6 @@ export const socials = {
   instagram: "https://www.instagram.com/nthnael.san",
   github: "https://github.com/Nathasan1410",
   linkedin: "https://id.linkedin.com/in/nathanaelsantoso",
-  discord: "https://discord.com/users/nathanaelsantoso",
   resume: "https://drive.google.com/file/d/YOUR_FILE_ID/view",
 } as const;
 
@@ -27,7 +25,6 @@ export const socialLinks = [
   { id: "instagram", label: "Instagram", href: socials.instagram, group: "social", icon: FiInstagram },
   { id: "github", label: "GitHub", href: socials.github, group: "professional", icon: FiGithub },
   { id: "linkedin", label: "LinkedIn", href: socials.linkedin, group: "professional", icon: FiLinkedin },
-  { id: "discord", label: "Discord", href: socials.discord, group: "social", icon: FiMessageCircle },
   { id: "resume", label: "Resume", href: socials.resume, group: "professional", icon: FiFileText },
 ] as const;
 

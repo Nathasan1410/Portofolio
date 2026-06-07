@@ -1,113 +1,91 @@
 import type { Experience } from '@/lib/types';
 
-const CDN = 'https://res.cloudinary.com/demo/image/upload/w_600,h_400,c_fill';
-
 export const experiences: Experience[] = [
   {
     id: 'exp-1',
-    title: 'National Hackathon 2024',
+    title: 'Hackathon Builder',
     type: 'hackathon',
-    date: '2024-11-15',
-    kpi: 'Top 10 Finalist out of 200+ teams',
-    mainRole: 'Full-Stack Developer',
-    extraRoles: ['UI Designer', 'Presenter'],
-    roles: ['Full-Stack Developer', 'UI Designer', 'Presenter'],
-    highlight: 'Built a real-time disaster response platform in 48 hours using Next.js and WebSockets.',
-    content: `Led the technical development of an AI-powered disaster coordination system that aggregated emergency reports and routed rescue teams optimally.
+    date: 'Ongoing',
+    mainRole: 'Builder',
+    extraRoles: ['Full-Stack Developer', 'Collaborator'],
+    roles: ['Builder', 'Full-Stack Developer', 'Collaborator'],
+    highlight:
+      'Uses hackathons as a fast-moving space to prototype ideas around Web3, AI, and product experimentation.',
+    content: `Hackathons are part of Nathanael's working rhythm. They create a space to move quickly, test ideas in public, and build under pressure with other ambitious people.
 
-### Technical Stack
-- **Next.js** for SSR and routing
-- **WebSockets** for real-time communication
-- **TensorFlow.js** for AI predictions
+### What this usually looks like
 
-### Impact
-The platform processed 10,000+ emergency reports and helped coordinate 500+ rescue team deployments during the demo scenario.`,
-    photos: [
-      `${CDN}/samples/landscapes/architecture-signs.jpg`,
-      `${CDN}/samples/people/smiling-man.jpg`,
-      `${CDN}/samples/landscapes/nature-mountains.jpg`,
-    ],
+- Framing product ideas fast
+- Building presentable demos in short time windows
+- Turning emerging-tech concepts into something more tangible
+- Using feedback loops from teammates, judges, and audiences to sharpen the idea`,
+    photos: [],
     reels: [],
-    tags: ['Hackathon', 'AI/ML', 'Real-time'],
-    showGallery: true,
-    galleryImages: [
-      `${CDN}/samples/landscapes/architecture-signs.jpg`,
-      `${CDN}/samples/people/smiling-man.jpg`,
-      `${CDN}/samples/landscapes/nature-mountains.jpg`,
-    ],
-    heroImage: `${CDN}/samples/landscapes/architecture-signs.jpg`,
+    tags: ['Hackathon', 'Rapid Prototyping', 'Emerging Tech'],
   },
   {
     id: 'exp-2',
-    title: 'Google Developer Student Club — Lead',
+    title: 'Community Organizer & Host',
     type: 'community',
-    date: '2023-09-01',
-    kpi: 'Grew chapter from 50 to 300+ active members',
-    mainRole: 'Chapter Lead',
-    extraRoles: ['Workshop Facilitator'],
-    roles: ['Chapter Lead', 'Workshop Facilitator'],
-    highlight: 'Organized 12 technical workshops and 3 hackathons throughout the academic year.',
-    content: `Managed a core team of 20, coordinated with Google Developer Relations, and partnered with 5 local tech companies for sponsorships.
+    date: 'Ongoing',
+    mainRole: 'Organizer',
+    extraRoles: ['Host', 'Community Builder'],
+    roles: ['Organizer', 'Host', 'Community Builder'],
+    highlight:
+      'Active in tech community spaces, helping shape sessions, event experiences, and conversations around builders and technology.',
+    content: `Beyond code, Nathanael also operates in the people layer of technology. Community work is part of the portfolio: helping events feel alive, making rooms more navigable, and creating environments where ideas move more freely.
 
-### Key Initiatives
-- Launched a peer mentoring program
-- Introduced industry expert talks series
-- Organized campus-wide hackathon with 300+ participants`,
-    photos: [
-      `${CDN}/samples/people/smiling-man.jpg`,
-      `${CDN}/samples/landscapes/architecture-signs.jpg`,
-    ],
+### Areas of contribution
+
+- Hosting and supporting live sessions
+- Helping structure community-facing experiences
+- Bridging technical topics with a more approachable tone
+- Supporting ecosystems where builders, students, and curious newcomers can connect`,
+    photos: [],
     reels: [],
-    youtubeVideo: undefined,
-    tags: ['Community', 'Leadership', 'GDSC'],
-    heroImage: `${CDN}/samples/people/smiling-man.jpg`,
+    tags: ['Community', 'Hosting', 'People Operations'],
   },
   {
     id: 'exp-3',
-    title: 'TechConf Asia 2024 — Speaker',
+    title: 'Speaker',
     type: 'event',
-    date: '2024-06-20',
-    kpi: '250+ attendees, 4.8/5 speaker rating',
+    date: 'Selected Engagements',
     mainRole: 'Speaker',
     roles: ['Speaker'],
-    highlight: 'Delivered a talk on building accessible web applications with modern frameworks.',
-    content: `Presented best practices for web accessibility, covering WCAG 2.1 guidelines, semantic HTML, and testing strategies with real-world examples.
+    highlight:
+      'Comfortable turning technical topics into clearer, more public-facing narratives for events, sessions, and community audiences.',
+    content: `Speaking sits naturally alongside building. Nathanael's work is not only about shipping interfaces, but also about explaining why ideas matter and making technical subjects easier to engage with.
 
-### Topics Covered
-- Screen reader compatibility
-- Keyboard navigation patterns
-- Color contrast and visual accessibility
-- Automated testing with axe-core`,
-    photos: [
-      `${CDN}/samples/ecommerce/leather-bag-gray.jpg`,
-      `${CDN}/samples/landscapes/nature-mountains.jpg`,
-    ],
+### What that means in practice
+
+- Breaking down concepts without flattening them
+- Speaking to mixed audiences, not only deeply technical rooms
+- Framing technology through product, community, and human use
+- Carrying the same clarity from code into public communication`,
+    photos: [],
     reels: [],
-    tags: ['Speaking', 'Accessibility', 'Web'],
-    heroImage: `${CDN}/samples/ecommerce/leather-bag-gray.jpg`,
+    tags: ['Speaking', 'Communication', 'Public-Facing'],
   },
   {
     id: 'exp-4',
-    title: 'Software Engineer Intern — Startup XYZ',
+    title: 'Developer & Content Creator',
     type: 'work',
-    date: '2024-01-10',
-    kpi: 'Reduced API latency by 40%, shipped 3 major features',
-    mainRole: 'Software Engineer Intern',
-    roles: ['Software Engineer Intern'],
-    highlight: 'Worked on the core product team building B2B SaaS features used by 10,000+ users.',
-    content: `Implemented a real-time notification system, optimized database queries, and contributed to the design system migration from MUI to Tailwind CSS.
+    date: 'Current Focus',
+    mainRole: 'Developer',
+    extraRoles: ['Content Creator'],
+    roles: ['Developer', 'Content Creator'],
+    highlight:
+      'Combines product building with public-facing content, using the same curiosity for Web3, AI, and digital identity across both.',
+    content: `This is the thread that ties the portfolio together. Nathanael builds products, explores Web3 and AI, and develops a public-facing voice around the same areas of interest.
 
-### Achievements
-- Built WebSocket-based notification system
-- Optimized slow SQL queries reducing load time by 60%
-- Contributed to internal component library`,
-    photos: [
-      `${CDN}/samples/landscapes/architecture-signs.jpg`,
-      `${CDN}/samples/food/spices.jpg`,
-      `${CDN}/samples/animals/reindeer.jpg`,
-    ],
+### Core throughline
+
+- Building polished digital surfaces
+- Exploring emerging technology with a product lens
+- Creating content as an extension of the work itself
+- Treating a personal site as both identity layer and working archive`,
+    photos: [],
     reels: [],
-    tags: ['Internship', 'Backend', 'SaaS'],
-    heroImage: `${CDN}/samples/landscapes/architecture-signs.jpg`,
+    tags: ['Developer', 'Content', 'Identity'],
   },
 ];

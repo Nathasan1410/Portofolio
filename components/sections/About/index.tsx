@@ -55,7 +55,7 @@ export function About() {
         >
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Hi, I'm {aboutData.description.split(" ")[2]?.replace(/[.,]/g, '') || "Nathanael"}
+              Hi, I'm {aboutData.name}
             </h2>
             <p className="text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line">
               {aboutData.description}

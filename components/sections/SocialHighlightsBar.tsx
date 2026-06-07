@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { FaGithub, FaDiscord, FaInstagram } from "react-icons/fa"
+import { FaGithub, FaInstagram } from "react-icons/fa"
 import { socials } from "@/lib/data/socials"
 
 const XIcon = ({ size = 24 }: { size?: number }) => (
@@ -14,7 +14,6 @@ const socialItems = [
   { href: socials.twitter, icon: XIcon, label: 'X', color: '#000000' },
   { href: socials.instagram, icon: FaInstagram, label: 'Instagram', color: '#E4405F' },
   { href: socials.github, icon: FaGithub, label: 'GitHub', color: '#181717' },
-  { href: socials.discord, icon: FaDiscord, label: 'Discord', color: '#5865F2' },
 ]
 
 export function SocialHighlightsBar() {

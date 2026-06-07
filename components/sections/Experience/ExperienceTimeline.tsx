@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Experience } from '@/lib/types'
 import { useIsMobile } from '@/hooks/use-mobile'
 import { cn } from '@/lib/utils'
+import { getContentGradient } from '@/lib/primitives'
 
 interface ExperienceTimelineProps {
   experiences: Experience[]
@@ -47,8 +48,8 @@ function TypeBadge({ type }: { type: Experience['type'] }) {
 }
 
 const TimelineCard = ({ experience, isMobile }: { experience: Experience; isMobile: boolean }) => {
-  // Fallback to heroImage, then photos, then placeholder
-  const imageUrl = experience.images?.[0] || experience.heroImage || experience.photos?.[0] || '/placeholder-experience.jpg'
+  const imageUrl = experience.images?.[0] || experience.heroImage || experience.photos?.[0]
+  const fallbackGradient = getContentGradient(experience.type)
 
   return (
     <div className={cn(
@@ -61,11 +62,15 @@ const TimelineCard = ({ experience, isMobile }: { experience: Experience; isMobi
         "relative shrink-0 bg-gray-100",
         isMobile ? "w-full aspect-video" : "w-full md:w-[30%] md:min-w-[200px] md:max-w-[320px] aspect-video"
       )}>
-        <img
-          src={imageUrl}
-          className="object-cover w-full h-full opacity-90 transition-opacity group-hover:opacity-100"
-          alt={experience.title}
-        />
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            className="object-cover w-full h-full opacity-90 transition-opacity group-hover:opacity-100"
+            alt={experience.title}
+          />
+        ) : (
+          <div className={cn('h-full w-full', fallbackGradient)} />
+        )}
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-white pointer-events-none" />
       </div>
 

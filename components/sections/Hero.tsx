@@ -39,9 +39,7 @@ const dockLinkIds: SocialLinkId[] = [
 
 const desktopSocialItems = socialLinks.filter((item) => dockLinkIds.includes(item.id));
 const professionalLinks = socialLinks.filter((item) => item.group === "professional");
-const communityLinks = socialLinks.filter(
-  (item) => item.group === "social" && item.id !== "discord"
-);
+const communityLinks = socialLinks.filter((item) => item.group === "social");
 
 const heroImageSrc = heroMedia.desktop.src || heroMedia.mobile.src;
 

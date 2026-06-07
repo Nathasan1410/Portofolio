@@ -1,58 +1,46 @@
 export const aboutData = {
-  // Your photo path - replace with your actual PNG file
-  photo: '/about/profile.png', // Place your PNG in public/about/ folder
+  name: 'Nathanael Santoso',
+  photo: '/about/profile.png',
+  description: `Nathanael Santoso is a developer working across Web3 and AI while building a public-facing identity as a content creator. His work sits between product building and communication: shaping interfaces, exploring emerging technology, and turning technical ideas into something people can actually follow.
 
-  // Short bio/description about who you are
-  description: `I'm a passionate developer, Web3 enthusiast, AI explorer, and content creator (Yapper). I build innovative solutions at the intersection of blockchain and artificial intelligence, while sharing my journey and knowledge with the community through technical content and public speaking.
-
-With expertise spanning full-stack development, smart contracts, and AI/ML integrations, I thrive on solving complex problems and pushing the boundaries of what's possible with emerging technologies.`,
-
-  // Highlighted experiences (top 3-4 from your full experience list)
+This site functions as both a digital namecard and a working portfolio. It brings together product work, public links, and community-facing experience across speaking, hosting, organizing, and hackathon environments.`,
   highlights: [
     {
-      title: 'Software Engineer Intern',
-      company: 'Startup XYZ',
-      date: 'Jan 2024',
-      description: 'Reduced API latency by 40%, shipped 3 major features used by 10,000+ users',
+      title: 'Developer & Content Creator',
+      company: 'Current Focus',
+      date: 'Ongoing',
+      description:
+        'Building across product, Web3, AI, and public-facing content as one connected personal practice.',
     },
     {
-      title: 'GDSC Chapter Lead',
-      company: 'University',
-      date: 'Sep 2023 - Present',
-      description: 'Grew chapter from 50 to 300+ members, organized 12+ technical workshops',
+      title: 'Community Organizer & Host',
+      company: 'Tech Community Spaces',
+      date: 'Ongoing',
+      description:
+        'Active in events and community environments, helping shape conversations, sessions, and builder-facing experiences.',
     },
     {
-      title: 'National Hackathon 2024',
-      company: 'Top 10 Finalist',
-      date: 'Nov 2024',
-      description: 'Built AI-powered disaster response platform in 48 hours',
+      title: 'Speaker',
+      company: 'Talks & Community Sessions',
+      date: 'Selected Engagements',
+      description:
+        'Comfortable translating technical topics into clearer stories for live audiences and community settings.',
     },
     {
-      title: 'TechConf Asia 2024',
-      company: 'Speaker',
-      date: 'Jun 2024',
-      description: 'Delivered talk on web accessibility to 250+ attendees',
+      title: 'Hackathon Builder',
+      company: 'Collaborative Product Sprints',
+      date: 'Ongoing',
+      description:
+        'Uses hackathons as a space to prototype quickly, collaborate under pressure, and test new ideas around emerging tech.',
     },
   ],
-
-  // Main tech stack - organized by category
   mainStack: [
-    // Frontend
-    'React',
     'Next.js',
     'TypeScript',
     'Tailwind CSS',
     'Framer Motion',
-    // Web3
-    'Solidity',
-    'Web3.js',
-    'Ethers.js',
-    // AI/ML
-    'TensorFlow.js',
-    'LLM Integration',
-    // Backend
-    'Node.js',
-    'PostgreSQL',
-    'WebSockets',
+    'Radix UI',
+    'Cloudinary',
+    'Content Design',
   ],
 };
