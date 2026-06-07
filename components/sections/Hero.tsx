@@ -31,8 +31,6 @@ const mobileActionClassName = cn(
 );
 
 const dockLinkIds: SocialLinkId[] = [
-  "youtube",
-  "tiktok",
   "twitter",
   "instagram",
   "github",
@@ -273,6 +271,7 @@ export function Hero() {
             icon={<FiFileText className="h-4 w-4" />}
             label={heroCopy.secondaryAction}
             variant="secondary"
+            expanded
             onClick={handleCheckCV}
           />
         </motion.div>

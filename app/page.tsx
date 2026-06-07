@@ -2,18 +2,15 @@
 
 import { useEffect, useState } from 'react'
 import { Footer } from "@/components/layout/Footer"
-import { AchievementArticleModal } from "@/components/sections/Achievements/AchievementArticleModal"
-import { AchievementGrid } from "@/components/sections/Achievements/AchievementGrid"
 import { About } from "@/components/sections/About"
 import { ExperienceArticleModal } from "@/components/sections/Experience/ExperienceArticleModal"
 import { ExperienceGrid } from "@/components/sections/Experience/ExperienceGrid"
 import { Hero } from "@/components/sections/Hero"
 import { ProjectGrid } from "@/components/sections/Projects/ProjectGrid"
 import { TabItem, TabNav } from "@/components/sections/TabNav"
-import { achievements } from "@/lib/data/achievements"
 import { experiences } from "@/lib/data/experiences"
 import { projects } from "@/lib/data/projects"
-import { Achievement, Experience } from "@/lib/types"
+import { Experience } from "@/lib/types"
 import {
   EXPERIENCE_SECTION_ID,
   TAB_NAV_SECTION_ID,
@@ -26,7 +23,6 @@ import {
 
 export default function HomePage() {
   const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null)
-  const [selectedAchievement, setSelectedAchievement] = useState<Achievement | null>(null)
   const [activeTab, setActiveTab] = useState<SectionId>("about")
 
   const scrollToTabNav = () => {
@@ -101,19 +97,6 @@ export default function HomePage() {
           icon: <Icon className="h-4 w-4" />,
           content: <ProjectGrid projects={projects} />,
         }
-      case "achievements":
-        return {
-          value: item.value,
-          label: item.label,
-          mobileLabel: item.mobileLabel,
-          icon: <Icon className="h-4 w-4" />,
-          content: (
-            <AchievementGrid
-              achievements={achievements}
-              onSelectAchievement={(achievement) => setSelectedAchievement(achievement)}
-            />
-          ),
-        }
     }
   })
 
@@ -135,11 +118,6 @@ export default function HomePage() {
         experience={selectedExperience}
         isOpen={!!selectedExperience}
         onClose={() => setSelectedExperience(null)}
-      />
-      <AchievementArticleModal
-        achievement={selectedAchievement}
-        isOpen={!!selectedAchievement}
-        onClose={() => setSelectedAchievement(null)}
       />
     </main>
   )

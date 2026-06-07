@@ -3,19 +3,13 @@
 import { motion } from "framer-motion";
 import { aboutData } from "@/lib/data/about";
 import { containerVariants, itemVariants } from "./variants";
-import { SectionHeader } from "./SectionHeader";
-import { ExperienceItem } from "./ExperienceItem";
-import { TechStackGrid } from "./TechStackGrid";
 import {
   GRID_LAYOUT,
   COL_PHOTO,
   COL_DESCRIPTION,
-  COL_EXPERIENCE,
-  COL_STACK,
   PHOTO_STICKY,
   PHOTO_WRAPPER,
   PHOTO_PLACEHOLDER,
-  SECTION_SPACING,
 } from "./constants";
 
 export function About() {
@@ -28,7 +22,6 @@ export function About() {
     >
       {/* Grid Layout */}
       <div className={GRID_LAYOUT}>
-
         {/* LEFT COLUMN - Photo */}
         <motion.div
           className={COL_PHOTO}
@@ -57,7 +50,7 @@ export function About() {
 
         {/* COLUMN 2 - Description */}
         <motion.div
-          className={`${COL_DESCRIPTION} ${SECTION_SPACING}`}
+          className={COL_DESCRIPTION}
           variants={itemVariants}
         >
           <div>
@@ -69,35 +62,6 @@ export function About() {
             </p>
           </div>
         </motion.div>
-
-        {/* COLUMN 3 - Experience */}
-        <motion.div
-          className={`${COL_EXPERIENCE} ${SECTION_SPACING}`}
-          variants={itemVariants}
-        >
-          <SectionHeader title="EXPERIENCE" />
-          <div className="space-y-4">
-            {aboutData.highlights.map((highlight, idx) => (
-              <ExperienceItem
-                key={idx}
-                title={highlight.title}
-                company={highlight.company}
-                date={highlight.date}
-                description={highlight.description}
-              />
-            ))}
-          </div>
-        </motion.div>
-
-        {/* COLUMN 4 - Main Stack */}
-        <motion.div
-          className={`${COL_STACK} ${SECTION_SPACING}`}
-          variants={itemVariants}
-        >
-          <SectionHeader title="MAIN STACK" />
-          <TechStackGrid techs={aboutData.mainStack} />
-        </motion.div>
-
       </div>
     </motion.div>
   );

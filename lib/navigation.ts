@@ -1,4 +1,4 @@
-import { FiAward, FiBriefcase, FiFolder, FiUser } from "react-icons/fi";
+import { FiBriefcase, FiFolder, FiUser } from "react-icons/fi";
 import type { IconType } from "react-icons";
 
 export const TAB_NAV_SECTION_ID = "tab-nav";
@@ -8,7 +8,6 @@ export const sectionOrder = [
   "about",
   "experience",
   "projects",
-  "achievements",
 ] as const;
 
 export type SectionId = (typeof sectionOrder)[number];
@@ -42,13 +41,6 @@ export const sectionNavItems: SectionNavItemConfig[] = [
     mobileLabel: "Projects",
     icon: FiFolder,
     hash: "#projects",
-  },
-  {
-    value: "achievements",
-    label: "Achievements",
-    mobileLabel: "Achievements",
-    icon: FiAward,
-    hash: "#achievements",
   },
 ];
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { FaYoutube, FaTiktok, FaGithub, FaDiscord, FaInstagram } from "react-icons/fa"
+import { FaGithub, FaDiscord, FaInstagram } from "react-icons/fa"
 import { socials } from "@/lib/data/socials"
 
 const XIcon = ({ size = 24 }: { size?: number }) => (
@@ -11,8 +11,6 @@ const XIcon = ({ size = 24 }: { size?: number }) => (
 )
 
 const socialItems = [
-  { href: socials.youtube, icon: FaYoutube, label: 'YouTube', color: '#FF0000' },
-  { href: socials.tiktok, icon: FaTiktok, label: 'TikTok', color: '#00f2ea' },
   { href: socials.twitter, icon: XIcon, label: 'X', color: '#000000' },
   { href: socials.instagram, icon: FaInstagram, label: 'Instagram', color: '#E4405F' },
   { href: socials.github, icon: FaGithub, label: 'GitHub', color: '#181717' },

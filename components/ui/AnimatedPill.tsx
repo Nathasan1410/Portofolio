@@ -10,6 +10,7 @@ interface AnimatedPillProps {
   onClick?: () => void;
   variant?: "primary" | "secondary";
   className?: string;
+  expanded?: boolean;
 }
 
 export function AnimatedPill({
@@ -18,6 +19,7 @@ export function AnimatedPill({
   onClick,
   variant = "primary",
   className,
+  expanded = false,
 }: AnimatedPillProps) {
   const glowColor = variant === "primary"
     ? "conic-gradient(from 0deg, #ff0080, #7928ca, #ff0080, #0070f3, #ff0080)"
@@ -31,8 +33,8 @@ export function AnimatedPill({
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
       layout
-      initial={{ width: 40 }}
-      animate={{ width: isHovered ? "auto" : 40 }}
+      initial={{ width: expanded ? "auto" : 40 }}
+      animate={{ width: expanded || isHovered ? "auto" : 40 }}
       transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={cn(
         "relative flex rounded-full p-[2px] overflow-hidden flex-shrink-0 cursor-pointer",
@@ -67,8 +69,11 @@ export function AnimatedPill({
       )}>
         <span className="flex-shrink-0 flex items-center justify-center">{icon}</span>
         <motion.span
-          initial={{ opacity: 0, width: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0, width: isHovered ? "auto" : 0 }}
+          initial={{ opacity: expanded ? 1 : 0, width: expanded ? "auto" : 0 }}
+          animate={{
+            opacity: expanded || isHovered ? 1 : 0,
+            width: expanded || isHovered ? "auto" : 0,
+          }}
           transition={{ duration: 0.3 }}
           className="whitespace-nowrap overflow-hidden font-medium text-sm"
         >

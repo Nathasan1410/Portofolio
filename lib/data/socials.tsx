@@ -5,7 +5,6 @@ import {
   FiLinkedin,
   FiMessageCircle,
 } from "react-icons/fi";
-import { FaTiktok, FaYoutube } from "react-icons/fa";
 
 // X (Twitter) icon component
 const XIcon = ({ className }: { className?: string }) => (
@@ -15,19 +14,15 @@ const XIcon = ({ className }: { className?: string }) => (
 );
 
 export const socials = {
-  youtube: "https://youtube.com/@nathanaelsantoso",
-  tiktok: "https://tiktok.com/@nathanaelsantoso",
-  twitter: "https://x.com/nathanaelsantoso",
-  instagram: "https://instagram.com/nathanaelsantoso",
+  twitter: "https://x.com/nthnaelsan",
+  instagram: "https://www.instagram.com/nthnael.san",
   github: "https://github.com/Nathasan1410",
-  linkedin: "https://linkedin.com/in/nathanaelsantoso",
+  linkedin: "https://id.linkedin.com/in/nathanaelsantoso",
   discord: "https://discord.com/users/nathanaelsantoso",
   resume: "https://drive.google.com/file/d/YOUR_FILE_ID/view",
 } as const;
 
 export const socialLinks = [
-  { id: "youtube", label: "YouTube", href: socials.youtube, group: "social", icon: FaYoutube },
-  { id: "tiktok", label: "TikTok", href: socials.tiktok, group: "social", icon: FaTiktok },
   { id: "twitter", label: "X", href: socials.twitter, group: "social", icon: XIcon },
   { id: "instagram", label: "Instagram", href: socials.instagram, group: "social", icon: FiInstagram },
   { id: "github", label: "GitHub", href: socials.github, group: "professional", icon: FiGithub },
